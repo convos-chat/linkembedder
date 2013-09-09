@@ -34,6 +34,8 @@ SYNOPSIS
 SUPPORTED LINKS
     *   Mojolicious::Plugin::LinkEmbedder::Default
 
+    *   Mojolicious::Plugin::LinkEmbedder::Image
+
     *   Mojolicious::Plugin::LinkEmbedder::Youtube
 
 METHODS
