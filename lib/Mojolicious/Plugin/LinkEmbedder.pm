@@ -39,6 +39,14 @@ content.
 
 =head1 SUPPORTED LINKS
 
+=over 4
+
+=item * L<Mojolicious::Plugin::LinkEmbedder::Default>
+
+=item * L<Mojolicious::Plugin::LinkEmbedder::Youtube>
+
+=back
+
 =cut
 
 use Mojo::Base 'Mojolicious::Plugin';

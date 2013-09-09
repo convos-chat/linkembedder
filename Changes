@@ -1,4 +1,6 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
 0.01
-       * Init project
+       * Add embed_link() helper
+       * Add LinkEmbedder::Default
+       * Add LinkEmbedder::Youtube
