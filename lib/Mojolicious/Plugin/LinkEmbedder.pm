@@ -35,6 +35,15 @@ content.
     );
   };
 
+  get '/rebless' => sub {
+    my $self = shift->render_later;
+    my $link = $self->embed_link($self->param('url'));
+
+    $link->rebless(sub {
+      $self->render(text => $link->to_embed);
+    });
+  };
+
   app->start;
 
 =head1 SUPPORTED LINKS
