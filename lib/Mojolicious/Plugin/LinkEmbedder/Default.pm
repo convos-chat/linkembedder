@@ -25,14 +25,6 @@ Holds a L<Mojo::URL> object.
 
 sub url { shift->{url} }
 
-=head2 media_id
-
-Returns the part of the URL identifying the media. Default is empty string.
-
-=cut
-
-sub media_id { shift->{media_id} || '' }
-
 =head1 METHODS
 
 =head2 new
@@ -71,6 +63,14 @@ Returns true if URL points to media.
 sub is_media {
   shift->url =~ m/\.(?:swf|flv|mp3|jpg|png|gif)$/i ? 1 : 0;
 }
+
+=head2 media_id
+
+Returns the part of the URL identifying the media. Default is empty string.
+
+=cut
+
+sub media_id { shift->{media_id} || '' }
 
 =head2 to_embed
 

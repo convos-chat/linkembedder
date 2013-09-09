@@ -12,7 +12,15 @@ L<https://developers.google.com/youtube/player_parameters#Embedding_a_Player>
 
 use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Default';
 
-=head1 ATTRIBUTES
+=head1 METHODS
+
+=head2 is_movie
+
+Returns true if L</media_id> is set.
+
+=cut
+
+sub is_movie { shift->media_id ? 1 : 0 }
 
 =head2 media_id
 
@@ -23,16 +31,6 @@ Returns the value of the "v" param.
 sub media_id {
   shift->url->query->param('v') || '';
 }
-
-=head1 METHODS
-
-=head2 is_movie
-
-Returns true if L</media_id> is set.
-
-=cut
-
-sub is_movie { shift->media_id ? 1 : 0 }
 
 =head2 to_embed
 
