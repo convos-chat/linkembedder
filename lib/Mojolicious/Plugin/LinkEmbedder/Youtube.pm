@@ -2,7 +2,7 @@ package Mojolicious::Plugin::LinkEmbedder::Youtube;
 
 =head1 NAME
 
-Mojolicious::Plugin::LinkEmbedder::YouTube - YouTube URL
+Mojolicious::Plugin::LinkEmbedder::Youtube - YouTube URL
 
 =head1 DESCRIPTION
 

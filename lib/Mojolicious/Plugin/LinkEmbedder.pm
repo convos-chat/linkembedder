@@ -43,6 +43,8 @@ content.
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Default>
 
+=item * L<Mojolicious::Plugin::LinkEmbedder::Image>
+
 =item * L<Mojolicious::Plugin::LinkEmbedder::Youtube>
 
 =back
