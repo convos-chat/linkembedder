@@ -1,0 +1,48 @@
+NAME
+    Mojolicious::Plugin::LinkEmbedder - Convert a URL to embedded content
+
+VERSION
+    0.01
+
+DESCRIPTION
+    This module can transform a URL to an iframe, image or other embeddable
+    content.
+
+SYNOPSIS
+      use Mojolicious::Lite;
+      plugin 'LinkEmbedder';
+
+      get '/embed' => sub {
+        my $self = shift;
+        my $link = $self->embed_link($self->param('url'));
+
+        $self->respond_to(
+          json => {
+            json => {
+              is_media => $link->is_media,
+              is_movie => $link->is_movie,
+              media_id => $link->media_id,
+              url => $link->url->to_string,
+            },
+          },
+          any => { text => "$link" },
+        );
+      };
+
+      app->start;
+
+SUPPORTED LINKS
+    *   Mojolicious::Plugin::LinkEmbedder::Default
+
+    *   Mojolicious::Plugin::LinkEmbedder::Youtube
+
+METHODS
+  register
+    Will register the "embed_link" helper which creates new objects from
+    Mojolicious::Plugin::LinkEmbedder::Default.
+
+AUTHOR
+    Jan Henning Thorsen - "jhthorsen@cpan.org"
+
+    Marcus Ramberg - "mramberg@cpan.org"
+
