@@ -7,7 +7,8 @@
 /MANIFEST.bak
 /Makefile
 /Makefile.old
+/local
 *.old
 *.swp
 ~$
-/Mojolicious-Plugin-EmbedURL*tar.gz
+/Mojolicious-Plugin-LinkEmbedder*tar.gz
