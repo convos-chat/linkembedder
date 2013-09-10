@@ -13,41 +13,38 @@ SYNOPSIS
       plugin 'LinkEmbedder';
 
       get '/embed' => sub {
-        my $self = shift;
-        my $link = $self->embed_link($self->param('url'));
-
-        $self->respond_to(
-          json => {
-            json => {
-              is_media => $link->is_media,
-              is_movie => $link->is_movie,
-              media_id => $link->media_id,
-              url => $link->url->to_string,
-            },
-          },
-          any => { text => "$link" },
-        );
-      };
-
-      get '/rebless' => sub {
         my $self = shift->render_later;
-        my $link = $self->embed_link($self->param('url'));
 
-        $link->rebless(sub {
-          $self->render(text => $link->to_embed);
+        $self->embed_link($self->param('url'), sub {
+          my($self, $link) = @_;
+
+          $self->respond_to(
+            json => {
+              json => {
+                media_id => $link->media_id,
+                url => $link->url->to_string,
+              },
+            },
+            any => { text => "$link" },
+          );
         });
       };
 
       app->start;
 
 SUPPORTED LINKS
-    *   Mojolicious::Plugin::LinkEmbedder::Default
+    *   Mojolicious::Plugin::LinkEmbedder::Fallback
 
     *   Mojolicious::Plugin::LinkEmbedder::Image
+
+    *   Mojolicious::Plugin::LinkEmbedder::Video
 
     *   Mojolicious::Plugin::LinkEmbedder::Youtube
 
 METHODS
+  embed_link
+    See "SYNOPSIS".
+
   register
     Will register the "embed_link" helper which creates new objects from
     Mojolicious::Plugin::LinkEmbedder::Default.

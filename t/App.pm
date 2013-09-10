@@ -16,28 +16,20 @@ sub make_app {
     plugin 'LinkEmbedder';
 
     get '/embed' => sub {
-      my $self = shift;
-      my $link = $self->embed_link($self->param('url'));
-
-      $self->respond_to(
-        json => {
-          json => {
-            is_media => $link->is_media,
-            is_movie => $link->is_movie,
-            media_id => $link->media_id,
-            url => $link->url->to_string,
-          },
-        },
-        any => { text => "$link" },
-      );
-    };
-
-    get '/rebless' => sub {
       my $self = shift->render_later;
-      my $link = $self->embed_link($self->param('url'));
-
-      $link->rebless(sub {
-        $self->render(text => $link->to_embed);
+      
+      $self->embed_link($self->param('url'), sub {
+        my($self, $link) = @_;
+        $self->respond_to(
+          json => {
+            json => {
+              media_id => $link->media_id,
+              pretty_url => $link->pretty_url->to_string,
+              url => $link->url->to_string,
+            },
+          },
+          any => { text => "$link" },
+        );
       });
     };
 

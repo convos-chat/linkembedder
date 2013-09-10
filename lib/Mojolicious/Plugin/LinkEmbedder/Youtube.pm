@@ -8,28 +8,39 @@ Mojolicious::Plugin::LinkEmbedder::Youtube - YouTube URL
 
 L<https://developers.google.com/youtube/player_parameters#Embedding_a_Player>
 
-=cut
-
-use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Default';
-
-=head1 METHODS
-
-=head2 is_movie
-
-Returns true if L</media_id> is set.
+This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Base>.
 
 =cut
 
-sub is_movie { shift->media_id ? 1 : 0 }
+use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Base';
+
+=head1 ATTRIBUTES
 
 =head2 media_id
 
-Returns the value of the "v" param.
+Returns the "v" query param value from L</url>.
 
 =cut
 
-sub media_id {
-  shift->url->query->param('v') || '';
+has media_id => sub { shift->url->query->param('v') || '' };
+
+=head1 METHODS
+
+=head2 pretty_url
+
+Returns L</url> without "eurl", "mode" and "search" query params.
+
+=cut
+
+sub pretty_url {
+  my $self = shift;
+  my $url = $self->url->clone;
+  my $query = $url->query;
+
+  $query->remove('eurl');
+  $query->remove('mode');
+  $query->remove('search');
+  $url;
 }
 
 =head2 to_embed
@@ -43,23 +54,12 @@ sub to_embed {
   my $url = Mojo::URL->new('http://www.youtube.com/embed/' .$self->media_id);
   my %args = @_;
 
-  $url->query->param(autoplay => 1) if delete $args{autoplay};
+  $url->query->param(autoplay => 1) if $args{autoplay};
 
-  $args{width} ||= 640;
-  $args{height} ||= 390;
+  $args{width} ||= $self->DEFAULT_VIDEO_WIDTH;
+  $args{height} ||= $self->DEFAULT_VIDEO_HEIGHT;
 
-  return qq(<iframe width="$args{width}" height="$args{height}" src="$url">);
-}
-
-sub _massage_url {
-  my $self = shift;
-  my $url = $self->SUPER::_massage_url(shift);
-  my $query = $url->query;
-
-  $query->remove('eurl');
-  $query->remove('mode');
-  $query->remove('search');
-  $url;
+  qq(<iframe width="$args{width}" height="$args{height}" src="$url">);
 }
 
 =head1 AUTHOR

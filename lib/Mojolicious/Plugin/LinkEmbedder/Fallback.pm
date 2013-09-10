@@ -1,8 +1,8 @@
-package Mojolicious::Plugin::LinkEmbedder::Image;
+package Mojolicious::Plugin::LinkEmbedder::Fallback;
 
 =head1 NAME
 
-Mojolicious::Plugin::LinkEmbedder::Image - Image URL
+Mojolicious::Plugin::LinkEmbedder::Fallback - Fallback class for links
 
 =head1 DESCRIPTION
 
@@ -16,23 +16,20 @@ use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Base';
 
 =head2 to_embed
 
-Returns an img tag.
+Returns a link to the L</url>, with target "_blank".
 
 =cut
 
 sub to_embed {
   my $self = shift;
   my $url = $self->url;
-  my %args = @_;
 
-  $args{alt} ||= $url->to_string;
-
-  qq(<img src="$url" alt="$args{alt}">);
+  qq(<a href="$url" target="_blank">$url</a>);
 }
 
 =head1 AUTHOR
 
-Jan Henning Thorsen - C<jhthorsen@cpan.org>
+Jan Henning Thorsen - C<jan.henning@thorsen.pm>
 
 =cut
 

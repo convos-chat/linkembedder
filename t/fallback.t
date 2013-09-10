@@ -7,9 +7,9 @@ use Test::More;
     ;
 
   $t->get_ok('/embed.json?url=http://google.com')
-    ->json_is('/is_media', 0)
-    ->json_is('/is_movie', 0)
     ->json_is('/media_id', '')
+    ->json_is('/pretty_url', 'http://google.com')
+    ->json_is('/url', 'http://google.com')
     ;
 }
 
