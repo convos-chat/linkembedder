@@ -2,7 +2,7 @@ package Mojolicious::Plugin::LinkEmbedder::Link::Image;
 
 =head1 NAME
 
-Mojolicious::Plugin::LinkEmbedder::Link::Image - Image URL
+Mojolicious::Plugin::LinkEmbedder::Link::Image - Base class for image links
 
 =head1 DESCRIPTION
 
