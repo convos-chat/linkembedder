@@ -42,22 +42,25 @@ content.
 
 =over 4
 
-=item * L<Mojolicious::Plugin::LinkEmbedder::Fallback>
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link>
 
-=item * L<Mojolicious::Plugin::LinkEmbedder::Image>
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Image>
 
-=item * L<Mojolicious::Plugin::LinkEmbedder::Video>
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video>
 
-=item * L<Mojolicious::Plugin::LinkEmbedder::Youtube>
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube>
 
 =back
 
 =cut
 
 use Mojo::Base 'Mojolicious::Plugin';
+use Mojo::Loader;
 use Mojo::UserAgent;
+use Mojolicious::Plugin::LinkEmbedder::Link;
 
 our $VERSION = '0.01';
+my $LOADER = Mojo::Loader->new;
 
 has _ua => sub { Mojo::UserAgent->new };
 
@@ -96,7 +99,7 @@ sub embed_link {
     my $ct = $tx->res->headers->content_type || '';
     return $self->_new_link('Image', $c, $url, $cb) if $ct =~ m!^image/!;
     return $self->_new_link('Video', $c, $url, $cb) if $ct =~ m!^video/!;
-    return $self->_new_link('Fallback', $c, $url, $cb);
+    return $c->$cb(Mojolicious::Plugin::LinkEmbedder::Link->new(url => $url));
   });
 
   return $c;
@@ -104,16 +107,16 @@ sub embed_link {
 
 sub _new_link {
   my($self, $type, $c, $url, $cb) = @_;
-  my $class = "Mojolicious::Plugin::LinkEmbedder::$type";
+  my $class = $self->{classes}{$type} || "Mojolicious::Plugin::LinkEmbedder::Link::$type";
+  my $e = $LOADER->load($class);
 
-  if(eval "require $class; 1") {
+  if(!defined $e) {
     $c->$cb($class->new(url => $url));
-    return 1;
+    return $class;
   }
-  else {
-    warn "LinkEmbedder($type): $@" unless $@ =~ /^Can't locate/i;
-    return 0;
-  }
+
+  die $e if ref $e;
+  return;
 }
 
 =head2 register
@@ -125,6 +128,10 @@ L<Mojolicious::Plugin::LinkEmbedder::Default>.
 
 sub register {
   my($self, $app, $config) = @_;
+
+  $self->{classes} = {
+    Youtube => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube',
+  };
 
   $app->helper(embed_link => sub { $self->embed_link(@_) });
 }

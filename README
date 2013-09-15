@@ -33,13 +33,13 @@ SYNOPSIS
       app->start;
 
 SUPPORTED LINKS
-    *   Mojolicious::Plugin::LinkEmbedder::Fallback
+    *   Mojolicious::Plugin::LinkEmbedder::Link
 
-    *   Mojolicious::Plugin::LinkEmbedder::Image
+    *   Mojolicious::Plugin::LinkEmbedder::Link::Image
 
-    *   Mojolicious::Plugin::LinkEmbedder::Video
+    *   Mojolicious::Plugin::LinkEmbedder::Link::Video
 
-    *   Mojolicious::Plugin::LinkEmbedder::Youtube
+    *   Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube
 
 METHODS
   embed_link
