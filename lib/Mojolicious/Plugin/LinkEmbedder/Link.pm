@@ -37,6 +37,9 @@ Holds a L<Mojo::URL> object.
 
 sub url { shift->{url} }
 
+# should this be public?
+has _tx => undef;
+
 has _types => sub {
   my $types = Mojolicious::Types->new;
   $types->type(mpg => 'video/mpeg');
@@ -64,6 +67,23 @@ sub is {
   $_[0]->isa(__PACKAGE__ .'::' .Mojo::Util::camelize($_[1]));
 }
 
+=head2 learn
+
+  $self->learn($cb, @cb_args);
+
+This method can be used to learn more information about the link. This class
+has no idea what to learn, so it simply calls the callback (C<$cb>) with
+C<@cb_args>.
+
+=cut
+
+sub learn {
+  my($self, $cb, @cb_args) = @_;
+
+  $cb->(@cb_args);
+  $self;
+}
+
 =head2 pretty_url
 
 Returns a pretty version of the L</url>. The default is to return a cloned
@@ -82,8 +102,13 @@ Returns a link to the L</url>, with target "_blank".
 sub to_embed {
   my $self = shift;
   my $url = $self->url;
+  my @args;
 
-  qq(<a href="$url" target="_blank">$url</a>);
+  push @args, qq(target="_blank");
+  push @args, qq(title="Content-Type: @{[$self->_tx->res->headers->content_type]}") if $self->_tx;
+
+  local $" = ' ';
+  qq(<a href="$url" @args>$url</a>);
 }
 
 =head1 AUTHOR

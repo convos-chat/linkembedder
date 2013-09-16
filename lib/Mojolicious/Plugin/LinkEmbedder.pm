@@ -44,9 +44,17 @@ content.
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link>
 
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Game::_2play>
+
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Image>
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video>
+
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Blip>
+
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Collegehumor>
+
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Dagbladet>
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube>
 
@@ -83,22 +91,22 @@ sub embed_link {
     $type =~ s/\.\w+$//;
     $type =~ s/\.(\w+)/{ ucfirst $1 }/ge;
     $type =~ s/^(\d+)/_$1/;
-    $self->_new_link(ucfirst $type, $c, $url, $cb) and return $c;
+    $self->_new_link(ucfirst $type, $c, { url => $url }, $cb) and return $c;
   }
 
   if($url->path =~ m!\.(?:jpg|png|gif)$!i) {
-    $self->_new_link('Image', $c, $url, $cb) and return $c;
+    $self->_new_link('Image', $c, { url => $url }, $cb) and return $c;
   }
 
   if($url->path =~ m!\.(?:mpg|mpeg|mov|mp4|ogv)$!i) {
-    $self->_new_link('Video', $c, $url, $cb) and return $c;
+    $self->_new_link('Video', $c, { url => $url }, $cb) and return $c;
   }
 
   $self->_ua->head($url, sub {
     my($ua, $tx) = @_;
     my $ct = $tx->res->headers->content_type || '';
-    return $self->_new_link('Image', $c, $url, $cb) if $ct =~ m!^image/!;
-    return $self->_new_link('Video', $c, $url, $cb) if $ct =~ m!^video/!;
+    return $self->_new_link('Image', $c, { url => $url, _tx => $tx }, $cb) if $ct =~ m!^image/!;
+    return $self->_new_link('Video', $c, { url => $url, _tx => $tx }, $cb) if $ct =~ m!^video/!;
     return $c->$cb(Mojolicious::Plugin::LinkEmbedder::Link->new(url => $url));
   });
 
@@ -106,12 +114,13 @@ sub embed_link {
 }
 
 sub _new_link {
-  my($self, $type, $c, $url, $cb) = @_;
+  my($self, $type, $c, $args, $cb) = @_;
   my $class = $self->{classes}{$type} || "Mojolicious::Plugin::LinkEmbedder::Link::$type";
   my $e = $LOADER->load($class);
 
   if(!defined $e) {
-    $c->$cb($class->new(url => $url));
+    my $link = $class->new($args);
+    $link->learn($cb, $c, $link);
     return $class;
   }
 
