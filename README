@@ -35,9 +35,17 @@ SYNOPSIS
 SUPPORTED LINKS
     *   Mojolicious::Plugin::LinkEmbedder::Link
 
+    *   Mojolicious::Plugin::LinkEmbedder::Link::Game::_2play
+
     *   Mojolicious::Plugin::LinkEmbedder::Link::Image
 
     *   Mojolicious::Plugin::LinkEmbedder::Link::Video
+
+    *   Mojolicious::Plugin::LinkEmbedder::Link::Video::Blip
+
+    *   Mojolicious::Plugin::LinkEmbedder::Link::Video::Collegehumor
+
+    *   Mojolicious::Plugin::LinkEmbedder::Link::Video::Dagbladet
 
     *   Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube
 

@@ -1,1 +1,1 @@
-lib/Mojolicious/Plugin/EmbedURL.pm
+lib/Mojolicious/Plugin/LinkEmbedder.pm
