@@ -58,6 +58,12 @@ content.
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube>
 
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text>
+
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub>
+
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter>
+
 =back
 
 =cut
@@ -66,6 +72,7 @@ use Mojo::Base 'Mojolicious::Plugin';
 use Mojo::Loader;
 use Mojo::UserAgent;
 use Mojolicious::Plugin::LinkEmbedder::Link;
+use constant DEBUG => $ENV{MOJO_LINKEMBEDDER_DEBUG} || 0;
 
 our $VERSION = '0.01';
 my $LOADER = Mojo::Loader->new;
@@ -86,37 +93,38 @@ sub embed_link {
 
   $url = Mojo::URL->new($url) unless ref $url;
 
-  if(my $type = $url->host) {
+  if(my $type = lc $url->host) {
     $type =~ s/^(?:www|my)\.//;
     $type =~ s/\.\w+$//;
-    $type =~ s/\.(\w+)/{ ucfirst $1 }/ge;
-    $type =~ s/^(\d+)/_$1/;
-    $self->_new_link(ucfirst $type, $c, { url => $url }, $cb) and return $c;
+    return $c if $self->_new_link_object($type => $c, { url => $url }, $cb);
   }
 
   if($url->path =~ m!\.(?:jpg|png|gif)$!i) {
-    $self->_new_link('Image', $c, { url => $url }, $cb) and return $c;
+    return $c if $self->_new_link_object(image => $c, { url => $url }, $cb);
   }
 
   if($url->path =~ m!\.(?:mpg|mpeg|mov|mp4|ogv)$!i) {
-    $self->_new_link('Video', $c, { url => $url }, $cb) and return $c;
+    return $c if $self->_new_link_object(video => $c, { url => $url }, $cb);
   }
 
   $self->_ua->head($url, sub {
     my($ua, $tx) = @_;
     my $ct = $tx->res->headers->content_type || '';
-    return $self->_new_link('Image', $c, { url => $url, _tx => $tx }, $cb) if $ct =~ m!^image/!;
-    return $self->_new_link('Video', $c, { url => $url, _tx => $tx }, $cb) if $ct =~ m!^video/!;
+    return $self->_new_link_object(image => $c, { url => $url, _tx => $tx }, $cb) if $ct =~ m!^image/!;
+    return $self->_new_link_object(video => $c, { url => $url, _tx => $tx }, $cb) if $ct =~ m!^video/!;
+    return $self->_new_link_object(text => $c, { url => $url, _tx => $tx }, $cb) if $ct =~ m!^text/plain!;
     return $c->$cb(Mojolicious::Plugin::LinkEmbedder::Link->new(url => $url));
   });
 
   return $c;
 }
 
-sub _new_link {
+sub _new_link_object {
   my($self, $type, $c, $args, $cb) = @_;
-  my $class = $self->{classes}{$type} || "Mojolicious::Plugin::LinkEmbedder::Link::$type";
+  my $class = $self->{classes}{$type} || '';
   my $e = $LOADER->load($class);
+
+  warn "[LINK] new from $type: $class\n" if DEBUG;
 
   if(!defined $e) {
     my $link = $class->new($args);
@@ -139,7 +147,16 @@ sub register {
   my($self, $app, $config) = @_;
 
   $self->{classes} = {
-    Youtube => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube',
+    '2play' => 'Mojolicious::Plugin::LinkEmbedder::Link::Game::_2play',
+    'blip' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Blip',
+    'collegehumor' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Collegehumor',
+    'dagbladet' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Dagbladet',
+    'gist.github' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub',
+    'image' => 'Mojolicious::Plugin::LinkEmbedder::Link::Image',
+    'text' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text',
+    'twitter' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter',
+    'video' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video',
+    'youtube' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube',
   };
 
   $app->helper(embed_link => sub { $self->embed_link(@_) });
