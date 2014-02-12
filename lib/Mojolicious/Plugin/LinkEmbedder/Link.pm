@@ -27,7 +27,7 @@ Returns the part of the URL identifying the media. Default is empty string.
 
 =cut
 
-sub media_id { '' }
+has media_id => '';
 
 =head2 url
 

@@ -49,6 +49,12 @@ SUPPORTED LINKS
 
     *   Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube
 
+    *   Mojolicious::Plugin::LinkEmbedder::Link::Text
+
+    *   Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub
+
+    *   Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter
+
 METHODS
   embed_link
     See "SYNOPSIS".

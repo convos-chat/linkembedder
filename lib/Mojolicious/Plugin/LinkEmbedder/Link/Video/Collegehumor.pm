@@ -20,7 +20,7 @@ Returns the the digit from the second path part from L</url>.
 
 =cut
 
-has media_id => sub { shift->url->path->[1] =~ /(\d+)$/ ? $1 : '' };
+has media_id => sub { shift->url->path =~ m!/(\d+)/! ? $1 : '' };
 
 =head1 METHODS
 
@@ -32,12 +32,14 @@ Returns the HTML code for an iframe embedding this movie.
 
 sub to_embed {
   my $self = shift;
-  my $src = Mojo::URL->new('http://www.collegehumor.com/moogaloop/moogaloop.swf');
+  my $src = Mojo::URL->new('http://www.collegehumor.com/e');
   my %args = @_;
 
-  $src->query({ clip_id => $self->media_id });
+  push @{ $src->path }, $self->media_id;
+  $args{height} ||= 369;
+  $args{width} ||= 600;
 
-  qq(<object><embed src="$src" quality="best" width="400" height="300" type="application/x-shockwave-flash"></embed></object>);
+  qq(<iframe src="$src" width="$args{width}" height="$args{height}" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe>);
 }
 
 =head1 AUTHOR

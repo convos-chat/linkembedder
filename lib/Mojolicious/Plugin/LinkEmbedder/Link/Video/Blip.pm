@@ -14,17 +14,29 @@ This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link::Video>.
 
 use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Video';
 
-=head1 ATTRIBUTES
+=head1 METHODS
 
-=head2 media_id
+=head2 learn
 
-Returns the second path element from L</url>.
+  $self->learn($cb, @cb_args);
+
+Will fetch the L</url> and extract the L</media_id>.
 
 =cut
 
-has media_id => sub { shift->url->path->[2] || '' };
+sub learn {
+  my($self, $cb, @cb_args) = @_;
 
-=head1 METHODS
+  $self->{ua}->get($self->url, sub {
+    my($ua, $tx) = @_;
+
+    # http://blip.tv/play/ab.c?p=1
+    $self->media_id($tx->res->body =~ m!blip\.tv/play/([^\?]+)! ? $1 : '');
+    $cb->(@cb_args);
+  });
+
+  $self;
+}
 
 =head2 to_embed
 
@@ -34,22 +46,13 @@ Returns the HTML code for an iframe embedding this movie.
 
 sub to_embed {
   my $self = shift;
-  my $src = Mojo::URL->new('http://blip.tv/scripts/flash/showplayer.swf');
+  my $media_id = $self->media_id;
   my %args = @_;
-
-  $src->query({
-    file => 'http://blip.tv/file/' .$self->media_id .'?skin=rss',
-    showplayerpath => 'http://blip.tv/scripts/flash/showplayer.swf',
-    feedurl => 'http://nehru.blip.tv/rss/flash',
-    brandname => 'blip.tv',
-    brandlink => 'http://blip.tv/?utm_source=brandlink',
-    enablejs => 'true',
-  });
 
   $args{width} ||= 425;
   $args{height} ||= 350;
 
-  qq(<embed src="$src" type="application/x-shockwave-flash" width="$args{width}" height="$args{height}" allowscriptaccess="always" allowfullscreen="true"></embed>);
+  qq(<iframe src="http://blip.tv/play/$media_id?p=1" width="720" height="433" frameborder="0" allowfullscreen></iframe>);
 }
 
 =head1 AUTHOR

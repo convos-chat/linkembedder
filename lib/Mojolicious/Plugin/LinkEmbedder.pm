@@ -128,6 +128,7 @@ sub _new_link_object {
 
   if(!defined $e) {
     my $link = $class->new($args);
+    $link->{ua} = $self->_ua;
     $link->learn($cb, $c, $link);
     return $class;
   }
@@ -148,9 +149,9 @@ sub register {
 
   $self->{classes} = {
     '2play' => 'Mojolicious::Plugin::LinkEmbedder::Link::Game::_2play',
+    'beta.dbtv' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv',
     'blip' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Blip',
     'collegehumor' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Collegehumor',
-    'dagbladet' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Dagbladet',
     'gist.github' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub',
     'image' => 'Mojolicious::Plugin::LinkEmbedder::Link::Image',
     'text' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text',
