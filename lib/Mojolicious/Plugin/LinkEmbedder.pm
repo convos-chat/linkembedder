@@ -58,6 +58,8 @@ content.
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Ted>
 
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Vimeo>
+
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube>
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text>
@@ -160,6 +162,7 @@ sub register {
     'text' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text',
     'twitter' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter',
     'video' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video',
+    'vimeo' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Vimeo',
     'youtube' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube',
   };
 
