@@ -56,6 +56,8 @@ content.
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Dagbladet>
 
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Ted>
+
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube>
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text>
@@ -154,6 +156,7 @@ sub register {
     'collegehumor' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Collegehumor',
     'gist.github' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub',
     'image' => 'Mojolicious::Plugin::LinkEmbedder::Link::Image',
+    'ted' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Ted',
     'text' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text',
     'twitter' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter',
     'video' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video',
