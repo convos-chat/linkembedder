@@ -47,6 +47,10 @@ SUPPORTED LINKS
 
     *   Mojolicious::Plugin::LinkEmbedder::Link::Video::Dagbladet
 
+    *   Mojolicious::Plugin::LinkEmbedder::Link::Video::Ted
+
+    *   Mojolicious::Plugin::LinkEmbedder::Link::Video::Vimeo
+
     *   Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube
 
     *   Mojolicious::Plugin::LinkEmbedder::Link::Text
