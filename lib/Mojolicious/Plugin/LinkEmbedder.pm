@@ -6,7 +6,7 @@ Mojolicious::Plugin::LinkEmbedder - Convert a URL to embedded content
 
 =head1 VERSION
 
-0.01
+0.02
 
 =head1 DESCRIPTION
 
@@ -16,8 +16,11 @@ content.
 =head1 SYNOPSIS
 
   use Mojolicious::Lite;
-  plugin 'LinkEmbedder';
+  plugin LinkEmbedder => { route => '/embed' };
 
+Or if you want full control:
+
+  plugin 'LinkEmbedder';
   get '/embed' => sub {
     my $self = shift->render_later;
 
@@ -78,7 +81,7 @@ use Mojo::UserAgent;
 use Mojolicious::Plugin::LinkEmbedder::Link;
 use constant DEBUG => $ENV{MOJO_LINKEMBEDDER_DEBUG} || 0;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 my $LOADER = Mojo::Loader->new;
 
 has _ua => sub { Mojo::UserAgent->new };
@@ -143,8 +146,21 @@ sub _new_link_object {
 
 =head2 register
 
+  $app->plugin('LinkEmbedder' => \%config);
+
 Will register the L</embed_link> helper which creates new objects from
-L<Mojolicious::Plugin::LinkEmbedder::Default>.
+L<Mojolicious::Plugin::LinkEmbedder::Default>. C<%config> is optional but can
+contain:
+
+=over 4
+
+=item * route => $str|$obj
+
+Use this if you want to have the default handler to do link embedding.
+The default handler is shown in L</SYNOPSIS>. C<$str> is just a path,
+while C<$obj> is a L<Mojolicious::Routes::Route> object.
+
+=back
 
 =cut
 
@@ -167,6 +183,37 @@ sub register {
   };
 
   $app->helper(embed_link => sub { $self->embed_link(@_) });
+
+  if(my $route = $config->{route}) {
+    $self->_add_action($app, $route);
+  }
+}
+
+sub _add_action {
+  my($self, $app, $route) = @_;
+
+  unless(ref $route) {
+    $route = $app->routes->route($route);
+  }
+
+  $route->to(cb => sub {
+    my $c = shift->render_later;
+
+    $c->embed_link($c->param('url'), sub {
+      my($c, $link) = @_;
+
+      $c->respond_to(
+        json => {
+          json => {
+            media_id => $link->media_id,
+            pretty_url => $link->pretty_url,
+            url => $link->url->to_string,
+          },
+        },
+        any => { text => "$link" },
+      );
+    });
+  });
 }
 
 =head1 AUTHOR

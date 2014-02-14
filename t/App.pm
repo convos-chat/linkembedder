@@ -13,26 +13,7 @@ sub make_app {
 
   eval <<'  APP' or die $@;
     use Mojolicious::Lite;
-    plugin 'LinkEmbedder';
-
-    get '/embed' => sub {
-      my $self = shift->render_later;
-      
-      $self->embed_link($self->param('url'), sub {
-        my($self, $link) = @_;
-        $self->respond_to(
-          json => {
-            json => {
-              media_id => $link->media_id,
-              pretty_url => $link->pretty_url->to_string,
-              url => $link->url->to_string,
-            },
-          },
-          any => { text => "$link" },
-        );
-      });
-    };
-
+    plugin LinkEmbedder => { route => '/embed' };
     app->start;
   APP
 

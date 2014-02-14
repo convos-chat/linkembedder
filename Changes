@@ -1,5 +1,8 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
+0.02     Fri Feb 14 10:33:18 2014
+       * Add optional default action
+
 0.01     Fri Feb 14 10:18:47 2014
        * Add embed_link() helper
        * Add LinkEmbedder::Default

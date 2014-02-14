@@ -7,3 +7,5 @@
 ^Makefile$
 ^MANIFEST.*
 ^Mojolicious-Plugin-LinkEmbedder
+^MYMETA*
+^local/
