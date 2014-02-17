@@ -38,8 +38,8 @@ Returns the HTML code for an iframe embedding this movie.
 
 sub to_embed {
   my $self = shift;
+  my $media_id = $self->media_id or return $self->SUPER::to_embed;
   my $src = Mojo::URL->new('//player.vimeo.com/video/86404451?portrait=0&amp;color=ffffff');
-  my $media_id = $self->media_id;
   my %args = @_;
 
   $args{height} ||= 281;

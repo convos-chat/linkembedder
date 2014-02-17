@@ -16,11 +16,15 @@ use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text';
 
 =head2 media_id
 
-Not yet decided.
+  $str = $self->media_id;
+
+Example C<$str>: "/username/status/123456789".
 
 =cut
 
-has media_id => sub { shift->url->path };
+has media_id => sub {
+  shift->url->path =~ m!^/(\w+/status/\w+)$! ? $1 : '';
+};
 
 =head1 METHODS
 
@@ -32,13 +36,13 @@ Returns the HTML code for an iframe embedding this tweet.
 
 sub to_embed {
   my $self = shift;
-  my $url = Mojo::URL->new('//twitframe.com/?url=' .$self->url);
+  my $media_id = $self->media_id or return $self->SUPER::to_embed;
   my %args = @_;
 
   $args{width} ||= 550;
   $args{height} ||= 250;
 
-  qq(<iframe frameborder="0" height="$args{height}" width="$args{width}" src="$url"></iframe>);
+  qq(<iframe src="https://twitframe.com/?url=https://twitter.com/$media_id" frameborder="0" height="$args{height}" width="$args{width}"></iframe>);
 }
 
 =head1 AUTHOR

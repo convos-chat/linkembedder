@@ -46,7 +46,7 @@ Returns the HTML code for an iframe embedding this movie.
 
 sub to_embed {
   my $self = shift;
-  my $media_id = $self->media_id;
+  my $media_id = $self->media_id or return $self->SUPER::to_embed;
   my %args = @_;
 
   $args{width} ||= 425;

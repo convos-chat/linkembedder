@@ -1,5 +1,8 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
+0.03     Mon Feb 17 15:51:14 2014
+       * Will only render parseable URLs
+
 0.02     Fri Feb 14 10:33:18 2014
        * Add optional default action
 

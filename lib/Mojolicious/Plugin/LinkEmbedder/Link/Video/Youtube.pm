@@ -51,7 +51,8 @@ Returns the HTML code for an iframe embedding this movie.
 
 sub to_embed {
   my $self = shift;
-  my $url = Mojo::URL->new('http://www.youtube.com/embed/' .$self->media_id);
+  my $media_id = $self->media_id or return $self->SUPER::to_embed;
+  my $url = Mojo::URL->new("http://www.youtube.com/embed/$media_id");
   my %args = @_;
 
   $url->query->param(autoplay => 1) if $args{autoplay};

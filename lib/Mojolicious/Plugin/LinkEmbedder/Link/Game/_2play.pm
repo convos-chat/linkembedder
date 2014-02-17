@@ -33,9 +33,9 @@ Returns the HTML code for an iframe embedding this movie.
 
 sub to_embed {
   my $self = shift;
+  my $media_id = $self->media_id or return $self->SUPER::to_embed;
 
-   qq(<script src="@{[$self->_js_embed_url]}"></script>)
-  .qq(<script>video_embed("@{[$self->media_id]}",1)</script>);
+  qq(<script src="@{[$self->_js_embed_url]}"></script><script>video_embed("$media_id",1)</script>);
 }
 
 =head1 AUTHOR

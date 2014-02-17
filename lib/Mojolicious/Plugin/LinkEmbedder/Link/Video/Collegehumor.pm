@@ -32,10 +32,11 @@ Returns the HTML code for an iframe embedding this movie.
 
 sub to_embed {
   my $self = shift;
+  my $media_id = $self->media_id or return $self->SUPER::to_embed;
   my $src = Mojo::URL->new('http://www.collegehumor.com/e');
   my %args = @_;
 
-  push @{ $src->path }, $self->media_id;
+  push @{ $src->path }, $media_id;
   $args{height} ||= 369;
   $args{width} ||= 600;
 

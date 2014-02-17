@@ -37,10 +37,11 @@ Returns a pretty version of the L</url>.
 
 sub pretty_url {
   my $self = shift;
+  my $media_id = $self->media_id or return $self->SUPER::to_embed;
   my $url = $self->url->clone;
 
   $url->fragment(undef);
-  $url->query(vid => $self->media_id);
+  $url->query(vid => $media_id);
   $url;
 }
 

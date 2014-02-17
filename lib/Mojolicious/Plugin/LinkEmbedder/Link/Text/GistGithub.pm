@@ -16,11 +16,15 @@ use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text';
 
 =head2 media_id
 
-Not yet decided.
+  $str = $self->media_id;
+
+Example C<$str>: "/username/123456789".
 
 =cut
 
-has media_id => sub { shift->url->path };
+has media_id => sub {
+  shift->url->path =~ m!^(/\w+/\w+)(?:\.js)?$! ? $1 : '';
+};
 
 =head1 METHODS
 
@@ -32,14 +36,9 @@ Returns the HTML code for a script tag that writes the gist.
 
 sub to_embed {
   my $self = shift;
-  my $url = $self->url;
+  my $media_id = $self->media_id or return $self->SUPER::to_embed;
 
-  unless($url->path =~ /\.js/) {
-    $url = $url->clone;
-    $url->path($url->path .'.js');
-  }
-
-  qq(<script src="$url"></script>);
+  qq(<script src="https://gist.github.com$media_id.js"></script>);
 }
 
 =head1 AUTHOR
