@@ -42,7 +42,7 @@ sub to_embed {
   $args{width} ||= 550;
   $args{height} ||= 250;
 
-  qq(<iframe src="https://twitframe.com/?url=https://twitter.com/$media_id" frameborder="0" height="$args{height}" width="$args{width}"></iframe>);
+  qq(<iframe src="https://twitframe.com/show?url=https://twitter.com/$media_id" frameborder="0" height="$args{height}" width="$args{width}"></iframe>);
 }
 
 =head1 AUTHOR
