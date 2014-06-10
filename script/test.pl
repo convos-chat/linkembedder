@@ -9,6 +9,9 @@ __DATA__
 <html>
 <head>
   <title>Test embed code for <%= param('url') || 'missing ?url=' %></title>
+  <script>
+    // window.link_embedder_text_gist_github_styled = 1;
+  </script>
   <style>
     iframe { width: 100%; border: 0; }
   </style>

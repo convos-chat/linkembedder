@@ -8,6 +8,28 @@ Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub - gist.github.com link
 
 This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link::Text>.
 
+=head1 OUTPUT HTML
+
+This is an example output:
+
+  <div class="link-embedder text-gist-github" id="link_embedder_text_gist_github_42">$gist</div>
+  <script>
+    window.linkembedder_textgistgithub$ID = function(g) {
+      delete window.linkembedder_textgistgithub42;
+      document.getElementById('link_embedder_text_gist_github_42').innerHTML = g.div;
+      if(window.link_embedder_text_gist_github_styled++) return;
+      var s = document.createElement('link'); s.rel = 'stylesheet'; s.href = g.stylesheet;
+      document.getElementsByTagName('head')[0].appendChild(s);
+    };
+  </script>
+  <script src="https://gist.github.com/$media_id.json?callback=linkembedder_textgistgithub42"></script>
+
+The number "42" is generated dynamically by this module.
+C<$gist> is the raw text from the gist.
+
+The GitHub stylesheet will not be included if the container document has
+already increased C<window.link_embedder_text_gist_github_styled>.
+
 =cut
 
 use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text';
@@ -45,16 +67,14 @@ sub to_embed {
   <<"  JAVA_SCRIPT";
 <div class="link-embedder text-gist-github" id="link_embedder_text_gist_github_$ID"></div>
 <script>
-;(function(w) {
-window.linkembedderiframesize$ID=function(h){f.style.height=h;};
-var f=document.createElement('iframe');
-document.getElementById('link_embedder_text_gist_github_$ID').appendChild(f);
-var d=f.contentDocument ? f.contentDocument : f.contentWindow ? f.contentWindow : f.document;
-d.open();
-d.writeln('<html><body style="padding:0;margin:0" onload="parent.linkembedderiframesize$ID(document.body.scrollHeight)"><script src="https://gist.github.com$media_id.js"><\\/script><\\/body><\\/html>');
-d.close();
-})(window);
+window._linkembedder_textgistgithub$ID=function(g){
+document.getElementById('link_embedder_text_gist_github_$ID').innerHTML=g.div;
+if(window.link_embedder_text_gist_github_styled++)return;
+var s=document.createElement('link');s.rel='stylesheet';s.href=g.stylesheet;
+document.getElementsByTagName('head')[0].appendChild(s);
+};
 </script>
+<script src="https://gist.github.com$media_id.json?callback=_linkembedder_textgistgithub$ID"></script>
   JAVA_SCRIPT
 }
 
