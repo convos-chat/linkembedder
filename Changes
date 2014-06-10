@@ -1,5 +1,8 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
+0.05
+       * Fix embedding Text::GistGithub
+
 0.04     Wed Apr  2 20:14:02 2014
        * Fix embedding tweets
 

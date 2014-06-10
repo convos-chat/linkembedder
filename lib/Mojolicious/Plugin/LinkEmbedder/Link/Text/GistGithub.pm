@@ -12,6 +12,8 @@ This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link::Text>.
 
 use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text';
 
+my $ID = 0;
+
 =head1 ATTRIBUTES
 
 =head2 media_id
@@ -38,7 +40,22 @@ sub to_embed {
   my $self = shift;
   my $media_id = $self->media_id or return $self->SUPER::to_embed;
 
-  qq(<script src="https://gist.github.com$media_id.js"></script>);
+  $ID++;
+
+  <<"  JAVA_SCRIPT";
+<div class="link-embedder text-gist-github" id="link_embedder_text_gist_github_$ID"></div>
+<script>
+;(function(w) {
+window.linkembedderiframesize$ID=function(h){f.style.height=h;};
+var f=document.createElement('iframe');
+document.getElementById('link_embedder_text_gist_github_$ID').appendChild(f);
+var d=f.contentDocument ? f.contentDocument : f.contentWindow ? f.contentWindow : f.document;
+d.open();
+d.writeln('<html><body style="padding:0;margin:0" onload="parent.linkembedderiframesize$ID(document.body.scrollHeight)"><script src="https://gist.github.com$media_id.js"><\\/script><\\/body><\\/html>');
+d.close();
+})(window);
+</script>
+  JAVA_SCRIPT
 }
 
 =head1 AUTHOR
