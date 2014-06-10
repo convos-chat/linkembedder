@@ -216,6 +216,22 @@ sub _add_action {
   });
 }
 
+=head1 DISCLAIMER
+
+This module might embed javascript from 3rd party services.
+
+Any damage caused by either evil DNS takeover or malicious code inside
+the javascript is not taken into account by this module.
+
+If you are aware of any security risks, then please let us know.
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2014, Jan Henning Thorsen
+
+This program is free software, you can redistribute it and/or modify
+it under the terms of the Artistic License version 2.0.
+
 =head1 AUTHOR
 
 Jan Henning Thorsen - C<jhthorsen@cpan.org>
