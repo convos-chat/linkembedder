@@ -174,6 +174,7 @@ sub register {
     'collegehumor' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Collegehumor',
     'gist.github' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub',
     'image' => 'Mojolicious::Plugin::LinkEmbedder::Link::Image',
+    'imgur' => 'Mojolicious::Plugin::LinkEmbedder::Link::Image::Imgur',
     'ted' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Ted',
     'text' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text',
     'twitter' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter',
