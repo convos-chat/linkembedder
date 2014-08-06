@@ -5,7 +5,6 @@ plan skip_all => 'GOT_INTERNET=1 need to be set' unless $ENV{GOT_INTERNET};
 
 $t->get_ok('/embed?url=http://imgur.com/2lXFJK0');
 my $dom = $t->tx->res->dom->at('img');
-diag $dom;
 is $dom->{src}, 'http://i.imgur.com/2lXFJK0.png', 'correct src';
 like $dom->{alt}, qr/\QYay Mojo!/, 'correct title';
 
