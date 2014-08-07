@@ -1,11 +1,5 @@
-^mypp.yml
-.git
-\.old
-\.swp
-~$
-^blib/
-^Makefile$
-^MANIFEST.*
-^Mojolicious-Plugin-LinkEmbedder
-^MYMETA*
+#!include_default
+\.swp$
 ^local/
+^MANIFEST\.SKIP
+^README\.pod

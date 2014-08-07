@@ -237,6 +237,8 @@ it under the terms of the Artistic License version 2.0.
 
 Jan Henning Thorsen - C<jhthorsen@cpan.org>
 
+Joel Berger, jberger@cpan.org
+
 Marcus Ramberg - C<mramberg@cpan.org>
 
 =cut

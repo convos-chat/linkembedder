@@ -1,5 +1,8 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
+0.07
+       * Add Imgur support, closes #1 (jberger)
+
 0.06     Tue Jun 10 18:43:30 2014
        * Allow custom stylesheet for Text::GistGithub
        * Add DISCLAIMER section

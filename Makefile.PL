@@ -9,9 +9,6 @@ WriteMakefile(
     'Mojolicious' => '4.30',
   },
   BUILD_REQUIRES => {
-    'File::Find' => '1.00',
-    'Module::Find' => '0.10',
-    'Test::More' => '0.90',
   },
   META_MERGE => {
     resources => {
