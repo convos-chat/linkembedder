@@ -2,7 +2,7 @@ NAME
     Mojolicious::Plugin::LinkEmbedder - Convert a URL to embedded content
 
 VERSION
-    0.06
+    0.07
 
 DESCRIPTION
     This module can transform a URL to an iframe, image or other embeddable
@@ -95,6 +95,8 @@ COPYRIGHT AND LICENSE
 
 AUTHOR
     Jan Henning Thorsen - "jhthorsen@cpan.org"
+
+    Joel Berger, jberger@cpan.org
 
     Marcus Ramberg - "mramberg@cpan.org"
 
