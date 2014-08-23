@@ -96,7 +96,6 @@ See L</SYNOPSIS>.
 
 sub embed_link {
   my($self, $c, $url, $cb) = @_;
-  my $type;
 
   $url = Mojo::URL->new($url) unless ref $url;
 
@@ -105,21 +104,29 @@ sub embed_link {
     $type =~ s/\.\w+$//;
     return $c if $self->_new_link_object($type => $c, { url => $url }, $cb);
   }
-
   if($url->path =~ m!\.(?:jpg|png|gif)$!i) {
     return $c if $self->_new_link_object(image => $c, { url => $url }, $cb);
   }
-
   if($url->path =~ m!\.(?:mpg|mpeg|mov|mp4|ogv)$!i) {
     return $c if $self->_new_link_object(video => $c, { url => $url }, $cb);
   }
 
+  return $self->_fallback($c, $url, $cb);
+}
+
+sub _fallback {
+  my ($self, $c, $url, $cb) = @_;
+
   $self->_ua->head($url, sub {
-    my($ua, $tx) = @_;
+    my ($ua, $tx) = @_;
     my $ct = $tx->res->headers->content_type || '';
-    return $self->_new_link_object(image => $c, { url => $url, _tx => $tx }, $cb) if $ct =~ m!^image/!;
-    return $self->_new_link_object(video => $c, { url => $url, _tx => $tx }, $cb) if $ct =~ m!^video/!;
-    return $self->_new_link_object(text => $c, { url => $url, _tx => $tx }, $cb) if $ct =~ m!^text/plain!;
+
+    return if $ct =~ m!^image/! and $self->_new_link_object(image => $c, { url => $url, _tx => $tx }, $cb);
+    return if $ct =~ m!^video/! and $self->_new_link_object(video => $c, { url => $url, _tx => $tx }, $cb);
+    return if $ct =~ m!^text/html! and $self->_new_link_object(html => $c, { url => $url, _tx => $tx, }, $cb);
+    return if $ct =~ m!^text/plain! and $self->_new_link_object(text => $c, { url => $url, _tx => $tx }, $cb);
+
+    warn "[LINK] New from $ct: Mojolicious::Plugin::LinkEmbedder::Link\n" if DEBUG;
     return $c->$cb(Mojolicious::Plugin::LinkEmbedder::Link->new(url => $url));
   });
 
@@ -128,14 +135,14 @@ sub embed_link {
 
 sub _new_link_object {
   my($self, $type, $c, $args, $cb) = @_;
-  my $class = $self->{classes}{$type} || '';
+  my $class = $self->{classes}{$type} or return;
   my $e = $LOADER->load($class);
 
-  warn "[LINK] new from $type: $class\n" if DEBUG;
+  warn "[LINK] New from $type: $class\n" if DEBUG;
 
   if(!defined $e) {
     my $link = $class->new($args);
-    $link->{ua} = $self->_ua;
+    $link->ua($self->_ua);
     $link->learn($cb, $c, $link);
     return $class;
   }
@@ -173,6 +180,7 @@ sub register {
     'blip' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Blip',
     'collegehumor' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Collegehumor',
     'gist.github' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub',
+    'html' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML',
     'image' => 'Mojolicious::Plugin::LinkEmbedder::Link::Image',
     'imgur' => 'Mojolicious::Plugin::LinkEmbedder::Link::Image::Imgur',
     'ted' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Ted',
@@ -183,7 +191,10 @@ sub register {
     'youtube' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube',
   };
 
-  $app->helper(embed_link => sub { $self->embed_link(@_) });
+  $app->helper(embed_link => sub {
+    return $self if @_ == 1;
+    return $self->embed_link(@_);
+  });
 
   if(my $route = $config->{route}) {
     $self->_add_action($app, $route);
@@ -204,13 +215,7 @@ sub _add_action {
       my($c, $link) = @_;
 
       $c->respond_to(
-        json => {
-          json => {
-            media_id => $link->media_id,
-            pretty_url => $link->pretty_url,
-            url => $link->url->to_string,
-          },
-        },
+        json => { json => $link },
         any => { text => $link->to_embed },
       );
     });

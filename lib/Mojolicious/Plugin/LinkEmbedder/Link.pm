@@ -25,15 +25,18 @@ use constant DEFAULT_VIDEO_WIDTH => 640;
 
 Returns the part of the URL identifying the media. Default is empty string.
 
-=cut
+=head2 ua
 
-has media_id => '';
+Holds a L<Mojo::UserAgent> object.
 
 =head2 url
 
 Holds a L<Mojo::URL> object.
 
 =cut
+
+has media_id => '';
+has ua => sub { Mojo::UserAgent->new };
 
 sub url { shift->{url} }
 
@@ -109,6 +112,16 @@ sub to_embed {
 
   local $" = ' ';
   qq(<a href="$url" @args>$url</a>);
+}
+
+sub TO_JSON {
+  my $self = shift;
+
+  return {
+    media_id => $self->media_id,
+    pretty_url => $self->pretty_url,
+    url => $self->url->to_string,
+  };
 }
 
 =head1 AUTHOR

@@ -3,6 +3,7 @@ package
 
 use strict;
 use warnings;
+use Mojolicious;
 use Test::Mojo;
 use Test::More;
 
@@ -10,14 +11,11 @@ my $t;
 
 sub make_app {
   my $class = shift;
+  my $app = Mojolicious->new;
 
-  eval <<'  APP' or die $@;
-    use Mojolicious::Lite;
-    plugin LinkEmbedder => { route => '/embed' };
-    app->start;
-  APP
+  $app->plugin(LinkEmbedder => { route => '/embed' });
 
-  Test::Mojo->new;
+  Test::Mojo->new($app);
 }
 
 sub import {
