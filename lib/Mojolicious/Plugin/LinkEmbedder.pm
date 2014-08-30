@@ -51,6 +51,10 @@ Or if you want full control:
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Image>
 
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Image::Imgur>
+
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Image::XKCD>
+
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video>
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv>
