@@ -2,6 +2,7 @@ Revision history for Mojolicious-Plugin-LinkEmbedder
 
 0.08
        * Add support for scraping information from a HTML page
+         - Understands Open Graph and Twitter cards
        * Add support for returning $self from embed_link() helper
        * Add "ua" attribute to ::Link objects
        * Add TO_JSON() method to ::Link objects
