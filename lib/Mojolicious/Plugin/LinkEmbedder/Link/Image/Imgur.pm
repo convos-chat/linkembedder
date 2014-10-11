@@ -35,7 +35,7 @@ The title of the image, extracted from the retrieved page
 
 =cut
 
-has [qw/media_url media_title/];
+has [qw(media_url media_title)];
 
 =head1 METHODS
 
@@ -47,7 +47,7 @@ Gets the file imformation from the page meta information
 
 sub learn {
   my ($self, $cb, @cb_args) = @_;
-  my $ua = $self->{ua};
+  my $ua    = $self->{ua};
   my $delay = Mojo::IOLoop->delay(
     sub {
       my $delay = shift;
@@ -56,9 +56,7 @@ sub learn {
     sub {
       my ($ua, $tx) = @_;
       my $dom = $tx->res->dom;
-      $self->media_url(Mojo::URL->new(
-        ($dom->at('meta[property="og:image"]') || {})->{content}
-      ));
+      $self->media_url(Mojo::URL->new(($dom->at('meta[property="og:image"]') || {})->{content}));
       $self->media_title(($dom->at('meta[property="og:title"]') || {})->{content});
       $cb->(@cb_args);
     },
@@ -74,7 +72,7 @@ Returns an img tag.
 
 sub to_embed {
   my $self = shift;
-  my $url = $self->media_url;
+  my $url  = $self->media_url;
   my %args = @_;
 
   $args{alt} ||= $self->media_title;

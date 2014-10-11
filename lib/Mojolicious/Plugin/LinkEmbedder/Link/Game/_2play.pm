@@ -21,7 +21,7 @@ Returns the second path segment from L</url>.
 =cut
 
 has media_id => sub { shift->url->path->[2] || '' };
-sub _js_embed_url { 'http://video.nettavisen.no/javascripts/embed.js' }
+sub _js_embed_url {'http://video.nettavisen.no/javascripts/embed.js'}
 
 =head1 METHODS
 

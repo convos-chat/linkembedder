@@ -95,20 +95,20 @@ See L</SYNOPSIS>.
 =cut
 
 sub embed_link {
-  my($self, $c, $url, $cb) = @_;
+  my ($self, $c, $url, $cb) = @_;
 
   $url = Mojo::URL->new($url) unless ref $url;
 
-  if(my $type = lc $url->host) {
+  if (my $type = lc $url->host) {
     $type =~ s/^(?:www|my)\.//;
     $type =~ s/\.\w+$//;
-    return $c if $self->_new_link_object($type => $c, { url => $url }, $cb);
+    return $c if $self->_new_link_object($type => $c, {url => $url}, $cb);
   }
-  if($url->path =~ m!\.(?:jpg|png|gif)$!i) {
-    return $c if $self->_new_link_object(image => $c, { url => $url }, $cb);
+  if ($url->path =~ m!\.(?:jpg|png|gif)$!i) {
+    return $c if $self->_new_link_object(image => $c, {url => $url}, $cb);
   }
-  if($url->path =~ m!\.(?:mpg|mpeg|mov|mp4|ogv)$!i) {
-    return $c if $self->_new_link_object(video => $c, { url => $url }, $cb);
+  if ($url->path =~ m!\.(?:mpg|mpeg|mov|mp4|ogv)$!i) {
+    return $c if $self->_new_link_object(video => $c, {url => $url}, $cb);
   }
 
   return $self->_fallback($c, $url, $cb);
@@ -117,30 +117,33 @@ sub embed_link {
 sub _fallback {
   my ($self, $c, $url, $cb) = @_;
 
-  $self->_ua->head($url, sub {
-    my ($ua, $tx) = @_;
-    my $ct = $tx->res->headers->content_type || '';
+  $self->_ua->head(
+    $url,
+    sub {
+      my ($ua, $tx) = @_;
+      my $ct = $tx->res->headers->content_type || '';
 
-    return if $ct =~ m!^image/! and $self->_new_link_object(image => $c, { url => $url, _tx => $tx }, $cb);
-    return if $ct =~ m!^video/! and $self->_new_link_object(video => $c, { url => $url, _tx => $tx }, $cb);
-    return if $ct =~ m!^text/html! and $self->_new_link_object(html => $c, { url => $url, _tx => $tx, }, $cb);
-    return if $ct =~ m!^text/plain! and $self->_new_link_object(text => $c, { url => $url, _tx => $tx }, $cb);
+      return if $ct =~ m!^image/!     and $self->_new_link_object(image => $c, {url => $url, _tx => $tx},  $cb);
+      return if $ct =~ m!^video/!     and $self->_new_link_object(video => $c, {url => $url, _tx => $tx},  $cb);
+      return if $ct =~ m!^text/html!  and $self->_new_link_object(html  => $c, {url => $url, _tx => $tx,}, $cb);
+      return if $ct =~ m!^text/plain! and $self->_new_link_object(text  => $c, {url => $url, _tx => $tx},  $cb);
 
-    warn "[LINK] New from $ct: Mojolicious::Plugin::LinkEmbedder::Link\n" if DEBUG;
-    return $c->$cb(Mojolicious::Plugin::LinkEmbedder::Link->new(url => $url));
-  });
+      warn "[LINK] New from $ct: Mojolicious::Plugin::LinkEmbedder::Link\n" if DEBUG;
+      return $c->$cb(Mojolicious::Plugin::LinkEmbedder::Link->new(url => $url));
+    }
+  );
 
   return $c;
 }
 
 sub _new_link_object {
-  my($self, $type, $c, $args, $cb) = @_;
+  my ($self, $type, $c, $args, $cb) = @_;
   my $class = $self->{classes}{$type} or return;
   my $e = $LOADER->load($class);
 
   warn "[LINK] New from $type: $class\n" if DEBUG;
 
-  if(!defined $e) {
+  if (!defined $e) {
     my $link = $class->new($args);
     $link->ua($self->_ua);
     $link->learn($cb, $c, $link);
@@ -172,54 +175,58 @@ while C<$obj> is a L<Mojolicious::Routes::Route> object.
 =cut
 
 sub register {
-  my($self, $app, $config) = @_;
+  my ($self, $app, $config) = @_;
 
   $self->{classes} = {
-    '2play' => 'Mojolicious::Plugin::LinkEmbedder::Link::Game::_2play',
-    'beta.dbtv' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv',
-    'blip' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Blip',
+    '2play'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Game::_2play',
+    'beta.dbtv'    => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv',
+    'blip'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Blip',
     'collegehumor' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Collegehumor',
-    'gist.github' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub',
-    'html' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML',
-    'image' => 'Mojolicious::Plugin::LinkEmbedder::Link::Image',
-    'imgur' => 'Mojolicious::Plugin::LinkEmbedder::Link::Image::Imgur',
-    'ted' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Ted',
-    'text' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text',
-    'twitter' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter',
-    'video' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video',
-    'vimeo' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Vimeo',
-    'youtube' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube',
+    'gist.github'  => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub',
+    'html'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML',
+    'image'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Image',
+    'imgur'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Image::Imgur',
+    'ted'          => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Ted',
+    'text'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Text',
+    'twitter'      => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter',
+    'video'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Video',
+    'vimeo'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Vimeo',
+    'youtube'      => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube',
   };
 
-  $app->helper(embed_link => sub {
-    return $self if @_ == 1;
-    return $self->embed_link(@_);
-  });
+  $app->helper(
+    embed_link => sub {
+      return $self if @_ == 1;
+      return $self->embed_link(@_);
+    }
+  );
 
-  if(my $route = $config->{route}) {
+  if (my $route = $config->{route}) {
     $self->_add_action($app, $route);
   }
 }
 
 sub _add_action {
-  my($self, $app, $route) = @_;
+  my ($self, $app, $route) = @_;
 
-  unless(ref $route) {
+  unless (ref $route) {
     $route = $app->routes->route($route);
   }
 
-  $route->to(cb => sub {
-    my $c = shift->render_later;
+  $route->to(
+    cb => sub {
+      my $c = shift->render_later;
 
-    $c->embed_link($c->param('url'), sub {
-      my($c, $link) = @_;
+      $c->embed_link(
+        $c->param('url'),
+        sub {
+          my ($c, $link) = @_;
 
-      $c->respond_to(
-        json => { json => $link },
-        any => { text => $link->to_embed },
+          $c->respond_to(json => {json => $link}, any => {text => $link->to_embed},);
+        }
       );
-    });
-  });
+    }
+  );
 }
 
 =head1 DISCLAIMER

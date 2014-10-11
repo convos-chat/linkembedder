@@ -33,8 +33,8 @@ Returns L</url> without "eurl", "mode" and "search" query params.
 =cut
 
 sub pretty_url {
-  my $self = shift;
-  my $url = $self->url->clone;
+  my $self  = shift;
+  my $url   = $self->url->clone;
   my $query = $url->query;
 
   $query->remove('eurl');
@@ -50,14 +50,14 @@ Returns the HTML code for an iframe embedding this movie.
 =cut
 
 sub to_embed {
-  my $self = shift;
+  my $self     = shift;
   my $media_id = $self->media_id or return $self->SUPER::to_embed;
-  my $url = Mojo::URL->new("http://www.youtube.com/embed/$media_id");
-  my %args = @_;
+  my $url      = Mojo::URL->new("http://www.youtube.com/embed/$media_id");
+  my %args     = @_;
 
   $url->query->param(autoplay => 1) if $args{autoplay};
 
-  $args{width} ||= $self->DEFAULT_VIDEO_WIDTH;
+  $args{width}  ||= $self->DEFAULT_VIDEO_WIDTH;
   $args{height} ||= $self->DEFAULT_VIDEO_HEIGHT;
 
   qq(<iframe width="$args{width}" height="$args{height}" src="$url">);

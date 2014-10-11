@@ -22,8 +22,8 @@ Returns the the digit from the url L</url>.
 
 has media_id => sub {
   my $self = shift;
-  my $url = $self->url;
-  
+  my $url  = $self->url;
+
   $url->query->param('vid') || $url->path->[-1];
 };
 
@@ -36,9 +36,9 @@ Returns a pretty version of the L</url>.
 =cut
 
 sub pretty_url {
-  my $self = shift;
+  my $self     = shift;
   my $media_id = $self->media_id or return $self->SUPER::to_embed;
-  my $url = $self->url->clone;
+  my $url      = $self->url->clone;
 
   $url->fragment(undef);
   $url->query(vid => $media_id);
@@ -53,14 +53,14 @@ Returns the HTML code for an iframe embedding this movie.
 
 sub to_embed {
   my $self = shift;
-  my $src = Mojo::URL->new('beta.dbtv.no/player');
+  my $src  = Mojo::URL->new('beta.dbtv.no/player');
   my %args = @_;
 
   $args{height} ||= 551;
-  $args{width} ||= 980;
+  $args{width}  ||= 980;
 
-  push @{ $src->path }, $self->media_id;
-  $src->query({ autoplay => $args{autoplay} ? 'true' : 'false' });
+  push @{$src->path}, $self->media_id;
+  $src->query({autoplay => $args{autoplay} ? 'true' : 'false'});
 
   qq(<iframe src="$src" frameborder="0" width="$args{width}" height="$args{height}" scrolling="no" marginheight="0" marginwidth="0"></iframe>);
 }

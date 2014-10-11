@@ -25,15 +25,18 @@ Will fetch the L</url> and extract the L</media_id>.
 =cut
 
 sub learn {
-  my($self, $cb, @cb_args) = @_;
+  my ($self, $cb, @cb_args) = @_;
 
-  $self->{ua}->get($self->url, sub {
-    my($ua, $tx) = @_;
+  $self->{ua}->get(
+    $self->url,
+    sub {
+      my ($ua, $tx) = @_;
 
-    # http://blip.tv/play/ab.c?p=1
-    $self->media_id($tx->res->body =~ m!blip\.tv/play/([^\?]+)! ? $1 : '');
-    $cb->(@cb_args);
-  });
+      # http://blip.tv/play/ab.c?p=1
+      $self->media_id($tx->res->body =~ m!blip\.tv/play/([^\?]+)! ? $1 : '');
+      $cb->(@cb_args);
+    }
+  );
 
   $self;
 }
@@ -45,11 +48,11 @@ Returns the HTML code for an iframe embedding this movie.
 =cut
 
 sub to_embed {
-  my $self = shift;
+  my $self     = shift;
   my $media_id = $self->media_id or return $self->SUPER::to_embed;
-  my %args = @_;
+  my %args     = @_;
 
-  $args{width} ||= 425;
+  $args{width}  ||= 425;
   $args{height} ||= 350;
 
   qq(<iframe src="http://blip.tv/play/$media_id?p=1" width="720" height="433" frameborder="0" allowfullscreen></iframe>);

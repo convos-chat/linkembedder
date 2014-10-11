@@ -64,7 +64,7 @@ sub to_embed {
 
   $ID++;
 
-  <<"  JAVA_SCRIPT";
+  return <<"JAVA_SCRIPT";
 <div class="link-embedder text-gist-github" id="link_embedder_text_gist_github_$ID"></div>
 <script>
 window._linkembedder_textgistgithub$ID=function(g){
@@ -75,7 +75,7 @@ document.getElementsByTagName('head')[0].appendChild(s);
 };
 </script>
 <script src="https://gist.github.com$media_id.json?callback=_linkembedder_textgistgithub$ID"></script>
-  JAVA_SCRIPT
+JAVA_SCRIPT
 }
 
 =head1 AUTHOR

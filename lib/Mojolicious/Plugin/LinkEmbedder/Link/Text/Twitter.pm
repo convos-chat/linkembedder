@@ -35,11 +35,11 @@ Returns the HTML code for an iframe embedding this tweet.
 =cut
 
 sub to_embed {
-  my $self = shift;
+  my $self     = shift;
   my $media_id = $self->media_id or return $self->SUPER::to_embed;
-  my %args = @_;
+  my %args     = @_;
 
-  $args{width} ||= 550;
+  $args{width}  ||= 550;
   $args{height} ||= 250;
 
   qq(<iframe src="https://twitframe.com/show?url=https://twitter.com/$media_id" frameborder="0" height="$args{height}" width="$args{width}"></iframe>);

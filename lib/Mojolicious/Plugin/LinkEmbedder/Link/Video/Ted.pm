@@ -21,7 +21,7 @@ Returns the the digit from the url L</url>.
 =cut
 
 has media_id => sub {
-  my $self = shift;
+  my $self     = shift;
   my $media_id = $self->url->path->[-1];
 
   $media_id =~ s!\.html$!!;
@@ -37,12 +37,12 @@ Returns the HTML code for an iframe embedding this movie.
 =cut
 
 sub to_embed {
-  my $self = shift;
+  my $self     = shift;
   my $media_id = $self->media_id or return $self->SUPER::to_embed;
-  my %args = @_;
+  my %args     = @_;
 
   $args{height} ||= 315;
-  $args{width} ||= 560;
+  $args{width}  ||= 560;
 
   qq(<iframe src="http://embed.ted.com/talks/$media_id.html" width="$args{width}" height="$args{height}" frameborder="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
 }

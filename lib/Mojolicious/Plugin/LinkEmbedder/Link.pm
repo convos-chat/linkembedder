@@ -10,14 +10,11 @@ use Mojo::Base -base;
 use Mojo::ByteStream;
 use Mojo::Util;
 use Mojolicious::Types;
-use overload (
-  q("") => sub { Mojo::ByteStream->new(shift->to_embed) },
-  fallback => 1,
-);
+use overload (q("") => sub { Mojo::ByteStream->new(shift->to_embed) }, fallback => 1,);
 
 # this may change in future version
 use constant DEFAULT_VIDEO_HEIGHT => 390;
-use constant DEFAULT_VIDEO_WIDTH => 640;
+use constant DEFAULT_VIDEO_WIDTH  => 640;
 
 =head1 ATTRIBUTES
 
@@ -45,9 +42,9 @@ has _tx => undef;
 
 has _types => sub {
   my $types = Mojolicious::Types->new;
-  $types->type(mpg => 'video/mpeg');
+  $types->type(mpg  => 'video/mpeg');
   $types->type(mpeg => 'video/mpeg');
-  $types->type(mov => 'video/quicktime');
+  $types->type(mov  => 'video/quicktime');
   $types;
 };
 
@@ -67,7 +64,7 @@ is of that type:
 =cut
 
 sub is {
-  $_[0]->isa(__PACKAGE__ .'::' .Mojo::Util::camelize($_[1]));
+  $_[0]->isa(__PACKAGE__ . '::' . Mojo::Util::camelize($_[1]));
 }
 
 =head2 learn
@@ -81,7 +78,7 @@ C<@cb_args>.
 =cut
 
 sub learn {
-  my($self, $cb, @cb_args) = @_;
+  my ($self, $cb, @cb_args) = @_;
 
   $cb->(@cb_args);
   $self;
@@ -104,7 +101,7 @@ Returns a link to the L</url>, with target "_blank".
 
 sub to_embed {
   my $self = shift;
-  my $url = $self->url;
+  my $url  = $self->url;
   my @args;
 
   push @args, qq(target="_blank");
@@ -117,11 +114,7 @@ sub to_embed {
 sub TO_JSON {
   my $self = shift;
 
-  return {
-    media_id => $self->media_id,
-    pretty_url => $self->pretty_url,
-    url => $self->url->to_string,
-  };
+  return {media_id => $self->media_id, pretty_url => $self->pretty_url, url => $self->url->to_string,};
 }
 
 =head1 AUTHOR

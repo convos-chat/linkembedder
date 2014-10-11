@@ -22,7 +22,7 @@ Returns an img tag.
 
 sub to_embed {
   my $self = shift;
-  my $url = $self->url;
+  my $url  = $self->url;
   my %args = @_;
 
   $args{alt} ||= $url->to_string;
