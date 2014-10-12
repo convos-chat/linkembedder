@@ -30,7 +30,7 @@ has media_id => sub {
 
 =head2 to_embed
 
-Returns the HTML code for an iframe embedding this tweet.
+Returns the HTML code for javascript embedding this tweet.
 
 =cut
 
@@ -39,10 +39,16 @@ sub to_embed {
   my $media_id = $self->media_id or return $self->SUPER::to_embed;
   my %args     = @_;
 
-  $args{width}  ||= 550;
-  $args{height} ||= 250;
+  $args{cards}        ||= 'hidden';
+  $args{conversation} ||= 'none';
+  $args{lang}         ||= 'en';
 
-  qq(<iframe src="https://twitframe.com/show?url=https://twitter.com/$media_id" frameborder="0" height="$args{height}" width="$args{width}"></iframe>);
+  return <<"HTML";
+<blockquote class="twitter-tweet" lang="$args{lang}" data-conversation="$args{conversation}" data-cards="$args{cards}">
+  <a href="https://twitter.com/$media_id">Loading $media_id...</a>
+</blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+HTML
 }
 
 =head1 AUTHOR
