@@ -1,6 +1,6 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
-0.08
+0.08     Sun Oct 12 19:37:18 2014
        * Add support for scraping information from a HTML page
          - Understands Open Graph and Twitter cards
        * Add support for returning $self from embed_link() helper
