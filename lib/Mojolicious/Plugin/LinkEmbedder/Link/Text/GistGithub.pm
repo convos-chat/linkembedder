@@ -14,7 +14,7 @@ This is an example output:
 
   <div class="link-embedder text-gist-github" id="link_embedder_text_gist_github_42">$gist</div>
   <script>
-    window.linkembedder_textgistgithub$ID = function(g) {
+    window.link_embedder_text_gist_github_$ID = function(g) {
       delete window.linkembedder_textgistgithub42;
       document.getElementById('link_embedder_text_gist_github_42').innerHTML = g.div;
       if(window.link_embedder_text_gist_github_styled++) return;
@@ -67,14 +67,14 @@ sub to_embed {
   return <<"JAVA_SCRIPT";
 <div class="link-embedder text-gist-github" id="link_embedder_text_gist_github_$ID"></div>
 <script>
-window._linkembedder_textgistgithub$ID=function(g){
+window.link_embedder_text_gist_github_$ID=function(g){
 document.getElementById('link_embedder_text_gist_github_$ID').innerHTML=g.div;
 if(window.link_embedder_text_gist_github_styled++)return;
 var s=document.createElement('link');s.rel='stylesheet';s.href=g.stylesheet;
 document.getElementsByTagName('head')[0].appendChild(s);
 };
 </script>
-<script src="https://gist.github.com$media_id.json?callback=_linkembedder_textgistgithub$ID"></script>
+<script src="https://gist.github.com$media_id.json?callback=link_embedder_text_gist_github_$ID"></script>
 JAVA_SCRIPT
 }
 
