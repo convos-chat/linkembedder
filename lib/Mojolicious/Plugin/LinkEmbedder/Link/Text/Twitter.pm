@@ -44,10 +44,12 @@ sub to_embed {
   $args{lang}         ||= 'en';
 
   return <<"HTML";
+<div class="link-embedder text-twitter">
 <blockquote class="twitter-tweet" lang="$args{lang}" data-conversation="$args{conversation}" data-cards="$args{cards}">
-  <a href="https://twitter.com/$media_id">Loading $media_id...</a>
+<a href="https://twitter.com/$media_id">Loading $media_id...</a>
 </blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
 HTML
 }
 
