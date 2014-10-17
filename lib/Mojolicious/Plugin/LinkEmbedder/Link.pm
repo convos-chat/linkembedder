@@ -33,7 +33,7 @@ Holds a L<Mojo::URL> object.
 =cut
 
 has media_id => '';
-has ua => sub { Mojo::UserAgent->new };
+has ua => sub { die "Required in constructor" };
 
 sub url { shift->{url} }
 
