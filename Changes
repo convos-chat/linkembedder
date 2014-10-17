@@ -3,6 +3,7 @@ Revision history for Mojolicious-Plugin-LinkEmbedder
 0.10
        * Embed tweets using javascript
        * Fix embedding Youtube videos over HTTPS
+       * Fix embedding Ted videos over HTTPS
 
 0.09     Sun Oct 12 20:46:49 2014
        * Change link_embedder_text_gist_github_x() javascript methods to public

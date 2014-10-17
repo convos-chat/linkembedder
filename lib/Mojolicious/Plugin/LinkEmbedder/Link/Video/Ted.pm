@@ -44,7 +44,7 @@ sub to_embed {
   $args{height} ||= 315;
   $args{width}  ||= 560;
 
-  qq(<iframe src="http://embed.ted.com/talks/$media_id.html" width="$args{width}" height="$args{height}" frameborder="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
+  qq(<iframe src="//embed.ted.com/talks/$media_id.html" width="$args{width}" height="$args{height}" frameborder="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
 }
 
 =head1 AUTHOR
