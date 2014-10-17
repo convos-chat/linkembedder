@@ -52,15 +52,15 @@ Returns the HTML code for an iframe embedding this movie.
 sub to_embed {
   my $self     = shift;
   my $media_id = $self->media_id or return $self->SUPER::to_embed;
-  my $url      = Mojo::URL->new("http://www.youtube.com/embed/$media_id");
+  my $query    = Mojo::Parameters->new;
   my %args     = @_;
 
-  $url->query->param(autoplay => 1) if $args{autoplay};
+  $query->param(autoplay => 1) if $args{autoplay};
 
   $args{width}  ||= $self->DEFAULT_VIDEO_WIDTH;
   $args{height} ||= $self->DEFAULT_VIDEO_HEIGHT;
 
-  qq(<iframe width="$args{width}" height="$args{height}" src="$url">);
+  qq(<iframe src="//www.youtube.com/embed/$media_id?$query" width="$args{width}" height="$args{height}">);
 }
 
 =head1 AUTHOR
