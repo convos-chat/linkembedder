@@ -53,7 +53,7 @@ Returns the HTML code for an iframe embedding this movie.
 
 sub to_embed {
   my $self = shift;
-  my $src  = Mojo::URL->new('beta.dbtv.no/player');
+  my $src  = Mojo::URL->new('http://beta.dbtv.no/player');
   my %args = @_;
 
   $args{height} ||= 551;
