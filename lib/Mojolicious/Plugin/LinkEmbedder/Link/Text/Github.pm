@@ -17,10 +17,7 @@ sub _learn_from_dom {
   my $e;
 
   $self->SUPER::_learn_from_dom($dom);
-
-  if ($e = $dom->at('title')) {
-    $self->title($e->text);
-  }
+  $self->title($e->text) if $e = $dom->at('title');
 
   for my $e ($dom->find('#readme p')->each) {
     my $text = $e->text || '';
@@ -30,11 +27,15 @@ sub _learn_from_dom {
     last;
   }
 
-  if ($e = $dom->at('.js-issue-title')) {
-    $self->title($e->text);
+  if ($self->url->path =~ m!/commit!) {
+    $self->image($e->{src}) if $e = $dom->at('img.avatar') and $e->{src};
+    $self->title($e->all_text)       if $e = $dom->at('.commit-title');
+    $self->description($e->all_text) if $e = $dom->at('.commit-meta .authorship');
   }
-  if ($e = eval { $dom->at('#partial-discussion-header a.author')->parent }) {
-    $self->description($e->all_text);
+  elsif ($self->url->path =~ m!/(?:issue|pull)!) {
+    $self->image($e->{src}) if $e = $dom->at('img.timeline-comment-avatar') and $e->{src};
+    $self->title($e->text) if $e = $dom->at('.js-issue-title');
+    $self->description($e->all_text) if $e = eval { $dom->at('#partial-discussion-header a.author')->parent };
   }
 }
 

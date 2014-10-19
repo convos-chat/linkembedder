@@ -101,15 +101,19 @@ sub _learn_from_dom {
   my $e;
 
   $self->audio($e->{content}) if $e = $dom->at('meta[property="og:audio"]');
+
   $self->description($e->{content})
     if $e = $dom->at('meta[property="og:description"]') || $dom->at('meta[name="twitter:description"]');
+
   $self->image($e->{content})
     if $e
     = $dom->at('meta[property="og:image"]')
     || $dom->at('meta[property="og:image:url"]')
     || $dom->at('meta[name="twitter:image"]');
+
   $self->title($e->{content} || $e->text || '')
     if $e = $dom->at('meta[property="og:title"]') || $dom->at('meta[name="twitter:title"]') || $dom->at('title');
+
   $self->type($e->{content}) if $e = $dom->at('meta[property="og:type"]') || $dom->at('meta[name="twitter:card"]');
   $self->video($e->{content}) if $e = $dom->at('meta[property="og:video"]');
   $self->canon_url($e->{content}) if $e = $dom->at('meta[property="og:url"]') || $dom->at('meta[name="twitter:url"]');
