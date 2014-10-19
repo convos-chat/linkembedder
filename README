@@ -2,7 +2,7 @@ NAME
     Mojolicious::Plugin::LinkEmbedder - Convert a URL to embedded content
 
 VERSION
-    0.10
+    0.11
 
 DESCRIPTION
     This module can transform a URL to an iframe, image or other embeddable
@@ -28,7 +28,7 @@ SYNOPSIS
                 url => $link->url->to_string,
               },
             },
-            any => { text => "$link" },
+            any => { text => $link->to_embed },
           );
         });
       };
@@ -61,6 +61,27 @@ SUPPORTED LINKS
     *   Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub
 
     *   Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter
+
+ATTRIBUTES
+  cache_cb
+    Holds a callback which will cache the results form the Link objects. An
+    example of such an callback could be:
+
+      my %CACHE;
+      $self->cache_cb(
+        sub {
+          my $cb = pop;
+          my ($self, $url, $link) = @_;
+
+          if ($link) { # set
+            $CACHE{$url} = Mojo::JSON::encode_json($link);
+            $self->$cb;
+          }
+          else { # get
+            $self->$cb(Mojo::JSON::decode_json($CACHE{$url} || '{}'));
+          }
+        }
+      );
 
 METHODS
   embed_link
