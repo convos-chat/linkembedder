@@ -79,7 +79,6 @@ C<@cb_args>.
 
 sub learn {
   my ($self, $cb, @cb_args) = @_;
-
   $cb->(@cb_args);
   $self;
 }

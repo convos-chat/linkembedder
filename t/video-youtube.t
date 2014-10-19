@@ -1,6 +1,8 @@
 use t::App;
 use Test::More;
 
+$t->get_ok('/embed?url=http://www.youtube.com/user/jsconfeu')->text_like('.link-embedder.text-html > h3', qr{JSConf}i);
+
 $t->get_ok('/embed?url=http://www.youtube.com/watch?v=4BMYH-AQyy0')
   ->element_exists('iframe[src="//www.youtube.com/embed/4BMYH-AQyy0?"]')
   ->element_exists('iframe[width="640"][height="390"]');

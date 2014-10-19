@@ -113,7 +113,6 @@ sub _learn_from_dom {
   $self->type($e->{content}) if $e = $dom->at('meta[property="og:type"]') || $dom->at('meta[name="twitter:card"]');
   $self->video($e->{content}) if $e = $dom->at('meta[property="og:video"]');
   $self->canon_url($e->{content}) if $e = $dom->at('meta[property="og:url"]') || $dom->at('meta[name="twitter:url"]');
-  $self->media_id($self->canon_url) unless $self->media_id;
 }
 
 =head1 AUTHOR

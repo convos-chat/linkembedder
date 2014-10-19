@@ -29,6 +29,23 @@ has media_id => sub {
 
 =head1 METHODS
 
+=head2 learn
+
+=cut
+
+sub learn {
+  my ($self, $cb, @cb_args) = @_;
+
+  if ($self->media_id) {
+    $cb->(@cb_args);
+  }
+  else {
+    $self->SUPER::learn($cb, @cb_args);
+  }
+
+  return $self;
+}
+
 =head2 pretty_url
 
 Returns a pretty version of the L</url>.

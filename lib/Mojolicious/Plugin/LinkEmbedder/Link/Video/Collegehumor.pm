@@ -6,11 +6,11 @@ Mojolicious::Plugin::LinkEmbedder::Link::Video::Collegehumor - collegehumor.com 
 
 =head1 DESCRIPTION
 
-This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link::Video>.
+This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML>.
 
 =cut
 
-use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Video';
+use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML';
 
 =head1 ATTRIBUTES
 
@@ -23,6 +23,23 @@ Returns the the digit from the second path part from L</url>.
 has media_id => sub { shift->url->path =~ m!/(\d+)/! ? $1 : '' };
 
 =head1 METHODS
+
+=head2 learn
+
+=cut
+
+sub learn {
+  my ($self, $cb, @cb_args) = @_;
+
+  if ($self->media_id) {
+    $cb->(@cb_args);
+  }
+  else {
+    $self->SUPER::learn($cb, @cb_args);
+  }
+
+  return $self;
+}
 
 =head2 to_embed
 

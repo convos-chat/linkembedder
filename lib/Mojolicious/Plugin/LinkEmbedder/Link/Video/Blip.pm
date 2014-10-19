@@ -8,11 +8,11 @@ Mojolicious::Plugin::LinkEmbedder::Link::Video::Blip - blip.tv link
 
 L<https://developers.google.com/youtube/player_parameters#Embedding_a_Player>
 
-This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link::Video>.
+This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML>.
 
 =cut
 
-use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Video';
+use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML';
 
 =head1 METHODS
 
@@ -32,8 +32,16 @@ sub learn {
     sub {
       my ($ua, $tx) = @_;
 
-      # http://blip.tv/play/ab.c?p=1
-      $self->media_id($tx->res->body =~ m!blip\.tv/play/([^\?]+)! ? $1 : '');
+      if ($tx->res->body =~ m!blip\.tv/play/([^\?]+)!) {
+
+        # http://blip.tv/play/ab.c?p=1
+        $self->media_id($1);
+      }
+      else {
+        my $dom = $tx->res->dom;
+        $self->_tx($tx)->_learn_from_dom($dom) if $dom;
+      }
+
       $cb->(@cb_args);
     }
   );
