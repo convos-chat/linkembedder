@@ -99,11 +99,6 @@ sub embed_link {
 
   $url = Mojo::URL->new($url) unless ref $url;
 
-  if (my $type = lc $url->host) {
-    $type =~ s/^(?:www|my)\.//;
-    $type =~ s/\.\w+$//;
-    return $c if $self->_new_link_object($type => $c, {url => $url}, $cb);
-  }
   if ($url->path =~ m!\.(?:jpg|png|gif)$!i) {
     return $c if $self->_new_link_object(image => $c, {url => $url}, $cb);
   }
@@ -111,29 +106,31 @@ sub embed_link {
     return $c if $self->_new_link_object(video => $c, {url => $url}, $cb);
   }
 
-  return $self->_fallback($c, $url, $cb);
+  Scalar::Util::weaken($self);
+  $self->_ua->head($url, sub { $self->_learn($c, $_[1], $cb); });
+  return $c;
 }
 
-sub _fallback {
-  my ($self, $c, $url, $cb) = @_;
+sub _learn {
+  my ($self, $c, $tx, $cb) = @_;
+  my $ct = $tx->res->headers->content_type || '';
+  my $url = $tx->req->url;
 
-  $self->_ua->head(
-    $url,
-    sub {
-      my ($ua, $tx) = @_;
-      my $ct = $tx->res->headers->content_type || '';
+  return if $ct =~ m!^image/!     and $self->_new_link_object(image => $c, {url => $url, _tx => $tx}, $cb);
+  return if $ct =~ m!^video/!     and $self->_new_link_object(video => $c, {url => $url, _tx => $tx}, $cb);
+  return if $ct =~ m!^text/plain! and $self->_new_link_object(text  => $c, {url => $url, _tx => $tx}, $cb);
 
-      return if $ct =~ m!^image/!     and $self->_new_link_object(image => $c, {url => $url, _tx => $tx},  $cb);
-      return if $ct =~ m!^video/!     and $self->_new_link_object(video => $c, {url => $url, _tx => $tx},  $cb);
-      return if $ct =~ m!^text/html!  and $self->_new_link_object(html  => $c, {url => $url, _tx => $tx,}, $cb);
-      return if $ct =~ m!^text/plain! and $self->_new_link_object(text  => $c, {url => $url, _tx => $tx},  $cb);
+  if (my $type = lc $url->host) {
+    $type =~ s/^(?:www|my)\.//;
+    $type =~ s/\.\w+$//;
+    return if $self->_new_link_object($type => $c, {url => $url, _tx => $tx}, $cb);
+  }
+  if ($ct =~ m!^text/html! and $self->_new_link_object(html => $c, {url => $url, _tx => $tx}, $cb)) {
+    return;
+  }
 
-      warn "[LINK] New from $ct: Mojolicious::Plugin::LinkEmbedder::Link\n" if DEBUG;
-      return $c->$cb(Mojolicious::Plugin::LinkEmbedder::Link->new(url => $url));
-    }
-  );
-
-  return $c;
+  warn "[LINK] New from $ct: Mojolicious::Plugin::LinkEmbedder::Link\n" if DEBUG;
+  $c->$cb(Mojolicious::Plugin::LinkEmbedder::Link->new(url => $url));
 }
 
 sub _new_link_object {
@@ -180,6 +177,7 @@ sub register {
   $self->{classes} = {
     '2play'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Game::_2play',
     'beta.dbtv'    => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv',
+    'dbtv'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv',
     'blip'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Blip',
     'collegehumor' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Collegehumor',
     'gist.github'  => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub',

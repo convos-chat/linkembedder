@@ -9,9 +9,8 @@ $t->get_ok('/embed?url=http://www.ted.com/talks/ryan_holladay_to_hear_this_music
 
 $t->get_ok(
   '/embed.json?url=http://www.ted.com/talks/ryan_holladay_to_hear_this_music_you_have_to_be_there_literally.html')
-  ->json_is('/media_id', 'ryan_holladay_to_hear_this_music_you_have_to_be_there_literally')
-  ->json_is('/pretty_url',
-  'http://www.ted.com/talks/ryan_holladay_to_hear_this_music_you_have_to_be_there_literally.html')
-  ->json_is('/url', 'http://www.ted.com/talks/ryan_holladay_to_hear_this_music_you_have_to_be_there_literally.html');
+  ->json_is('/media_id',   'ryan_holladay_to_hear_this_music_you_have_to_be_there_literally')
+  ->json_is('/pretty_url', 'http://www.ted.com/talks/ryan_holladay_to_hear_this_music_you_have_to_be_there_literally')
+  ->json_is('/url',        'http://www.ted.com/talks/ryan_holladay_to_hear_this_music_you_have_to_be_there_literally');
 
 done_testing;

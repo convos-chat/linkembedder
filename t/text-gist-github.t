@@ -10,6 +10,6 @@ $t->get_ok('/embed?url=https://gist.github.com/jhthorsen/6449446')
   ->content_like(qr{document\.getElementById\('link_embedder_text_gist_github_1'\)\.innerHTML=g\.div}, 'g.div');
 
 $t->get_ok('/embed?url=https://gist.github.com/jhthorsen')
-  ->content_is(q(<a href="https://gist.github.com/jhthorsen" target="_blank">https://gist.github.com/jhthorsen</a>));
+  ->text_is('a[href="https://gist.github.com/jhthorsen"][target="_blank"]', 'https://gist.github.com/jhthorsen');
 
 done_testing;
