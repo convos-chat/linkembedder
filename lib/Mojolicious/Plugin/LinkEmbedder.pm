@@ -34,7 +34,7 @@ Or if you want full control:
             url => $link->url->to_string,
           },
         },
-        any => { text => "$link" },
+        any => { text => $link->to_embed },
       );
     });
   };
@@ -76,6 +76,8 @@ Or if you want full control:
 =cut
 
 use Mojo::Base 'Mojolicious::Plugin';
+use Mojo::Cache;
+use Mojo::JSON;
 use Mojo::Loader;
 use Mojo::UserAgent;
 use Mojolicious::Plugin::LinkEmbedder::Link;
@@ -84,6 +86,49 @@ use constant DEBUG => $ENV{MOJO_LINKEMBEDDER_DEBUG} || 0;
 our $VERSION = '0.10';
 my $LOADER = Mojo::Loader->new;
 
+=head1 ATTRIBUTES
+
+=head2 cache_cb
+
+Holds a callback which will cache the results form the Link objects. An example
+of such an callback could be:
+
+  my %CACHE;
+  $self->cache_cb(
+    sub {
+      my $cb = pop;
+      my ($self, $url, $link) = @_;
+
+      if ($link) { # set
+        $CACHE{$url} = Mojo::JSON::encode_json($link);
+        $self->$cb;
+      }
+      else { # get
+        $self->$cb(Mojo::JSON::decode_json($CACHE{$url} || '{}'));
+      }
+    }
+  );
+
+=cut
+
+has cache_cb => sub {
+  return sub {
+    my $cb = pop;
+    my ($self, $url, $link) = @_;
+
+    if ($link) {
+      warn "SET $url\n" if DEBUG;
+      $self->_cache->set($url => Mojo::JSON::encode_json($link));
+      $self->$cb;
+    }
+    else {
+      warn "GET $url --- ", $self->_cache->get($url) || 'false', "\n" if DEBUG;
+      $self->$cb(Mojo::JSON::decode_json($self->_cache->get($url) || '{}'));
+    }
+  };
+};
+
+has _cache => sub { Mojo::Cache->new(keys => 200); };
 has _ua => sub { Mojo::UserAgent->new(max_redirects => 3) };
 
 =head1 METHODS
@@ -97,17 +142,23 @@ See L</SYNOPSIS>.
 sub embed_link {
   my ($self, $c, $url, $cb) = @_;
 
-  $url = Mojo::URL->new($url) unless ref $url;
-
-  if ($url->path =~ m!\.(?:jpg|png|gif)$!i) {
+  if ($url =~ m!\.(?:jpg|png|gif)\b!i) {
     return $c if $self->_new_link_object(image => $c, {url => $url}, $cb);
   }
-  if ($url->path =~ m!\.(?:mpg|mpeg|mov|mp4|ogv)$!i) {
+  if ($url =~ m!\.(?:mpg|mpeg|mov|mp4|ogv)\b!i) {
     return $c if $self->_new_link_object(video => $c, {url => $url}, $cb);
   }
 
   Scalar::Util::weaken($self);
-  $self->_ua->head($url, sub { $self->_learn($c, $_[1], $cb); });
+  $self->cache_cb->(
+    $self, $url,
+    sub {
+      my ($self, $data) = @_;
+      return $self->_new_link_object(undef => $c, $data, $cb) if $data and $data->{media_id};
+      return $self->_ua->head($url, sub { $_[1]->{input_url} = $url; $self->_learn($c, $_[1], $cb) });
+    }
+  );
+
   return $c;
 }
 
@@ -125,8 +176,8 @@ sub _learn {
     $type =~ s/\.\w+$//;
     return if $self->_new_link_object($type => $c, {url => $url, _tx => $tx}, $cb);
   }
-  if ($ct =~ m!^text/html! and $self->_new_link_object(html => $c, {url => $url, _tx => $tx}, $cb)) {
-    return;
+  if ($ct =~ m!^text/html!) {
+    return if $self->_new_link_object(html => $c, {url => $url, _tx => $tx}, $cb);
   }
 
   warn "[LINK] New from $ct: Mojolicious::Plugin::LinkEmbedder::Link\n" if DEBUG;
@@ -135,15 +186,40 @@ sub _learn {
 
 sub _new_link_object {
   my ($self, $type, $c, $args, $cb) = @_;
-  my $class = $self->{classes}{$type} or return;
+  my $class = $self->{classes}{$type} || $args->{class} || return;
   my $e = $LOADER->load($class);
 
   warn "[LINK] New from $type: $class\n" if DEBUG;
+  local $args->{ua} = $self->_ua;
+
+  if ($args->{url} and !ref $args->{url}) {
+    $args->{url} = Mojo::URL->new($args->{url});
+  }
 
   if (!defined $e) {
     my $link = $class->new($args);
-    $link->ua($self->_ua);
-    $link->learn($cb, $c, $link);
+
+    if ($link->{media_id}) {
+      $c->$cb($link);
+      return $class;
+    }
+
+    Mojo::IOLoop->delay(
+      sub {
+        my ($delay) = @_;
+        $link->learn($c, $delay->begin);
+      },
+      sub {
+        my ($delay) = @_;
+        return $delay->pass unless $args->{_tx}{input_url};
+        return $self->cache_cb->($self, $args->{_tx}{input_url}, $link, $delay->begin);
+      },
+      sub {
+        my ($delay) = @_;
+        $c->$cb($link);
+      },
+    );
+
     return $class;
   }
 
@@ -202,6 +278,9 @@ sub register {
 
   if (my $route = $config->{route}) {
     $self->_add_action($app, $route);
+  }
+  if (my $cb = $config->{cache_cb}) {
+    $self->cache_cb($cb);
   }
 }
 

@@ -35,13 +35,13 @@ has media_id => sub {
 =cut
 
 sub learn {
-  my ($self, $cb, @cb_args) = @_;
+  my ($self, $c, $cb) = @_;
 
   if ($self->media_id) {
-    $cb->(@cb_args);
+    $self->$cb;
   }
   else {
-    $self->SUPER::learn($cb, @cb_args);
+    $self->SUPER::learn($c, $cb);
   }
 
   return $self;

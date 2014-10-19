@@ -18,14 +18,12 @@ use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML';
 
 =head2 learn
 
-  $self->learn($cb, @cb_args);
-
 Will fetch the L</url> and extract the L</media_id>.
 
 =cut
 
 sub learn {
-  my ($self, $cb, @cb_args) = @_;
+  my ($self, $c, $cb) = @_;
 
   $self->{ua}->get(
     $self->url,
@@ -42,7 +40,7 @@ sub learn {
         $self->_tx($tx)->_learn_from_dom($dom) if $dom;
       }
 
-      $cb->(@cb_args);
+      $self->$cb;
     }
   );
 

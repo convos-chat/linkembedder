@@ -21,10 +21,6 @@ use Mojo::IOLoop;
 
 Extracts the media_id from the url directly
 
-=cut
-
-has media_id => sub { shift->url->path->[0] };
-
 =head2 media_url
 
 URL to the image itself, extracted from the retrieved page
@@ -35,7 +31,12 @@ The title of the image, extracted from the retrieved page
 
 =cut
 
+has media_id => sub { shift->url->path->[0] };
 has [qw(media_url media_title)];
+
+sub _cache_attributes {
+  shift->SUPER::_cache_attributes, qw( media_url media_title );
+}
 
 =head1 METHODS
 
@@ -46,7 +47,7 @@ Gets the file imformation from the page meta information
 =cut
 
 sub learn {
-  my ($self, $cb, @cb_args) = @_;
+  my ($self, $c, $cb) = @_;
   my $ua    = $self->{ua};
   my $delay = Mojo::IOLoop->delay(
     sub {
@@ -58,7 +59,7 @@ sub learn {
       my $dom = $tx->res->dom;
       $self->media_url(Mojo::URL->new(($dom->at('meta[property="og:image"]') || {})->{content}));
       $self->media_title(($dom->at('meta[property="og:title"]') || {})->{content});
-      $cb->(@cb_args);
+      $self->$cb;
     },
   );
   $delay->wait unless $delay->ioloop->is_running;

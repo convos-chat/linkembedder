@@ -10,7 +10,6 @@ use Mojo::Base -base;
 use Mojo::ByteStream;
 use Mojo::Util;
 use Mojolicious::Types;
-use overload (q("") => sub { Mojo::ByteStream->new(shift->to_embed) }, fallback => 1,);
 
 # this may change in future version
 use constant DEFAULT_VIDEO_HEIGHT => 390;
@@ -69,7 +68,7 @@ sub is {
 
 =head2 learn
 
-  $self->learn($cb, @cb_args);
+  $self->learn($c, $cb);
 
 This method can be used to learn more information about the link. This class
 has no idea what to learn, so it simply calls the callback (C<$cb>) with
@@ -78,8 +77,8 @@ C<@cb_args>.
 =cut
 
 sub learn {
-  my ($self, $cb, @cb_args) = @_;
-  $cb->(@cb_args);
+  my ($self, $c, $cb) = @_;
+  $self->$cb;
   $self;
 }
 
@@ -113,8 +112,10 @@ sub to_embed {
 sub TO_JSON {
   my $self = shift;
 
-  return {media_id => $self->media_id, pretty_url => $self->pretty_url, url => $self->url->to_string,};
+  return {class => ref($self), url => $self->url->to_string, map { ($_ => $self->$_) } $self->_cache_attributes,};
 }
+
+sub _cache_attributes { qw( media_id pretty_url ); }
 
 =head1 AUTHOR
 

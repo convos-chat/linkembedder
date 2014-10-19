@@ -5,6 +5,8 @@ Revision history for Mojolicious-Plugin-LinkEmbedder
        * Fix handling https://www.youtube.com/user/jsconfeu
        * Add support for git.io links
        * Add support for github commit messages
+       * Add cache capabilities
+       * Remove string overload of Link objects
 
 0.10     Fri Oct 17 14:07:37 2014
        * Add LinkEmbedder::Text::Github

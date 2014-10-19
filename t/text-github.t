@@ -32,14 +32,17 @@ my @tests = (
   },
 );
 
+# test caching
+splice @tests, 1, 0, $tests[0];
+
 for my $test (@tests) {
   diag $test->{url};
+
+  #last if $test->{url} eq 'https://github.com/Nordaaker/convos';
 
   $t->get_ok("/embed?url=$test->{url}")->element_exists('.link-embedder.text-html')
     ->element_exists(qq(.link-embedder-media img[src*="$test->{image}"]))
     ->text_is('.link-embedder.text-html > h3', $test->{h3})->text_is('.link-embedder.text-html > p', $test->{p});
-
-  $t->content_is(123) unless $t->success;
 }
 
 done_testing;
