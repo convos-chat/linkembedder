@@ -1,6 +1,6 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
-0.12
+0.12     Sun Oct 19 15:19:41 2014
        * Fix reading media_id in Link::Text::HTML
 
 0.11     Sun Oct 19 13:30:27 2014
