@@ -6,6 +6,6 @@ $t->get_ok('/embed?url=https://vimeo.com/86404451')
   ->element_exists('iframe[width="500"][height="281"][frameborder="0"]');
 
 $t->get_ok('/embed.json?url=https://vimeo.com/86404451')->json_is('/media_id', '86404451')
-  ->json_is('/pretty_url', 'http://vimeo.com/86404451')->json_is('/url', 'http://vimeo.com/86404451');
+  ->json_like('/pretty_url', qr{^https?://vimeo\.com/86404451})->json_like('/url', qr{^https?://vimeo\.com/86404451});
 
 done_testing;
