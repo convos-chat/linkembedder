@@ -6,7 +6,7 @@ Mojolicious::Plugin::LinkEmbedder - Convert a URL to embedded content
 
 =head1 VERSION
 
-0.12
+0.13
 
 =head1 DESCRIPTION
 
@@ -83,7 +83,7 @@ use Mojo::UserAgent;
 use Mojolicious::Plugin::LinkEmbedder::Link;
 use constant DEBUG => $ENV{MOJO_LINKEMBEDDER_DEBUG} || 0;
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 my $LOADER = Mojo::Loader->new;
 
 =head1 ATTRIBUTES
