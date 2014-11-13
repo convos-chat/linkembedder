@@ -104,21 +104,22 @@ sub _learn_from_dom {
 
   $self->audio($e->{content}) if $e = $dom->at('meta[property="og:audio"]');
 
-  $self->description($e->{content})
+  $self->description($e->{content} || $e->{value})
     if $e = $dom->at('meta[property="og:description"]') || $dom->at('meta[name="twitter:description"]');
 
-  $self->image($e->{content})
+  $self->image($e->{content} || $e->{value})
     if $e
     = $dom->at('meta[property="og:image"]')
     || $dom->at('meta[property="og:image:url"]')
     || $dom->at('meta[name="twitter:image"]');
 
-  $self->title($e->{content} || $e->text || '')
+  $self->title($e->{content} || $e->{value} || $e->text || '')
     if $e = $dom->at('meta[property="og:title"]') || $dom->at('meta[name="twitter:title"]') || $dom->at('title');
 
   $self->type($e->{content}) if $e = $dom->at('meta[property="og:type"]') || $dom->at('meta[name="twitter:card"]');
   $self->video($e->{content}) if $e = $dom->at('meta[property="og:video"]');
-  $self->canon_url($e->{content}) if $e = $dom->at('meta[property="og:url"]') || $dom->at('meta[name="twitter:url"]');
+  $self->canon_url($e->{content} || $e->{value})
+    if $e = $dom->at('meta[property="og:url"]') || $dom->at('meta[name="twitter:url"]');
   $self->media_id($self->canon_url) if $self->canon_url and !defined $self->{media_id};
 }
 

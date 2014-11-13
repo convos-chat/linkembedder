@@ -1,6 +1,7 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
 0.14
+       * Add support for links from metacpan.org
        * More robust tests
 
 0.13     Wed Oct 22 20:49:23 2014

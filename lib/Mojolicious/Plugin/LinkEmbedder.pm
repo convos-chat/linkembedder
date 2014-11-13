@@ -53,6 +53,8 @@ Or if you want full control:
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video>
 
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv>
+
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Blip>
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Collegehumor>
@@ -67,7 +69,13 @@ Or if you want full control:
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text>
 
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML>
+
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::Github>
+
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub>
+
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::Metacpan>
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter>
 
@@ -261,6 +269,7 @@ sub register {
     'html'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML',
     'image'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Image',
     'imgur'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Image::Imgur',
+    'metacpan'     => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Metacpan',
     'ted'          => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Ted',
     'text'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Text',
     'twitter'      => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter',
