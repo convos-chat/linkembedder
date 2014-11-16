@@ -1,6 +1,6 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
-0.15
+0.15     Sun Nov 16 14:11:43 2014
        * Fix test containing date
        * Skip tests that require connection to internet
 
