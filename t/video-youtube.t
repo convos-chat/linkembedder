@@ -1,6 +1,8 @@
 use t::App;
 use Test::More;
 
+plan skip_all => 'TEST_ONLINE=1 need to be set' unless $ENV{TEST_ONLINE};
+
 $t->get_ok('/embed?url=http://www.youtube.com/user/jsconfeu')->text_like('.link-embedder.text-html > h3', qr{JSConf}i);
 
 $t->get_ok('/embed?url=http://www.youtube.com/watch?v=4BMYH-AQyy0')

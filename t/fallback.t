@@ -1,6 +1,8 @@
 use t::App;
 use Test::More;
 
+plan skip_all => 'TEST_ONLINE=1 need to be set' unless $ENV{TEST_ONLINE};
+
 my $url_re = qr{^https?.*google\.};
 
 $t->get_ok('/embed?url=http://google.com')->text_like('a[href*="google"]', $url_re);
