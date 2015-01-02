@@ -53,7 +53,7 @@ Or if you want full control:
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Image::Imgur>
 
-=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Image::XKCD>
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Image::Xkcd>
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video>
 
@@ -280,6 +280,7 @@ sub register {
     'video'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Video',
     'vimeo'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Vimeo',
     'youtube'      => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube',
+    'xkcd'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Image::Xkcd',
   };
 
   $app->helper(

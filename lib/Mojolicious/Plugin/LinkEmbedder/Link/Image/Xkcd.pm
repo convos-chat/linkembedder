@@ -1,8 +1,8 @@
-package Mojolicious::Plugin::LinkEmbedder::Link::Image::XKCD;
+package Mojolicious::Plugin::LinkEmbedder::Link::Image::Xkcd;
 
 =head1 NAME
 
-Mojolicious::Plugin::LinkEmbedder::Link::Image::XKCD - xkcd.com image/comic
+Mojolicious::Plugin::LinkEmbedder::Link::Image::Xkcd - xkcd.com image/comic
 
 =head1 DESCRIPTION
 
@@ -54,8 +54,8 @@ Gets the file imformation from the page meta information
 =cut
 
 sub learn {
-  my ($self, $cb, @cb_args) = @_;
-  my $ua = $self->{ua};
+  my ($self, $c, $cb) = @_;
+  my $ua    = $self->{ua};
   my $delay = Mojo::IOLoop->delay(
     sub {
       my $delay = shift;
@@ -69,7 +69,7 @@ sub learn {
       $self->media_url(Mojo::URL->new($link->{src})) if $link->{src};
       $self->media_title($link->{alt});
       $self->media_hover_text($link->{title});
-      $cb->(@cb_args);
+      $self->$cb;
     },
   );
   $delay->wait unless $delay->ioloop->is_running;
