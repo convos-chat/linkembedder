@@ -1,6 +1,8 @@
 use t::App;
 use Test::More;
 
+plan skip_all => 'TEST_ONLINE=1 need to be set' unless $ENV{TEST_ONLINE};
+
 $t->get_ok('/embed?url=https://twitter.com/jhthorsen/status/434045220116643843')
   ->element_exists(
   'div.link-embedder.text-twitter > blockquote[class="twitter-tweet"][lang="en"][data-conversation="none"][data-cards="hidden"]'

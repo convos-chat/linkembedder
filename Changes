@@ -1,5 +1,8 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
+0.17
+       * Will not run online tests from cpantesters
+
 0.16     Fri Jan  2 14:19:51 2015
        * Add support for xkcd.com image embedding
 

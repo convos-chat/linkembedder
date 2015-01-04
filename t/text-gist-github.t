@@ -1,6 +1,8 @@
 use t::App;
 use Test::More;
 
+plan skip_all => 'TEST_ONLINE=1 need to be set' unless $ENV{TEST_ONLINE};
+
 $t->get_ok('/embed?url=https://gist.github.com/jhthorsen/6449446')
   ->element_exists(q(div#link_embedder_text_gist_github_1), 'container tag')
   ->element_exists(
