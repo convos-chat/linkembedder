@@ -43,13 +43,12 @@ sub to_embed {
   my $media_id = $self->media_id or return $self->SUPER::to_embed;
   my %args     = @_;
 
-  $args{cards}        ||= 'hidden';
   $args{conversation} ||= 'none';
   $args{lang}         ||= 'en';
 
   return <<"HTML";
 <div class="link-embedder text-twitter">
-<blockquote class="twitter-tweet" lang="$args{lang}" data-conversation="$args{conversation}" data-cards="$args{cards}">
+<blockquote class="twitter-tweet" lang="$args{lang}" data-conversation="$args{conversation}">
 <a href="https://twitter.com/$media_id">Loading $media_id...</a>
 </blockquote>
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
