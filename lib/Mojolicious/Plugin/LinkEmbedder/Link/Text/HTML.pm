@@ -63,7 +63,7 @@ sub learn {
     $self->url,
     sub {
       my ($ua, $tx) = @_;
-      my $dom = $tx->res->dom;
+      my $dom = $tx->success ? $tx->res->dom : undef;
       $self->_tx($tx)->_learn_from_dom($dom) if $dom;
       $self->$cb;
     },
