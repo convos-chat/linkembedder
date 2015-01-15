@@ -18,9 +18,12 @@ use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Game';
 
 Returns the second path segment from L</url>.
 
+=head2 provider_name
+
 =cut
 
 has media_id => sub { shift->url->path->[2] || '' };
+sub provider_name {'2play'}
 sub _js_embed_url {'http://video.nettavisen.no/javascripts/embed.js'}
 
 =head1 METHODS

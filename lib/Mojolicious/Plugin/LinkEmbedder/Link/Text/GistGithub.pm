@@ -50,6 +50,12 @@ has media_id => sub {
   shift->url->path =~ m!^(/\w+/\w+)(?:\.js)?$! ? $1 : '';
 };
 
+=head2 provider_name
+
+=cut
+
+sub provider_name {'Github'}
+
 =head1 METHODS
 
 =head2 to_embed

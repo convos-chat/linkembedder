@@ -25,10 +25,6 @@ The C<img> link extracted from the retrieved page
 
 Extracts the media_id from the url directly
 
-=cut
-
-has media_id => sub { shift->url->path->[0] };
-
 =head2 media_url
 
 URL to the image itself, extracted from the retrieved page
@@ -41,9 +37,13 @@ The title of the image, extracted from the retrieved page
 
 The secret part of xkcd jokes
 
+=head2 provider_name
+
 =cut
 
-has [qw/actual_link media_url media_title media_hover_text/];
+has media_id => sub { shift->url->path->[0] };
+sub provider_name {'Xkcd'}
+has [qw(actual_link media_url media_title media_hover_text)];
 
 =head1 METHODS
 

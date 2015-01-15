@@ -12,6 +12,14 @@ This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link::HTML>.
 
 use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML';
 
+=head1 ATTRIBUTES
+
+=head2 provider_name
+
+=cut
+
+sub provider_name {'Metacpan'}
+
 sub _learn_from_dom {
   my ($self, $dom) = @_;
 

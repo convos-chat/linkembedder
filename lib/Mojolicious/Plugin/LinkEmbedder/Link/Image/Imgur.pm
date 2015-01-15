@@ -29,14 +29,13 @@ URL to the image itself, extracted from the retrieved page
 
 The title of the image, extracted from the retrieved page
 
+=head2 provider_name
+
 =cut
 
 has media_id => sub { shift->url->path->[0] };
+sub provider_name {'Imgur'}
 has [qw(media_url media_title)];
-
-sub _cache_attributes {
-  shift->SUPER::_cache_attributes, qw( media_url media_title );
-}
 
 =head1 METHODS
 

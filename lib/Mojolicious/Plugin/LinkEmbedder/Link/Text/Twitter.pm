@@ -20,11 +20,15 @@ use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text';
 
 Example C<$str>: "/username/status/123456789".
 
+=head2 provider_name
+
 =cut
 
 has media_id => sub {
   shift->url->path =~ m!^/(\w+/status/\w+)$! ? $1 : '';
 };
+
+sub provider_name {'Twitter'}
 
 =head1 METHODS
 

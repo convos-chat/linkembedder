@@ -14,6 +14,14 @@ This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML>.
 
 use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML';
 
+=head1 ATTRIBUTES
+
+=head2 provider_name
+
+=cut
+
+sub provider_name {'Blip'}
+
 =head1 METHODS
 
 =head2 learn
