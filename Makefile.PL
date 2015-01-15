@@ -14,7 +14,7 @@ WriteMakefile(
       repository => 'https://github.com/jhthorsen/mojolicious-plugin-linkembedder.git',
     },
   },
-  BUILD_REQUIRES => {'File::Find'  => '1.00', 'Module::Find' => '0.10', 'Test::More' => '0.90'},
+  BUILD_REQUIRES => {'File::Find'  => '0', 'Module::Find' => '0', 'Test::More' => '0.90'},
   PREREQ_PM      => {'Mojolicious' => '5.00'},
   test           => {TESTS         => 't/*.t'},
 );

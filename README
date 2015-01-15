@@ -2,38 +2,81 @@ NAME
     Mojolicious::Plugin::LinkEmbedder - Convert a URL to embedded content
 
 VERSION
-    0.17
+    0.18
 
 DESCRIPTION
     This module can transform a URL to an iframe, image or other embeddable
     content.
 
 SYNOPSIS
+  Simple version
       use Mojolicious::Lite;
       plugin LinkEmbedder => { route => '/embed' };
 
-    Or if you want full control:
+    The simple route includes the caching example below.
 
+    Caching is EXPERIMENTAL and could be removed without notice.
+
+  Full control
       plugin 'LinkEmbedder';
+
       get '/embed' => sub {
-        my $self = shift->render_later;
+        my $c = shift;
 
-        $self->embed_link($self->param('url'), sub {
-          my($self, $link) = @_;
+        $c->delay(
+          sub {
+            my ($delay) = @_;
+            $c->embed_link($c->param('url'), $delay->begin);
+          },
+          sub {
+            my ($delay, $link) = @_;
 
-          $self->respond_to(
-            json => {
+            $c->respond_to(
               json => {
-                media_id => $link->media_id,
-                url => $link->url->to_string,
+                json => {
+                  media_id => $link->media_id,
+                  url => $link->url->to_string,
+                },
               },
-            },
-            any => { text => $link->to_embed },
-          );
-        });
+              any => { text => $link->to_embed }
+            );
+          }
+        );
       };
 
-      app->start;
+  Example with caching
+      plugin 'LinkEmbedder';
+
+      get '/embed' => sub {
+        my $c = shift;
+        my $url = $c->param('url');
+        my $cache = $c->app->{linkembedder_cache} ||= Mojo::Cache->new;
+        my $cached;
+
+        $c->delay(
+          sub {
+            my ($delay) = @_;
+            return $delay->pass($cached) if $cached = $cache->get($url);
+            return $c->embed_link($c->param('url'), $delay->begin);
+          },
+          sub {
+            my ($delay, $link) = @_;
+
+            $link = $link->TO_JSON if UNIVERSAL::can($link, 'TO_JSON');
+            $cache->set($url => $link);
+
+            $c->respond_to(
+              json => {
+                json => {
+                  media_id => $link->{media_id},
+                  url => $link->{url},
+                },
+              },
+              any => { text => $link->{html} }
+            );
+          }
+        );
+      };
 
 SUPPORTED LINKS
     *   Mojolicious::Plugin::LinkEmbedder::Link
@@ -73,27 +116,6 @@ SUPPORTED LINKS
     *   Mojolicious::Plugin::LinkEmbedder::Link::Text::Metacpan
 
     *   Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter
-
-ATTRIBUTES
-  cache_cb
-    Holds a callback which will cache the results form the Link objects. An
-    example of such an callback could be:
-
-      my %CACHE;
-      $self->cache_cb(
-        sub {
-          my $cb = pop;
-          my ($self, $url, $link) = @_;
-
-          if ($link) { # set
-            $CACHE{$url} = Mojo::JSON::encode_json($link);
-            $self->$cb;
-          }
-          else { # get
-            $self->$cb(Mojo::JSON::decode_json($CACHE{$url} || '{}'));
-          }
-        }
-      );
 
 METHODS
   embed_link

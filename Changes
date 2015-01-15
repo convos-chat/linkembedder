@@ -1,6 +1,6 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
-0.18
+0.18     Thu Jan 15 23:08:24 2015
        * Fix escaping markup when embedding HTML pages #13
          This includes Github links
        * Will only learn meta information from HTML if response is success #14
