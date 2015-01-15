@@ -5,6 +5,9 @@ Revision history for Mojolicious-Plugin-LinkEmbedder
          This includes Github links
        * Video will have controls #12
        * Twitter cards will embed media
+       * Remove cache_cb attribute
+       * Add caching to predefined handler
+         Marked caching as EXPERIMENTAL
 
 0.17     Sun Jan  4 16:54:01 2015
        * Will not run online tests from cpantesters
