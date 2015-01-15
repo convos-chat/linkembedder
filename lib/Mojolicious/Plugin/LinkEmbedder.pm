@@ -59,7 +59,7 @@ Caching is EXPERIMENTAL and could be removed without notice.
   get '/embed' => sub {
     my $c = shift;
     my $url = $c->param('url');
-    my $cache = $app->defaults->{link_cache} ||= Mojo::Cache->new;
+    my $cache = $c->app->{linkembedder_cache} ||= Mojo::Cache->new;
     my $cached;
 
     $c->delay(
@@ -289,7 +289,7 @@ sub _add_action {
     cb => sub {
       my $c     = shift;
       my $url   = $c->param('url');
-      my $cache = $app->defaults->{link_cache} ||= Mojo::Cache->new;
+      my $cache = $c->app->{'linkembedder.cache'} ||= Mojo::Cache->new;
       my $cached;
 
       $c->delay(
