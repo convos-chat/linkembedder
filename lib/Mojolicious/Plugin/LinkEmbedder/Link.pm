@@ -10,6 +10,7 @@ use Mojo::Base -base;
 use Mojo::ByteStream;
 use Mojo::Util;
 use Mojolicious::Types;
+use Scalar::Util 'blessed';
 
 # this may change in future version
 use constant DEFAULT_VIDEO_HEIGHT => 390;
@@ -32,9 +33,8 @@ Holds a L<Mojo::URL> object.
 =cut
 
 has media_id => '';
-has ua => sub { die "Required in constructor" };
-
-sub url { shift->{url} }
+has ua       => sub { die "Required in constructor" };
+has url      => sub { shift->_tx->req->url };
 
 # should this be public?
 has _tx => undef;
@@ -109,13 +109,22 @@ sub to_embed {
   qq(<a href="$url" @args>$url</a>);
 }
 
+# Mojo::JSON will automatically filter out ua and similar objects
 sub TO_JSON {
   my $self = shift;
+  my $json = {};
 
-  return {class => ref($self), url => $self->url->to_string, map { ($_ => $self->$_) } $self->_cache_attributes,};
+  for my $k (keys %$self) {
+    $json->{$k} = $self->{$k} unless ref $self->{$k};
+    $json->{$k} = $self->{$k} if overload::Overloaded($self->{$k});
+    $json->{$k} = $self->{$k} if blessed $self->{$k} and $self->{$k}->can('TO_JSON');
+  }
+
+  $json->{markup} = $self->to_embed;    # EXPERIMENTAL
+  $json->{media_id} ||= $self->media_id;    # EXPERIMENTAL
+  $json->{pretty_url} = $self->pretty_url;  # EXPERIMENTAL
+  $json;
 }
-
-sub _cache_attributes { qw( media_id pretty_url ); }
 
 =head1 AUTHOR
 

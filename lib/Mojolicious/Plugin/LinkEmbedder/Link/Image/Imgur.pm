@@ -34,10 +34,6 @@ The title of the image, extracted from the retrieved page
 has media_id => sub { shift->url->path->[0] };
 has [qw(media_url media_title)];
 
-sub _cache_attributes {
-  shift->SUPER::_cache_attributes, qw( media_url media_title );
-}
-
 =head1 METHODS
 
 =head2 learn

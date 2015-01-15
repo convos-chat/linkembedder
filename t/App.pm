@@ -1,7 +1,5 @@
 package t::App;
-
-use strict;
-use warnings;
+use Mojo::Base -strict;
 use Mojolicious;
 use Test::Mojo;
 use Test::More;

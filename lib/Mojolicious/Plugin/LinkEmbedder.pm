@@ -15,31 +15,77 @@ content.
 
 =head1 SYNOPSIS
 
+=head2 Simple version
+
   use Mojolicious::Lite;
   plugin LinkEmbedder => { route => '/embed' };
 
-Or if you want full control:
+The simple route includes the caching example below.
+
+Caching is EXPERIMENTAL and could be removed without notice.
+
+=head2 Full control
 
   plugin 'LinkEmbedder';
+
   get '/embed' => sub {
-    my $self = shift->render_later;
+    my $c = shift;
 
-    $self->embed_link($self->param('url'), sub {
-      my($self, $link) = @_;
+    $c->delay(
+      sub {
+        my ($delay) = @_;
+        $c->embed_link($c->param('url'), $delay->begin);
+      },
+      sub {
+        my ($delay, $link) = @_;
 
-      $self->respond_to(
-        json => {
+        $c->respond_to(
           json => {
-            media_id => $link->media_id,
-            url => $link->url->to_string,
+            json => {
+              media_id => $link->media_id,
+              url => $link->url->to_string,
+            },
           },
-        },
-        any => { text => $link->to_embed },
-      );
-    });
+          any => { text => $link->to_embed }
+        );
+      }
+    );
   };
 
-  app->start;
+=head2 Example with caching
+
+  plugin 'LinkEmbedder';
+
+  get '/embed' => sub {
+    my $c = shift;
+    my $url = $c->param('url');
+    my $cache = $app->defaults->{link_cache} ||= Mojo::Cache->new;
+    my $cached;
+
+    $c->delay(
+      sub {
+        my ($delay) = @_;
+        return $delay->pass($cached) if $cached = $cache->get($url);
+        return $c->embed_link($c->param('url'), $delay->begin);
+      },
+      sub {
+        my ($delay, $link) = @_;
+
+        $link = $link->TO_JSON if UNIVERSAL::can($link, 'TO_JSON');
+        $cache->set($url => $link);
+
+        $c->respond_to(
+          json => {
+            json => {
+              media_id => $link->{media_id},
+              url => $link->{url},
+            },
+          },
+          any => { text => $link->{markup} }
+        );
+      }
+    );
+  };
 
 =head1 SUPPORTED LINKS
 
@@ -90,57 +136,12 @@ Or if you want full control:
 use Mojo::Base 'Mojolicious::Plugin';
 use Mojo::Cache;
 use Mojo::JSON;
-use Mojo::Loader;
 use Mojo::UserAgent;
 use Mojolicious::Plugin::LinkEmbedder::Link;
 use constant DEBUG => $ENV{MOJO_LINKEMBEDDER_DEBUG} || 0;
 
 our $VERSION = '0.17';
-my $LOADER = Mojo::Loader->new;
 
-=head1 ATTRIBUTES
-
-=head2 cache_cb
-
-Holds a callback which will cache the results form the Link objects. An example
-of such an callback could be:
-
-  my %CACHE;
-  $self->cache_cb(
-    sub {
-      my $cb = pop;
-      my ($self, $url, $link) = @_;
-
-      if ($link) { # set
-        $CACHE{$url} = Mojo::JSON::encode_json($link);
-        $self->$cb;
-      }
-      else { # get
-        $self->$cb(Mojo::JSON::decode_json($CACHE{$url} || '{}'));
-      }
-    }
-  );
-
-=cut
-
-has cache_cb => sub {
-  return sub {
-    my $cb = pop;
-    my ($self, $url, $link) = @_;
-
-    if ($link) {
-      warn "SET $url\n" if DEBUG;
-      $self->_cache->set($url => Mojo::JSON::encode_json($link));
-      $self->$cb;
-    }
-    else {
-      warn "GET $url --- ", $self->_cache->get($url) || 'false', "\n" if DEBUG;
-      $self->$cb(Mojo::JSON::decode_json($self->_cache->get($url) || '{}'));
-    }
-  };
-};
-
-has _cache => sub { Mojo::Cache->new(keys => 200); };
 has _ua => sub { Mojo::UserAgent->new(max_redirects => 3) };
 
 =head1 METHODS
@@ -154,6 +155,8 @@ See L</SYNOPSIS>.
 sub embed_link {
   my ($self, $c, $url, $cb) = @_;
 
+  $url = Mojo::URL->new($url) unless ref $url;
+
   if ($url =~ m!\.(?:jpg|png|gif)\b!i) {
     return $c if $self->_new_link_object(image => $c, {url => $url}, $cb);
   }
@@ -161,17 +164,16 @@ sub embed_link {
     return $c if $self->_new_link_object(video => $c, {url => $url}, $cb);
   }
 
-  Scalar::Util::weaken($self);
-  $self->cache_cb->(
-    $self, $url,
+  return $c->delay(
     sub {
-      my ($self, $data) = @_;
-      return $self->_new_link_object(undef => $c, $data, $cb) if $data and defined $data->{media_id};
-      return $self->_ua->head($url, sub { $_[1]->{input_url} = $url; $self->_learn($c, $_[1], $cb) });
+      my ($delay) = @_;
+      $self->_ua->head($url => $delay->begin);
+    },
+    sub {
+      my ($delay, $tx) = @_;
+      $self->_learn($c, $tx, $cb);
     }
   );
-
-  return $c;
 }
 
 sub _learn {
@@ -186,57 +188,38 @@ sub _learn {
   if (my $type = lc $url->host) {
     $type =~ s/^(?:www|my)\.//;
     $type =~ s/\.\w+$//;
-    return if $self->_new_link_object($type => $c, {url => $url, _tx => $tx}, $cb);
+    return if $self->_new_link_object($type => $c, {_tx => $tx}, $cb);
   }
   if ($ct =~ m!^text/html!) {
-    return if $self->_new_link_object(html => $c, {url => $url, _tx => $tx}, $cb);
+    return if $self->_new_link_object(html => $c, {_tx => $tx}, $cb);
   }
 
   warn "[LINK] New from $ct: Mojolicious::Plugin::LinkEmbedder::Link\n" if DEBUG;
-  $c->$cb(Mojolicious::Plugin::LinkEmbedder::Link->new(url => $url));
+  $c->$cb(Mojolicious::Plugin::LinkEmbedder::Link->new(_tx => $tx));
 }
 
 sub _new_link_object {
   my ($self, $type, $c, $args, $cb) = @_;
-  my $class = $self->{classes}{$type} || $args->{class} || return;
-  my $e = $LOADER->load($class);
+  my $class = $self->{classes}{$type} or return;
 
   warn "[LINK] New from $type: $class\n" if DEBUG;
+  eval "require $class;1" or die "Could not require $class: $@";
   local $args->{ua} = $self->_ua;
+  my $link = $class->new($args);
 
-  if ($args->{url} and !ref $args->{url}) {
-    $args->{url} = Mojo::URL->new($args->{url});
-  }
-
-  if (!defined $e) {
-    my $link = $class->new($args);
-
-    if (defined $link->{media_id}) {    # loaded from cache
+  Mojo::IOLoop->delay(
+    sub {
+      my ($delay) = @_;
+      $link->learn($c, $delay->begin);
+    },
+    sub {
+      my ($delay) = @_;
+      do { local $link->{_tx}; local $link->{ua}; warn Data::Dumper::Dumper($link); } if DEBUG and 0;
       $c->$cb($link);
-      return $class;
-    }
+    },
+  );
 
-    Mojo::IOLoop->delay(
-      sub {
-        my ($delay) = @_;
-        $link->learn($c, $delay->begin);
-      },
-      sub {
-        my ($delay) = @_;
-        return $delay->pass unless $args->{_tx}{input_url};
-        return $self->cache_cb->($self, $args->{_tx}{input_url}, $link, $delay->begin);
-      },
-      sub {
-        my ($delay) = @_;
-        $c->$cb($link);
-      },
-    );
-
-    return $class;
-  }
-
-  die $e if ref $e;
-  return;
+  return $class;
 }
 
 =head2 register
@@ -293,9 +276,6 @@ sub register {
   if (my $route = $config->{route}) {
     $self->_add_action($app, $route);
   }
-  if (my $cb = $config->{cache_cb}) {
-    $self->cache_cb($cb);
-  }
 }
 
 sub _add_action {
@@ -307,14 +287,22 @@ sub _add_action {
 
   $route->to(
     cb => sub {
-      my $c = shift->render_later;
+      my $c     = shift;
+      my $url   = $c->param('url');
+      my $cache = $app->defaults->{link_cache} ||= Mojo::Cache->new;
+      my $cached;
 
-      $c->embed_link(
-        $c->param('url'),
+      $c->delay(
         sub {
-          my ($c, $link) = @_;
-
-          $c->respond_to(json => {json => $link}, any => {text => $link->to_embed},);
+          my ($delay) = @_;
+          return $delay->pass($cached) if $cached = $cache->get($url);
+          return $c->embed_link($c->param('url'), $delay->begin);
+        },
+        sub {
+          my ($delay, $link) = @_;
+          $link = $link->TO_JSON if UNIVERSAL::can($link, 'TO_JSON');
+          $cache->set($url => $link);
+          $c->respond_to(json => {json => $link}, any => {text => $link->{markup}});
         }
       );
     }

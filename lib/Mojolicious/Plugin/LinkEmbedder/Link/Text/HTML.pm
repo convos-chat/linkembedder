@@ -49,10 +49,6 @@ has title       => '';
 has type        => '';
 has video       => '';
 
-sub _cache_attributes {
-  shift->SUPER::_cache_attributes, qw( canon_url description image title type video );
-}
-
 =head1 METHODS
 
 =head2 learn
