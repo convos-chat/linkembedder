@@ -6,6 +6,12 @@ plan skip_all => 'TEST_ONLINE=1 need to be set' unless $ENV{TEST_ONLINE};
 
 my @tests = (
   {
+    url   => 'https://github.com/kraih/mojo/issues/729',
+    image => '/u/737152',
+    h3    => 'Validate &lt;input type=&quot;checkbox&quot;&gt;',
+    p     => qr{rshadow opened this Issue Jan 12, 2015 · 4 comments}
+  },
+  {
     url   => 'http://git.io/aKhMuA',
     image => '/u/45729',
     h3    => 'Add back compat redirect from /convos to /',
@@ -16,12 +22,6 @@ my @tests = (
     image => '/u/811887',
     h3    => 'convos - Better group chat',
     p     => qr{Convos is the simplest way to use IRC}
-  },
-  {
-    url   => 'https://github.com/Nordaaker/convos/issues/184',
-    image => '/u/5526',
-    h3    => 'Update install script to use git if available',
-    p     => qr{marcusramberg opened this Issue Sep 11, 2014 · 1 comment}
   },
   {
     url   => 'https://github.com/Nordaaker/convos/issues/50',
@@ -41,7 +41,9 @@ for my $test (@tests) {
 
   $t->get_ok("/embed?url=$test->{url}")->element_exists('.link-embedder.text-html')
     ->element_exists(qq(.link-embedder-media img[src*="$test->{image}"]))
-    ->text_is('.link-embedder.text-html > h3', $test->{h3})->text_like('.link-embedder.text-html > p', $test->{p});
+    ->text_like('.link-embedder.text-html > p', $test->{p});
+
+  is $t->tx->res->dom->at("h3"), "<h3>$test->{h3}</h3>", "escaped h3";
 }
 
 done_testing;

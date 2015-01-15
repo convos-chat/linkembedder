@@ -11,6 +11,7 @@ This class inherits from L<Mojolicious::Plugin::LinkEmbedder::Link::Text>.
 =cut
 
 use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text';
+use Mojo::Util 'xml_escape';
 use Mojo::URL;
 
 =head1 ATTRIBUTES
@@ -78,14 +79,15 @@ Returns data about the HTML page in a div tag.
 =cut
 
 sub to_embed {
-  my $self = shift;
+  my $self  = shift;
+  my $title = xml_escape $self->title;
 
   if ($self->image) {
     return <<"EMBED";
 <div class="link-embedder text-html">
-  <div class="link-embedder-media"><img src="@{[$self->image]}" alt="@{[$self->title]}"></div>
-  <h3>@{[$self->title]}</h3>
-  <p>@{[$self->description]}</p>
+  <div class="link-embedder-media"><img src="@{[xml_escape $self->image]}" alt="$title"></div>
+  <h3>$title</h3>
+  <p>@{[xml_escape $self->description]}</p>
   <div class="link-embedder-link"><a href="@{[$self->canon_url]}" title="@{[$self->canon_url]}">@{[$self->canon_url]}</a></div>
 </div>
 EMBED
