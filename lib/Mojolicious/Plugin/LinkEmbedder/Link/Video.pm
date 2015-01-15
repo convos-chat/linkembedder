@@ -33,10 +33,9 @@ sub to_embed {
 
   local $" = ' ';
   push @extra, 'autoplay' if $args{autoplay};
-  push @extra, 'controls' if $args{controls};
   unshift @extra, '' if @extra;
 
-  qq(<video width="$args{width}" height="$args{height}"@extra>)
+  qq(<video width="$args{width}" height="$args{height}"@extra preload="metadata" controls>)
     . qq(<source src="$url" type="$type">)
     . qq(<p class="alert">Your browser does not support the video tag.</p>)
     . qq(</video>);

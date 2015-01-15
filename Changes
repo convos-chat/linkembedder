@@ -3,6 +3,7 @@ Revision history for Mojolicious-Plugin-LinkEmbedder
 0.18
        * Fix escaping markup when embedding HTML pages #13
          This includes Github links
+       * Video will have controls #12
        * Twitter cards will embed media
 
 0.17     Sun Jan  4 16:54:01 2015
