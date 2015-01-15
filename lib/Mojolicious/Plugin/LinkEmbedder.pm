@@ -81,7 +81,7 @@ Caching is EXPERIMENTAL and could be removed without notice.
               url => $link->{url},
             },
           },
-          any => { text => $link->{markup} }
+          any => { text => $link->{html} }
         );
       }
     );
@@ -302,7 +302,7 @@ sub _add_action {
           my ($delay, $link) = @_;
           $link = $link->TO_JSON if UNIVERSAL::can($link, 'TO_JSON');
           $cache->set($url => $link);
-          $c->respond_to(json => {json => $link}, any => {text => $link->{markup}});
+          $c->respond_to(json => {json => $link}, any => {text => $link->{html}});
         }
       );
     }

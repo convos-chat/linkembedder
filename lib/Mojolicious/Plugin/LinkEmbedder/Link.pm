@@ -22,6 +22,12 @@ use constant DEFAULT_VIDEO_WIDTH  => 640;
 
 Returns the part of the URL identifying the media. Default is empty string.
 
+=head2 provider_name
+
+  $str = $self->provider_name;
+
+Example: "Twitter".
+
 =head2 ua
 
 Holds a L<Mojo::UserAgent> object.
@@ -33,8 +39,9 @@ Holds a L<Mojo::URL> object.
 =cut
 
 has media_id => '';
-has ua       => sub { die "Required in constructor" };
-has url      => sub { shift->_tx->req->url };
+sub provider_name { ucfirst shift->url->host }
+has ua  => sub { die "Required in constructor" };
+has url => sub { shift->_tx->req->url };
 
 # should this be public?
 has _tx => undef;
@@ -112,18 +119,26 @@ sub to_embed {
 # Mojo::JSON will automatically filter out ua and similar objects
 sub TO_JSON {
   my $self = shift;
-  my $json = {};
+  my $url  = $self->url;
 
-  for my $k (keys %$self) {
-    $json->{$k} = $self->{$k} unless ref $self->{$k};
-    $json->{$k} = $self->{$k} if overload::Overloaded($self->{$k});
-    $json->{$k} = $self->{$k} if blessed $self->{$k} and $self->{$k}->can('TO_JSON');
-  }
+  return {
+    # oembed
+    # author_name => "",
+    # author_url => "",
+    # cache_age => 86400,
+    # height => $self->DEFAULT_VIDEO_HEIGHT,
+    # version => '1.0', # not really 1.0...
+    # width => $self->DEFAULT_VIDEO_WIDTH,
+    html          => $self->to_embed,
+    provider_name => $self->provider_name,
+    provider_url  => Mojo::URL->new(host => $url->host, scheme => $url->scheme),
+    type          => 'rich',
+    url           => $url,
 
-  $json->{markup} = $self->to_embed;    # EXPERIMENTAL
-  $json->{media_id} ||= $self->media_id;    # EXPERIMENTAL
-  $json->{pretty_url} = $self->pretty_url;  # EXPERIMENTAL
-  $json;
+    # extra
+    pretty_url => $self->pretty_url,
+    media_id   => $self->media_id,
+  };
 }
 
 =head1 AUTHOR

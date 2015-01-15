@@ -18,9 +18,12 @@ use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML';
 
 Returns the the digit from the second path part from L</url>.
 
+=head2 provider_name
+
 =cut
 
 has media_id => sub { shift->url->path =~ m!/(\d+)/! ? $1 : '' };
+sub provider_name {'Collegehumor'}
 
 =head1 METHODS
 

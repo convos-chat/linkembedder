@@ -18,6 +18,8 @@ use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML';
 
 Returns the the digit from the url L</url>.
 
+=head2 provider_name
+
 =cut
 
 has media_id => sub {
@@ -27,6 +29,8 @@ has media_id => sub {
   $media_id =~ s!\.html$!!;
   $media_id;
 };
+
+sub provider_name {'Ted'}
 
 =head1 METHODS
 

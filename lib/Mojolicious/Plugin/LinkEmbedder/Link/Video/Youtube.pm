@@ -20,9 +20,12 @@ use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML';
 
 Returns the "v" query param value from L</url>.
 
+=head2 provider_name
+
 =cut
 
 has media_id => sub { shift->url->query->param('v') || '' };
+sub provider_name {'YouTube'}
 
 =head1 METHODS
 

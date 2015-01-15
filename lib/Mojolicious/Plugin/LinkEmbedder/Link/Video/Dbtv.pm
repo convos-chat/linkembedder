@@ -18,6 +18,8 @@ use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Video';
 
 Returns the the digit from the url L</url>.
 
+=head2 provider_name
+
 =cut
 
 has media_id => sub {
@@ -26,6 +28,8 @@ has media_id => sub {
 
   $url->query->param('vid') || $url->path->[-1];
 };
+
+sub provider_name {'Dagbladet'}
 
 =head1 METHODS
 
