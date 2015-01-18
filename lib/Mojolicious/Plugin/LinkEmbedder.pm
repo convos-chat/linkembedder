@@ -6,7 +6,7 @@ Mojolicious::Plugin::LinkEmbedder - Convert a URL to embedded content
 
 =head1 VERSION
 
-0.18
+0.19
 
 =head1 DESCRIPTION
 
@@ -142,7 +142,7 @@ use Mojo::UserAgent;
 use Mojolicious::Plugin::LinkEmbedder::Link;
 use constant DEBUG => $ENV{MOJO_LINKEMBEDDER_DEBUG} || 0;
 
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 
 has _ua => sub { Mojo::UserAgent->new(max_redirects => 3) };
 

@@ -1,6 +1,6 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
-0.19
+0.19     Sun Jan 18 17:15:33 2015
        * Add support for travis-ci.org links
 
 0.18     Thu Jan 15 23:08:24 2015
