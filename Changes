@@ -1,5 +1,8 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
+0.19
+       * Add support for travis-ci.org links
+
 0.18     Thu Jan 15 23:08:24 2015
        * Fix escaping markup when embedding HTML pages #13
          This includes Github links

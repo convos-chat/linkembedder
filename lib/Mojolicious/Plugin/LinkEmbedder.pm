@@ -129,6 +129,8 @@ Caching is EXPERIMENTAL and could be removed without notice.
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter>
 
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::Travis>
+
 =back
 
 =cut
@@ -260,6 +262,7 @@ sub register {
     'ted'          => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Ted',
     'text'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Text',
     'twitter'      => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter',
+    'travis-ci'    => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Travis',
     'video'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Video',
     'vimeo'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Vimeo',
     'youtube'      => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube',
