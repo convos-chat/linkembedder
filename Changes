@@ -1,5 +1,8 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
+0.20
+       * Add support for appear.in
+
 0.19     Sun Jan 18 17:15:33 2015
        * Add support for travis-ci.org links
 

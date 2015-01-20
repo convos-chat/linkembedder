@@ -103,6 +103,8 @@ Caching is EXPERIMENTAL and could be removed without notice.
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video>
 
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::AppearIn>
+
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv>
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Blip>
@@ -248,6 +250,7 @@ sub register {
   my ($self, $app, $config) = @_;
 
   $self->{classes} = {
+    'appear'       => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::AppearIn',
     '2play'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Game::_2play',
     'beta.dbtv'    => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv',
     'dbtv'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv',
