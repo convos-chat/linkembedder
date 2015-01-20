@@ -8,7 +8,7 @@ Mojolicious::Plugin::LinkEmbedder::Link - Base class for links
 
 use Mojo::Base -base;
 use Mojo::ByteStream;
-use Mojo::Util 'xss_escape';
+use Mojo::Util 'xml_escape';
 use Mojolicious::Types;
 use Scalar::Util 'blessed';
 
@@ -128,14 +128,14 @@ sub tag {
   }
 
   for my $k (sort keys %attrs) {
-    $tag .= defined $attrs{$k} ? qq{ $k="} . xss_escape($attrs{$k} // '') . '"' : " $k";
+    $tag .= defined $attrs{$k} ? qq{ $k="} . xml_escape($attrs{$k} // '') . '"' : " $k";
   }
 
   # Empty element
   unless ($cb || defined $content) { $tag .= '>' }
 
   # End tag
-  else { $tag .= '>' . ($cb ? $cb->() : xss_escape $content) . "</$name>" }
+  else { $tag .= '>' . ($cb ? $cb->() : xml_escape $content) . "</$name>" }
 
   # Prevent escaping
   return Mojo::ByteStream->new($tag);
