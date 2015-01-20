@@ -22,12 +22,9 @@ Returns an img tag.
 
 sub to_embed {
   my $self = shift;
-  my $url  = $self->url;
   my %args = @_;
 
-  $args{alt} ||= $url->to_string;
-
-  qq(<img src="$url" alt="$args{alt}">);
+  $self->tag(img => src => $self->url, alt => $args{alt} || $self->url);
 }
 
 =head1 AUTHOR

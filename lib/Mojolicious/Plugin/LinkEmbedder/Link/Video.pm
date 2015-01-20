@@ -35,10 +35,18 @@ sub to_embed {
   push @extra, 'autoplay' if $args{autoplay};
   unshift @extra, '' if @extra;
 
-  qq(<video width="$args{width}" height="$args{height}"@extra preload="metadata" controls>)
-    . qq(<source src="$url" type="$type">)
-    . qq(<p class="alert">Your browser does not support the video tag.</p>)
-    . qq(</video>);
+  return $self->tag(
+    video  => width => $args{width},
+    height => $args{height},
+    @extra,
+    preload  => 'metadata',
+    controls => undef,
+    sub {
+      return join('',
+        $self->tag(source => src   => $url,    type => $type),
+        $self->tag(p      => class => 'alert', 'Your browser does not support the video tag.'));
+    }
+  );
 }
 
 =head1 AUTHOR

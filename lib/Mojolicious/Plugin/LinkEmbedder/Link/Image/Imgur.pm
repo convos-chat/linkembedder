@@ -12,9 +12,6 @@ This class inherits from L<Mojolicious::Plugin::LinkEmbedder::Link::Image>.
 
 use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Image';
 
-use Mojo::URL;
-use Mojo::IOLoop;
-
 =head1 ATTRIBUTES
 
 =head2 media_id
@@ -35,7 +32,7 @@ The title of the image, extracted from the retrieved page
 
 has media_id => sub { shift->url->path->[0] };
 sub provider_name {'Imgur'}
-has [qw(media_url media_title)];
+has [qw( media_url media_title )];
 
 =head1 METHODS
 
@@ -72,12 +69,12 @@ Returns an img tag.
 
 sub to_embed {
   my $self = shift;
-  my $url  = $self->media_url;
-  my %args = @_;
 
-  $args{alt} ||= $self->media_title;
-
-  qq(<img src="$url" alt="$args{alt}">);
+  $self->tag(
+    img => src => $self->media_url,
+    alt => $self->media_title || $self->media_url,
+    title => $self->media_title
+  );
 }
 
 =head1 AUTHOR

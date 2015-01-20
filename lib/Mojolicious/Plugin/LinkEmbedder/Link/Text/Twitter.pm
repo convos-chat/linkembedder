@@ -43,17 +43,23 @@ sub to_embed {
   my $media_id = $self->media_id or return $self->SUPER::to_embed;
   my %args     = @_;
 
-  $args{conversation} ||= 'none';
-  $args{lang}         ||= 'en';
-
-  return <<"HTML";
-<div class="link-embedder text-twitter">
-<blockquote class="twitter-tweet" lang="$args{lang}" data-conversation="$args{conversation}">
-<a href="https://twitter.com/$media_id">Loading $media_id...</a>
-</blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-</div>
-HTML
+  return $self->tag(
+    div => class => 'link-embedder text-twitter',
+    sub {
+      join(
+        '',
+        $self->tag(
+          blockquote => class => 'twitter-tweet',
+          lang => $args{lang} || 'en',
+          data => {conversation => $args{conversation} || 'none'},
+          sub {
+            $self->tag(a => href => "https://twitter.com/$media_id", "Loading $media_id...");
+          }
+        ),
+        '<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>'
+      );
+    }
+  );
 }
 
 =head1 AUTHOR

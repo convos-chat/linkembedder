@@ -66,10 +66,14 @@ sub to_embed {
   my $media_id = $self->media_id or return $self->SUPER::to_embed;
   my %args     = @_;
 
-  $args{width}  ||= 425;
-  $args{height} ||= 350;
-
-  qq(<iframe src="http://blip.tv/play/$media_id?p=1" width="720" height="433" frameborder="0" allowfullscreen></iframe>);
+  $self->tag(
+    iframe => src => "http://blip.tv/play/$media_id?p=1",
+    width  => $args{width}  || 720,
+    height => $args{height} || 433,
+    frameborder           => 0,
+    allowfullscreen       => undef,
+    webkitAllowFullScreen => undef
+  );
 }
 
 =head1 AUTHOR

@@ -62,10 +62,11 @@ sub to_embed {
   my $media_id = $self->media_id or return $self->SUPER::to_embed;
   my %args     = @_;
 
-  $args{height} ||= 315;
-  $args{width}  ||= 560;
-
-  qq(<iframe src="//embed.ted.com/talks/$media_id.html" width="$args{width}" height="$args{height}" frameborder="0" scrolling="no" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
+  $self->_iframe(
+    src    => "//embed.ted.com/talks/$media_id.html",
+    width  => $args{width} || 560,
+    height => $args{height} || 315
+  );
 }
 
 =head1 AUTHOR

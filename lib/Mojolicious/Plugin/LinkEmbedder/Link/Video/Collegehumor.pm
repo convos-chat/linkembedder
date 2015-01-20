@@ -57,10 +57,8 @@ sub to_embed {
   my %args     = @_;
 
   push @{$src->path}, $media_id;
-  $args{height} ||= 369;
-  $args{width}  ||= 600;
 
-  qq(<iframe src="$src" width="$args{width}" height="$args{height}" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe>);
+  $self->_iframe(src => $src, width => $args{width} || 600, height => $args{height} || 369);
 }
 
 =head1 AUTHOR

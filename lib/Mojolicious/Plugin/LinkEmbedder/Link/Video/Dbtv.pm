@@ -77,13 +77,10 @@ sub to_embed {
   my $src  = Mojo::URL->new('http://beta.dbtv.no/player');
   my %args = @_;
 
-  $args{height} ||= 551;
-  $args{width}  ||= 980;
-
   push @{$src->path}, $self->media_id;
   $src->query({autoplay => $args{autoplay} ? 'true' : 'false'});
 
-  qq(<iframe src="$src" frameborder="0" width="$args{width}" height="$args{height}" scrolling="no" marginheight="0" marginwidth="0"></iframe>);
+  $self->_iframe(src => $src, width => $args{width} || 980, height => $args{height} || 551);
 }
 
 =head1 AUTHOR

@@ -63,10 +63,11 @@ sub to_embed {
   my $src      = Mojo::URL->new('//player.vimeo.com/video/86404451?portrait=0&amp;color=ffffff');
   my %args     = @_;
 
-  $args{height} ||= 281;
-  $args{width}  ||= 500;
-
-  qq(<iframe src="//player.vimeo.com/video/$media_id?portrait=0&amp;color=ffffff" width="$args{width}" height="$args{height}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>);
+  $self->_iframe(
+    src    => "//player.vimeo.com/video/$media_id?portrait=0&color=ffffff",
+    width  => $args{width} || 500,
+    height => $args{height} || 281
+  );
 }
 
 =head1 AUTHOR

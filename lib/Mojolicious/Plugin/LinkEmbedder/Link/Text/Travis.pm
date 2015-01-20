@@ -7,7 +7,6 @@ Mojolicious::Plugin::LinkEmbedder::Link::Text::Travis - https://travis-ci.org li
 =cut
 
 use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link';
-use Mojo::Util 'xml_escape';
 
 =head1 ATTRIBUTES
 
@@ -77,15 +76,28 @@ sub to_embed {
 
   if ($description) {
     $description = "$json->{author_name}: $description" if $json->{author_name};
-    return <<"EMBED";
-    https://travis-ci.com/img/travis-mascot-200px.png
-<div class="link-embedder text-html">
-  <div class="link-embedder-media"><img src="https://travis-ci.com/img/travis-mascot-200px.png" alt="Travis-Ci"></div>
-  <h3>@{[xml_escape $title]}</h3>
-  <p>@{[xml_escape $description]}</p>
-  <div class="link-embedder-link"><a href="@{[$self->url]}" title="@{[$self->url]}">@{[$self->url]}</a></div>
-</div>
-EMBED
+    return $self->tag(
+      div => class => 'link-embedder text-html',
+      sub {
+        join(
+          '',
+          $self->tag(
+            div => class => 'link-embedder-media',
+            sub {
+              $self->tag(img => src => 'https://travis-ci.com/img/travis-mascot-200px.png', alt => 'Travis logo');
+            }
+          ),
+          $self->tag(h3 => $title),
+          $self->tag(p  => $description),
+          $self->tag(
+            div => class => 'link-embedder-link',
+            sub {
+              $self->tag(a => href => $self->url, title => $self->url, $self->url);
+            }
+          )
+        );
+      }
+    );
   }
 
   return $self->SUPER::to_embed(@_);

@@ -8,7 +8,7 @@ Mojolicious::Plugin::LinkEmbedder::Link - Base class for links
 
 use Mojo::Base -base;
 use Mojo::ByteStream;
-use Mojo::Util;
+use Mojo::Util 'xss_escape';
 use Mojolicious::Types;
 use Scalar::Util 'blessed';
 
@@ -98,6 +98,49 @@ version of L</url>.
 
 sub pretty_url { shift->url->clone }
 
+=head2 tag
+
+  $bytestream = $self->tag(a => href => "http://google.com", sub { "link });
+
+Same as L<https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#tag>.
+
+=cut
+
+sub tag {
+  my $self = shift;
+  my $name = shift;
+
+  # Content
+  my $cb = ref $_[-1] eq 'CODE' ? pop : undef;
+  my $content = @_ % 2 ? pop : undef;
+
+  # Start tag
+  my $tag = "<$name";
+
+  # Attributes
+  my %attrs = @_;
+  if ($attrs{data} && ref $attrs{data} eq 'HASH') {
+    while (my ($key, $value) = each %{$attrs{data}}) {
+      $key =~ y/_/-/;
+      $attrs{lc("data-$key")} = $value;
+    }
+    delete $attrs{data};
+  }
+
+  for my $k (sort keys %attrs) {
+    $tag .= defined $attrs{$k} ? qq{ $k="} . xss_escape($attrs{$k} // '') . '"' : " $k";
+  }
+
+  # Empty element
+  unless ($cb || defined $content) { $tag .= ' />' }
+
+  # End tag
+  else { $tag .= '>' . ($cb ? $cb->() : xss_escape $content) . "</$name>" }
+
+  # Prevent escaping
+  return Mojo::ByteStream->new($tag);
+}
+
 =head2 to_embed
 
 Returns a link to the L</url>, with target "_blank".
@@ -109,11 +152,10 @@ sub to_embed {
   my $url  = $self->url;
   my @args;
 
-  push @args, qq(target="_blank");
-  push @args, qq(title="Content-Type: @{[$self->_tx->res->headers->content_type]}") if $self->_tx;
+  push @args, target => '_blank';
+  push @args, title => "Content-Type: @{[$self->_tx->res->headers->content_type]}" if $self->_tx;
 
-  local $" = ' ';
-  qq(<a href="$url" @args>$url</a>);
+  return $self->tag(a => (href => $url, @args), sub {$url});
 }
 
 # Mojo::JSON will automatically filter out ua and similar objects
@@ -139,6 +181,17 @@ sub TO_JSON {
     pretty_url => $self->pretty_url,
     media_id   => $self->media_id,
   };
+}
+
+sub _iframe {
+  shift->tag(
+    iframe                => frameborder => 0,
+    allowfullscreen       => undef,
+    webkitAllowFullScreen => undef,
+    mozallowfullscreen    => undef,
+    scrolling             => 'no',
+    @_
+  );
 }
 
 =head1 AUTHOR

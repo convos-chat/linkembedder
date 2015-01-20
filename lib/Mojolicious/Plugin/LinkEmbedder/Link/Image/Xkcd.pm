@@ -12,14 +12,7 @@ This class inherits from L<Mojolicious::Plugin::LinkEmbedder::Link::Image>.
 
 use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Image';
 
-use Mojo::URL;
-use Mojo::IOLoop;
-
 =head1 ATTRIBUTES
-
-=head2 actual_link
-
-The C<img> link extracted from the retrieved page
 
 =head2 media_id
 
@@ -33,17 +26,13 @@ URL to the image itself, extracted from the retrieved page
 
 The title of the image, extracted from the retrieved page
 
-=head2 media_hover_text
-
-The secret part of xkcd jokes
-
 =head2 provider_name
 
 =cut
 
 has media_id => sub { shift->url->path->[0] };
 sub provider_name {'Xkcd'}
-has [qw(actual_link media_url media_title media_hover_text)];
+has [qw( media_hover_text media_url media_title )];
 
 =head1 METHODS
 
@@ -63,12 +52,10 @@ sub learn {
     },
     sub {
       my ($ua, $tx) = @_;
-      my $link = $tx->res->dom->at('#comic img');
-      $self->actual_link($link ? "$link" : '');
-      $link ||= {};
+      my $link = $tx->res->dom->at('#comic img') || {};
       $self->media_url(Mojo::URL->new($link->{src})) if $link->{src};
-      $self->media_title($link->{alt});
-      $self->media_hover_text($link->{title});
+      $self->media_title($link->{alt} || $link->{title} || $self->url);
+      $self->media_hover_text($link->{title} || $self->media_title);
       $self->$cb;
     },
   );
@@ -77,11 +64,15 @@ sub learn {
 
 =head2 to_embed
 
-Returns the C<actual_link> extracted from the xkcd site
+Returns an img tag.
 
 =cut
 
-sub to_embed { shift->actual_link }
+sub to_embed {
+  my $self = shift;
+
+  $self->tag(img => src => $self->media_url, alt => $self->media_title, title => $self->media_hover_text);
+}
 
 =head1 AUTHOR
 

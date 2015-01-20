@@ -70,8 +70,10 @@ sub to_embed {
 
   $ID++;
 
-  return <<"HTML";
-<div class="link-embedder text-gist-github" id="link_embedder_text_gist_github_$ID"></div>
+  return $self->tag(
+    div => (class => 'link-embedder text-gist-github', id => "link_embedder_text_gist_github_$ID"),
+    sub {
+      return <<"HERE";
 <script>
 window.link_embedder_text_gist_github_$ID=function(g){
 document.getElementById('link_embedder_text_gist_github_$ID').innerHTML=g.div;
@@ -81,7 +83,9 @@ document.getElementsByTagName('head')[0].appendChild(s);
 };
 </script>
 <script src="https://gist.github.com$media_id.json?callback=link_embedder_text_gist_github_$ID"></script>
-HTML
+HERE
+    },
+  );
 }
 
 =head1 AUTHOR
