@@ -58,8 +58,8 @@ sub to_embed {
   $self->_iframe(
     src    => "https://appear.in/$media_id",
     class  => 'link-embedder video-appearin',
-    width  => $args{width} || 800,
-    height => $args{height} || 600
+    width  => $args{width} || 740,
+    height => $args{height} || 390
   );
 }
 
