@@ -132,7 +132,7 @@ sub tag {
   }
 
   # Empty element
-  unless ($cb || defined $content) { $tag .= ' />' }
+  unless ($cb || defined $content) { $tag .= '>' }
 
   # End tag
   else { $tag .= '>' . ($cb ? $cb->() : xss_escape $content) . "</$name>" }
@@ -190,6 +190,7 @@ sub _iframe {
     webkitAllowFullScreen => undef,
     mozallowfullscreen    => undef,
     scrolling             => 'no',
+    class                 => 'link-embedder',
     @_
   );
 }

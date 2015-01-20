@@ -80,7 +80,12 @@ sub to_embed {
   push @{$src->path}, $self->media_id;
   $src->query({autoplay => $args{autoplay} ? 'true' : 'false'});
 
-  $self->_iframe(src => $src, width => $args{width} || 980, height => $args{height} || 551);
+  $self->_iframe(
+    src    => $src,
+    class  => 'link-embedder video-dbtv',
+    width  => $args{width} || 980,
+    height => $args{height} || 551
+  );
 }
 
 =head1 AUTHOR

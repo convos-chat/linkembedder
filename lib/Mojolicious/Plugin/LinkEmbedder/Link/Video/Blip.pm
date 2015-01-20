@@ -68,6 +68,7 @@ sub to_embed {
 
   $self->tag(
     iframe => src => "http://blip.tv/play/$media_id?p=1",
+    class  => 'link-embedder video-blip',
     width  => $args{width}  || 720,
     height => $args{height} || 433,
     frameborder           => 0,

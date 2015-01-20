@@ -58,7 +58,12 @@ sub to_embed {
 
   push @{$src->path}, $media_id;
 
-  $self->_iframe(src => $src, width => $args{width} || 600, height => $args{height} || 369);
+  $self->_iframe(
+    src    => $src,
+    class  => 'link-embedder video-collegehumor',
+    width  => $args{width} || 600,
+    height => $args{height} || 369
+  );
 }
 
 =head1 AUTHOR

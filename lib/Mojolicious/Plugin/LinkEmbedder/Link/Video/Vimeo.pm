@@ -41,14 +41,9 @@ sub provider_name {'Vimeo'}
 sub learn {
   my ($self, $c, $cb) = @_;
 
-  if ($self->media_id) {
-    $self->$cb;
-  }
-  else {
-    $self->SUPER::learn($c, $cb);
-  }
-
-  return $self;
+  return $self->SUPER::learn($c, $cb) unless $self->media_id;
+  $self->$cb;
+  $self;
 }
 
 =head2 to_embed
@@ -65,6 +60,7 @@ sub to_embed {
 
   $self->_iframe(
     src    => "//player.vimeo.com/video/$media_id?portrait=0&color=ffffff",
+    class  => 'link-embedder video-vimeo',
     width  => $args{width} || 500,
     height => $args{height} || 281
   );

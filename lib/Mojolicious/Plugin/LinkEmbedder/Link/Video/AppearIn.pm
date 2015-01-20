@@ -55,7 +55,12 @@ sub to_embed {
   my $media_id = $self->media_id or return $self->SUPER::to_embed;
   my %args     = @_;
 
-  $self->_iframe(src => "https://appear.in/$media_id", width => $args{width} || 800, height => $args{height} || 600);
+  $self->_iframe(
+    src    => "https://appear.in/$media_id",
+    class  => 'link-embedder video-appearin',
+    width  => $args{width} || 800,
+    height => $args{height} || 600
+  );
 }
 
 =head1 AUTHOR

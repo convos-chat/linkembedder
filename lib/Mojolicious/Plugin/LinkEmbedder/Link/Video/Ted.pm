@@ -64,6 +64,7 @@ sub to_embed {
 
   $self->_iframe(
     src    => "//embed.ted.com/talks/$media_id.html",
+    class  => 'link-embedder video-ted',
     width  => $args{width} || 560,
     height => $args{height} || 315
   );

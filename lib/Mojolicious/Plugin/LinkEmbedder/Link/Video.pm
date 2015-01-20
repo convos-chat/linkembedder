@@ -38,6 +38,7 @@ sub to_embed {
   return $self->tag(
     video  => width => $args{width},
     height => $args{height},
+    class  => 'link-embedder',
     @extra,
     preload  => 'metadata',
     controls => undef,

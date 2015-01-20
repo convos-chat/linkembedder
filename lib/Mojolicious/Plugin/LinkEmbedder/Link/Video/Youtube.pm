@@ -36,14 +36,9 @@ sub provider_name {'YouTube'}
 sub learn {
   my ($self, $c, $cb) = @_;
 
-  if ($self->media_id) {
-    $self->$cb;
-  }
-  else {
-    $self->SUPER::learn($c, $cb);
-  }
-
-  return $self;
+  return $self->SUPER::learn($c, $cb) unless $self->media_id;
+  $self->$cb;
+  $self;
 }
 
 =head2 pretty_url
@@ -80,7 +75,12 @@ sub to_embed {
   $args{width}  ||= $self->DEFAULT_VIDEO_WIDTH;
   $args{height} ||= $self->DEFAULT_VIDEO_HEIGHT;
 
-  qq(<iframe src="//www.youtube.com/embed/$media_id?$query" width="$args{width}" height="$args{height}">);
+  $self->_iframe(
+    src    => "//www.youtube.com/embed/$media_id?$query",
+    class  => 'link-embedder video-youtube',
+    width  => $args{width},
+    height => $args{height}
+  );
 }
 
 =head1 AUTHOR

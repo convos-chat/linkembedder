@@ -2,6 +2,7 @@ Revision history for Mojolicious-Plugin-LinkEmbedder
 
 0.20
        * Add support for appear.in
+       * Allow styling <iframe>s containing video
 
 0.19     Sun Jan 18 17:15:33 2015
        * Add support for travis-ci.org links
