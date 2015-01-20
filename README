@@ -2,7 +2,7 @@ NAME
     Mojolicious::Plugin::LinkEmbedder - Convert a URL to embedded content
 
 VERSION
-    0.19
+    0.20
 
 DESCRIPTION
     This module can transform a URL to an iframe, image or other embeddable
@@ -90,6 +90,8 @@ SUPPORTED LINKS
     *   Mojolicious::Plugin::LinkEmbedder::Link::Image::Xkcd
 
     *   Mojolicious::Plugin::LinkEmbedder::Link::Video
+
+    *   Mojolicious::Plugin::LinkEmbedder::Link::Video::AppearIn
 
     *   Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv
 

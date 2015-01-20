@@ -1,6 +1,6 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
-0.20
+0.20     Tue Jan 20 20:09:11 2015
        * Add support for appear.in
        * Allow styling <iframe>s containing video
 
