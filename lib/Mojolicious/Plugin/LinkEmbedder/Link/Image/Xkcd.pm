@@ -14,6 +14,10 @@ use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Image';
 
 =head1 ATTRIBUTES
 
+=head2 media_hover_text
+
+The secret part of xkcd jokes
+
 =head2 media_id
 
 Extracts the media_id from the url directly
