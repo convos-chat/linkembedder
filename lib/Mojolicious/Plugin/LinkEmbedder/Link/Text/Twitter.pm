@@ -25,7 +25,12 @@ Example C<$str>: "/username/status/123456789".
 =cut
 
 has media_id => sub {
-  shift->url->path =~ m!^/(\w+/status/\w+)$! ? $1 : '';
+  my $self = shift;
+  my $path = $self->url->path;
+
+  return $1 if $path =~ m!^/(\w+/status/\w+)/?$!;
+  return $1 if $path =~ m!^/(\w+/status/\w+)/photo/\w+/?$!;
+  return '';
 };
 
 sub provider_name {'Twitter'}
