@@ -14,6 +14,8 @@ use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text';
 
 =head1 ATTRIBUTES
 
+=head2 audio
+
 =head2 canon_url
 
 Holds the content from "og:url" meta tag. Fallback to
@@ -41,7 +43,8 @@ Holds the content from "og:video" meta tag.
 
 =cut
 
-has canon_url => sub { shift->url };
+has audio       => '';
+has canon_url   => sub { shift->url };
 has description => '';
 has image       => '';
 has title       => '';

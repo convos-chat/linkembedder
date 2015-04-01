@@ -103,6 +103,8 @@ Caching is EXPERIMENTAL and could be removed without notice.
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video>
 
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Music::Spotify>
+
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::AppearIn>
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv>
@@ -166,6 +168,9 @@ sub embed_link {
   }
   if ($url =~ m!\.(?:mpg|mpeg|mov|mp4|ogv)\b!i) {
     return $c if $self->_new_link_object(video => $c, {url => $url}, $cb);
+  }
+  if ($url =~ m!^spotify:!i) {
+    return $c if $self->_new_link_object('open.spotify' => $c, {url => $url}, $cb);
   }
 
   return $c->delay(
@@ -263,6 +268,7 @@ sub register {
     'imgur'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Image::Imgur',
     'metacpan'     => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Metacpan',
     'ted'          => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Ted',
+    'open.spotify' => 'Mojolicious::Plugin::LinkEmbedder::Link::Music::Spotify',
     'text'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Text',
     'twitter'      => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter',
     'travis-ci'    => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Travis',
