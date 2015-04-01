@@ -2,6 +2,9 @@ Revision history for Mojolicious-Plugin-LinkEmbedder
 
 0.21
        * Add support for Spotify #19
+       * Add support for http://ix.io
+       * Add support for http://pastebin.com
+       * Add support for http://paste.scsys.co.uk/
        * Improved Twitter links handling #17
 
 0.20     Tue Jan 20 20:09:11 2015

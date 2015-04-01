@@ -129,6 +129,8 @@ Caching is EXPERIMENTAL and could be removed without notice.
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub>
 
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::Ix>
+
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::Metacpan>
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::Pastebin>
@@ -194,15 +196,16 @@ sub _learn {
   my $ct = $tx->res->headers->content_type || '';
   my $url = $tx->req->url;
 
-  return if $ct =~ m!^image/!     and $self->_new_link_object(image => $c, {url => $url, _tx => $tx}, $cb);
-  return if $ct =~ m!^video/!     and $self->_new_link_object(video => $c, {url => $url, _tx => $tx}, $cb);
-  return if $ct =~ m!^text/plain! and $self->_new_link_object(text  => $c, {url => $url, _tx => $tx}, $cb);
-
   if (my $type = lc $url->host) {
     $type =~ s/^(?:www|my)\.//;
     $type =~ s/\.\w+$//;
     return if $self->_new_link_object($type => $c, {_tx => $tx}, $cb);
   }
+
+  return if $ct =~ m!^image/!     and $self->_new_link_object(image => $c, {url => $url, _tx => $tx}, $cb);
+  return if $ct =~ m!^video/!     and $self->_new_link_object(video => $c, {url => $url, _tx => $tx}, $cb);
+  return if $ct =~ m!^text/plain! and $self->_new_link_object(text  => $c, {url => $url, _tx => $tx}, $cb);
+
   if ($ct =~ m!^text/html!) {
     return if $self->_new_link_object(html => $c, {_tx => $tx}, $cb);
   }
@@ -270,6 +273,7 @@ sub register {
     'html'           => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML',
     'image'          => 'Mojolicious::Plugin::LinkEmbedder::Link::Image',
     'imgur'          => 'Mojolicious::Plugin::LinkEmbedder::Link::Image::Imgur',
+    'ix'             => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Ix',
     'metacpan'       => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Metacpan',
     'open.spotify'   => 'Mojolicious::Plugin::LinkEmbedder::Link::Music::Spotify',
     'paste.scsys.co' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::PasteScsysCoUk',
