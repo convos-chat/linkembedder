@@ -1,8 +1,8 @@
-package Mojolicious::Plugin::LinkEmbedder::Link::Text::PasteScsysCoUk;
+package Mojolicious::Plugin::LinkEmbedder::Link::Text::Pastebin;
 
 =head1 NAME
 
-Mojolicious::Plugin::LinkEmbedder::Link::Text::PasteScsysCoUk - paste.scsys.co.uk link
+Mojolicious::Plugin::LinkEmbedder::Link::Text::Pastebin - pastebin.com link
 
 =head1 DESCRIPTION
 
@@ -17,7 +17,6 @@ This is an example output:
 =cut
 
 use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text';
-use Mojo::Util ();
 
 =head1 ATTRIBUTES
 
@@ -28,14 +27,14 @@ use Mojo::Util ();
 =cut
 
 has media_id => sub {
-  shift->url->path =~ m!^/?(\d+)! ? $1 : '';
+  shift->url->path =~ m!^/?(\w+)! ? $1 : '';
 };
 
 =head2 provider_name
 
 =cut
 
-sub provider_name {'scsys.co.uk'}
+sub provider_name {'pastebin.com'}
 
 =head1 METHODS
 
@@ -46,10 +45,10 @@ sub provider_name {'scsys.co.uk'}
 sub learn {
   my ($self, $c, $cb) = @_;
   my $media_id = $self->media_id or return $self->SUPER::learn($c, $cb);
-  my $url = Mojo::URL->new('http://paste.scsys.co.uk');
+  my $url = Mojo::URL->new('http://pastebin.com/raw.php');
 
   $self->ua->get(
-    $url->path($media_id)->query(tx => 'on'),
+    $url->query(i => $media_id),
     sub {
       my ($ua, $tx) = @_;
       $self->{text} = $tx->res->body if $tx->success;
