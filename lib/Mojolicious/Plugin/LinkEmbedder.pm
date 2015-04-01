@@ -131,6 +131,8 @@ Caching is EXPERIMENTAL and could be removed without notice.
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::Metacpan>
 
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::PasteScsysCoUk>
+
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter>
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::Travis>
@@ -203,7 +205,7 @@ sub _learn {
     return if $self->_new_link_object(html => $c, {_tx => $tx}, $cb);
   }
 
-  warn "[LINK] New from $ct: Mojolicious::Plugin::LinkEmbedder::Link\n" if DEBUG;
+  warn "[LINK] New from $ct: Mojolicious::Plugin::LinkEmbedder::Link ($url)\n" if DEBUG;
   $c->$cb(Mojolicious::Plugin::LinkEmbedder::Link->new(_tx => $tx));
 }
 
@@ -255,27 +257,28 @@ sub register {
   my ($self, $app, $config) = @_;
 
   $self->{classes} = {
-    'appear'       => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::AppearIn',
-    '2play'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Game::_2play',
-    'beta.dbtv'    => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv',
-    'dbtv'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv',
-    'blip'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Blip',
-    'collegehumor' => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Collegehumor',
-    'gist.github'  => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub',
-    'github'       => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Github',
-    'html'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML',
-    'image'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Image',
-    'imgur'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Image::Imgur',
-    'metacpan'     => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Metacpan',
-    'ted'          => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Ted',
-    'open.spotify' => 'Mojolicious::Plugin::LinkEmbedder::Link::Music::Spotify',
-    'text'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Text',
-    'twitter'      => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter',
-    'travis-ci'    => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Travis',
-    'video'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Video',
-    'vimeo'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Vimeo',
-    'youtube'      => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube',
-    'xkcd'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Image::Xkcd',
+    'appear'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::AppearIn',
+    '2play'          => 'Mojolicious::Plugin::LinkEmbedder::Link::Game::_2play',
+    'beta.dbtv'      => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv',
+    'dbtv'           => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv',
+    'blip'           => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Blip',
+    'collegehumor'   => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Collegehumor',
+    'gist.github'    => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub',
+    'github'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Github',
+    'html'           => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML',
+    'image'          => 'Mojolicious::Plugin::LinkEmbedder::Link::Image',
+    'imgur'          => 'Mojolicious::Plugin::LinkEmbedder::Link::Image::Imgur',
+    'metacpan'       => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Metacpan',
+    'open.spotify'   => 'Mojolicious::Plugin::LinkEmbedder::Link::Music::Spotify',
+    'paste.scsys.co' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::PasteScsysCoUk',
+    'ted'            => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Ted',
+    'text'           => 'Mojolicious::Plugin::LinkEmbedder::Link::Text',
+    'twitter'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter',
+    'travis-ci'      => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Travis',
+    'video'          => 'Mojolicious::Plugin::LinkEmbedder::Link::Video',
+    'vimeo'          => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Vimeo',
+    'youtube'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Youtube',
+    'xkcd'           => 'Mojolicious::Plugin::LinkEmbedder::Link::Image::Xkcd',
   };
 
   $app->helper(
