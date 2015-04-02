@@ -4,6 +4,7 @@ Revision history for Mojolicious-Plugin-LinkEmbedder
        * Fix warnings with invalid input url
        * Fix blip include parsing
        * Add support for http://pastie.org
+       * Add "error" attribute
        * Remove caching
 
 0.21     Wed Apr  1 17:04:50 2015

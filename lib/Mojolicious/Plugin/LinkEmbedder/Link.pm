@@ -18,6 +18,13 @@ use constant DEFAULT_VIDEO_WIDTH  => 640;
 
 =head1 ATTRIBUTES
 
+=head2 error
+
+  my $err = $link->error;
+  $link   = $link->error({message => "Some error"});
+
+Get or set error. Default to C<undef> on no error.
+
 =head2 media_id
 
 Returns the part of the URL identifying the media. Default is empty string.
@@ -38,6 +45,7 @@ Holds a L<Mojo::URL> object.
 
 =cut
 
+has error    => undef;
 has media_id => '';
 sub provider_name { ucfirst(shift->url->host || '') }
 has ua  => sub { die "Required in constructor" };

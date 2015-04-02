@@ -175,7 +175,13 @@ sub embed_link {
     return $c if $self->_new_link_object('open.spotify' => $c, {url => $url}, $cb);
   }
   if (!$url or !$url->host) {
-    return $c->tap($cb, Mojolicious::Plugin::LinkEmbedder::Link->new(url => Mojo::URL->new));
+    return $c->tap(
+      $cb,
+      Mojolicious::Plugin::LinkEmbedder::Link->new(
+        url   => Mojo::URL->new,
+        error => {message => 'Invalid input', code => 400,}
+      )
+    );
   }
 
   return $c->delay(
@@ -195,6 +201,9 @@ sub _learn {
   my $ct = $tx->res->headers->content_type || '';
   my $url = $tx->req->url;
 
+  if (my $err = $tx->error) {
+    return $c->$cb(Mojolicious::Plugin::LinkEmbedder::Link->new(_tx => $tx, error => $err));
+  }
   if (my $type = lc $url->host) {
     $type =~ s/^(?:www|my)\.//;
     $type =~ s/\.\w+$//;
@@ -319,8 +328,20 @@ sub _add_action {
         },
         sub {
           my ($delay, $link) = @_;
-          $link = $link->TO_JSON if UNIVERSAL::can($link, 'TO_JSON');
-          $c->respond_to(json => {json => $link}, any => {text => $link->{html}});
+          my $err;
+
+          if (UNIVERSAL::can($link, 'TO_JSON')) {
+            $err  = $link->error;
+            $link = $link->TO_JSON;
+          }
+
+          if ($err) {
+            $c->res->code($err->{code} || 500);
+            $c->respond_to(json => {json => $err}, any => {text => $err->{message}});
+          }
+          else {
+            $c->respond_to(json => {json => $link}, any => {text => $link->{html}});
+          }
         }
       );
     }

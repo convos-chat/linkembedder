@@ -2,8 +2,7 @@ use t::App;
 use Test::More;
 
 for my $url ('x', 'foo:bar', 'spotify:') {
-  $t->get_ok("/embed.json?url=$url")->json_is('/pretty_url', '')->json_is('/provider_url', '')
-    ->json_is('/media_id', '')->json_is('/provider_name', '')->json_is('/html', '<a href="#"></a>');
+  $t->get_ok("/embed.json?url=$url")->status_is(400)->json_is('/code', 400)->json_is('/message', 'Invalid input');
 }
 
 if ($ENV{TEST_ONLINE}) {
