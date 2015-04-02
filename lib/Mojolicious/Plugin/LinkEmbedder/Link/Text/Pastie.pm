@@ -1,8 +1,8 @@
-package Mojolicious::Plugin::LinkEmbedder::Link::Text::Ix;
+package Mojolicious::Plugin::LinkEmbedder::Link::Text::Pastie;
 
 =head1 NAME
 
-Mojolicious::Plugin::LinkEmbedder::Link::Text::Ix - ix.io link
+Mojolicious::Plugin::LinkEmbedder::Link::Text::Pastie - pastie.org link
 
 =head1 DESCRIPTION
 
@@ -27,14 +27,16 @@ use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text';
 =cut
 
 has media_id => sub {
-  shift->url->path =~ m!^/?(\w+)! ? $1 : '';
+  local $_ = shift->url->path->to_string;
+  return $1 if m!(?:pastes/)?(\d+)!;
+  return '';
 };
 
 =head2 provider_name
 
 =cut
 
-sub provider_name {'ix.io'}
+sub provider_name {'pastie.com'}
 
 =head1 METHODS
 
@@ -50,7 +52,7 @@ sub learn {
     $raw_url,
     sub {
       my ($ua, $tx) = @_;
-      $self->{text} = $tx->res->body if $tx->success;
+      $self->{text} = $tx->res->dom->at('pre')->all_text if $tx->success;
       $self->$cb;
     },
   );
@@ -58,16 +60,13 @@ sub learn {
 
 =head2 pretty_url
 
-Returns a pretty version of the L</url>. The default is to return a cloned
-version of L</url>.
-
 =cut
 
 sub pretty_url {
   my $self = shift;
   my $media_id = $self->media_id or return $self->SUPER::pretty_url;
 
-  Mojo::URL->new("http://ix.io/$media_id/");
+  Mojo::URL->new("http://pastie.org/pastes/$media_id");
 }
 
 =head2 raw_url
@@ -78,7 +77,7 @@ sub raw_url {
   my $self = shift;
   my $media_id = $self->media_id or return;
 
-  Mojo::URL->new("http://ix.io/$media_id");
+  Mojo::URL->new("http://pastie.org/pastes/$media_id/text");
 }
 
 =head1 AUTHOR

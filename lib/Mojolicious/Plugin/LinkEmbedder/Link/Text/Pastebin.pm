@@ -44,17 +44,27 @@ sub provider_name {'pastebin.com'}
 
 sub learn {
   my ($self, $c, $cb) = @_;
-  my $media_id = $self->media_id or return $self->SUPER::learn($c, $cb);
-  my $url = Mojo::URL->new('http://pastebin.com/raw.php');
+  my $raw_url = $self->raw_url or return $self->SUPER::learn($c, $cb);
 
   $self->ua->get(
-    $url->query(i => $media_id),
+    $raw_url,
     sub {
       my ($ua, $tx) = @_;
       $self->{text} = $tx->res->body if $tx->success;
       $self->$cb;
     },
   );
+}
+
+=head2 raw_url
+
+=cut
+
+sub raw_url {
+  my $self = shift;
+  my $media_id = $self->media_id or return;
+
+  Mojo::URL->new('http://pastebin.com/raw.php')->query(i => $media_id);
 }
 
 =head1 AUTHOR

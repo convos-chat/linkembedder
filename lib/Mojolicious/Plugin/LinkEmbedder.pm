@@ -135,6 +135,8 @@ Caching is EXPERIMENTAL and could be removed without notice.
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::Pastebin>
 
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::Pastie>
+
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::PasteScsysCoUk>
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter>
@@ -278,6 +280,7 @@ sub register {
     'open.spotify'   => 'Mojolicious::Plugin::LinkEmbedder::Link::Music::Spotify',
     'paste.scsys.co' => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::PasteScsysCoUk',
     'pastebin'       => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Pastebin',
+    'pastie'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Pastie',
     'ted'            => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Ted',
     'text'           => 'Mojolicious::Plugin::LinkEmbedder::Link::Text',
     'twitter'        => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Twitter',
