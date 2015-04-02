@@ -11,14 +11,14 @@ app->defaults(
       http://catoverflow.com/cats/r4cIt4z.gif
       http://google.com
       http://imgur.com/2lXFJK0
-      http://ix.io/hff
+      http://ix.io/hgz
       http://open.spotify.com/artist/6VKNnZIuu9YEOvLgxR6uhQ
-      http://pastebin.com/JgcQLXyh
+      http://pastebin.com/uNvULndg
       http://paste.scsys.co.uk/470943
-      http://pastie.org/10069272
+      http://pastie.org/10069695
       https://appear.in/your-room-name
       https://gist.github.com/jhthorsen
-      https://gist.github.com/jhthorsen/6449446
+      https://gist.github.com/jhthorsen/3964764
       https://gravatar.com/avatar/806800a3aeddbad6af673dade958933b
       https://travis-ci.org/Nordaaker/convos/builds/47421379
       https://twitter.com/jhthorsen

@@ -51,7 +51,7 @@ sub learn {
     $raw_url,
     sub {
       my ($ua, $tx) = @_;
-      $self->{text} = $tx->res->body if $tx->success;
+      $self->{text} = Mojo::Util::xml_escape($tx->res->body) if $tx->success;
       $self->$cb;
     },
   );

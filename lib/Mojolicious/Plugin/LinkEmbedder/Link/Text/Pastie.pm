@@ -52,7 +52,11 @@ sub learn {
     $raw_url,
     sub {
       my ($ua, $tx) = @_;
-      $self->{text} = $tx->res->dom->at('pre')->all_text if $tx->success;
+      if ($tx->success) {
+        $self->{text} = $tx->res->dom->at('pre')->content;
+        $self->{text} =~ s!<br>!\n!g;
+        $self->{text} =~ s!<!&lt;!g;
+      }
       $self->$cb;
     },
   );

@@ -8,6 +8,12 @@ Mojolicious::Plugin::LinkEmbedder::Link::Text - Text URL
 
 This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link>.
 
+=head2 Example styling
+
+  .link-embedder .text-paste{background: #eee;border: 1px solid #ccc;}
+  .link-embedder .text-paste .paste-meta{border-bottom: 1px solid #ccc;padding: 4px;}
+  .link-embedder .text-paste pre{padding: 4px;margin:0;max-height: 240px;overflow:auto;}
+
 =cut
 
 use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link';
@@ -32,15 +38,17 @@ sub to_embed {
 
   my $self     = shift;
   my $media_id = $self->media_id;
-  my $text     = Mojo::Util::xml_escape($self->{text});
+  my $text     = $self->{text};
 
   return <<"  HTML";
-<div class="link-embedder text-paste" data-paste-provider="@{[$self->provider_name]}" data-paste-id="@{[$self->media_id]}">
-  <pre>$text</pre>
+<div class="link-embedder text-paste">
   <div class="paste-meta">
-    <a href="@{[$self->raw_url]}" target="_blank">view raw</a>
-    hosted by <a href="@{[$self->pretty_url]}">@{[$self->provider_name]}</a>
+    <span>Hosted by</span>
+    <a href="http://@{[$self->url->host_port]}">@{[$self->provider_name]}</a>
+    <span>-</span>
+    <a href="@{[$self->raw_url]}" target="_blank">View raw</a>
   </div>
+  <pre>$text</pre>
 </div>
   HTML
 }

@@ -193,7 +193,7 @@ sub _iframe {
     mozallowfullscreen    => undef,
     scrolling             => 'no',
     class                 => 'link-embedder',
-    @_
+    @_, 'Your browser is super old.',
   );
 }
 
