@@ -39,7 +39,7 @@ Holds a L<Mojo::URL> object.
 =cut
 
 has media_id => '';
-sub provider_name { ucfirst shift->url->host }
+sub provider_name { ucfirst(shift->url->host || '') }
 has ua  => sub { die "Required in constructor" };
 has url => sub { shift->_tx->req->url };
 
@@ -152,6 +152,8 @@ sub to_embed {
   my $url  = $self->url;
   my @args;
 
+  return sprintf '<a href="#">%s</a>', $self->provider_name unless $url->host;
+
   push @args, target => '_blank';
   push @args, title => "Content-Type: @{[$self->_tx->res->headers->content_type]}" if $self->_tx;
 
@@ -173,7 +175,7 @@ sub TO_JSON {
     # width => $self->DEFAULT_VIDEO_WIDTH,
     html          => $self->to_embed,
     provider_name => $self->provider_name,
-    provider_url  => Mojo::URL->new(host => $url->host, scheme => $url->scheme),
+    provider_url  => $url->host ? Mojo::URL->new(host => $url->host, scheme => $url->scheme || 'http') : '',
     type          => 'rich',
     url           => $url,
 

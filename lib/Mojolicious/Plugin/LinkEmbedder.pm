@@ -169,7 +169,7 @@ See L</SYNOPSIS>.
 sub embed_link {
   my ($self, $c, $url, $cb) = @_;
 
-  $url = Mojo::URL->new($url) unless ref $url;
+  $url = Mojo::URL->new($url || '') unless ref $url;
 
   if ($url =~ m!\.(?:jpg|png|gif)\b!i) {
     return $c if $self->_new_link_object(image => $c, {url => $url}, $cb);
@@ -177,8 +177,11 @@ sub embed_link {
   if ($url =~ m!\.(?:mpg|mpeg|mov|mp4|ogv)\b!i) {
     return $c if $self->_new_link_object(video => $c, {url => $url}, $cb);
   }
-  if ($url =~ m!^spotify:!i) {
+  if ($url =~ m!^spotify:\w+!i) {
     return $c if $self->_new_link_object('open.spotify' => $c, {url => $url}, $cb);
+  }
+  if (!$url or !$url->host) {
+    return $c->tap($cb, Mojolicious::Plugin::LinkEmbedder::Link->new(url => Mojo::URL->new));
   }
 
   return $c->delay(
@@ -320,13 +323,13 @@ sub _add_action {
       $c->delay(
         sub {
           my ($delay) = @_;
-          return $delay->pass($cached) if $cached = $cache->get($url);
-          return $c->embed_link($c->param('url'), $delay->begin);
+          return $delay->pass($cached) if $url and $cached = $cache->get($url);
+          return $c->embed_link($url, $delay->begin);
         },
         sub {
           my ($delay, $link) = @_;
           $link = $link->TO_JSON if UNIVERSAL::can($link, 'TO_JSON');
-          $cache->set($url => $link);
+          $cache->set($url => $link) if $url;
           $c->respond_to(json => {json => $link}, any => {text => $link->{html}});
         }
       );
