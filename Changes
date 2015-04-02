@@ -1,5 +1,11 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
+0.22
+       * Fix warnings with invalid input url
+       * Fix blip include parsing
+       * Add support for http://pastie.org
+       * Remove caching
+
 0.21     Wed Apr  1 17:04:50 2015
        * Add support for Spotify #19
        * Add support for http://ix.io

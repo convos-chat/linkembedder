@@ -20,10 +20,6 @@ content.
   use Mojolicious::Lite;
   plugin LinkEmbedder => { route => '/embed' };
 
-The simple route includes the caching example below.
-
-Caching is EXPERIMENTAL and could be removed without notice.
-
 =head2 Full control
 
   plugin 'LinkEmbedder';
@@ -59,20 +55,19 @@ Caching is EXPERIMENTAL and could be removed without notice.
   get '/embed' => sub {
     my $c = shift;
     my $url = $c->param('url');
-    my $cache = $c->app->{linkembedder_cache} ||= Mojo::Cache->new;
     my $cached;
 
     $c->delay(
       sub {
         my ($delay) = @_;
-        return $delay->pass($cached) if $cached = $cache->get($url);
+        return $delay->pass($cached) if $cached = $c->cache->get($url);
         return $c->embed_link($c->param('url'), $delay->begin);
       },
       sub {
         my ($delay, $link) = @_;
 
         $link = $link->TO_JSON if UNIVERSAL::can($link, 'TO_JSON');
-        $cache->set($url => $link);
+        $c->cache->set($url => $link);
 
         $c->respond_to(
           json => {
@@ -148,7 +143,6 @@ Caching is EXPERIMENTAL and could be removed without notice.
 =cut
 
 use Mojo::Base 'Mojolicious::Plugin';
-use Mojo::Cache;
 use Mojo::JSON;
 use Mojo::UserAgent;
 use Mojolicious::Plugin::LinkEmbedder::Link;
@@ -315,21 +309,17 @@ sub _add_action {
 
   $route->to(
     cb => sub {
-      my $c     = shift;
-      my $url   = $c->param('url');
-      my $cache = $c->app->{'linkembedder.cache'} ||= Mojo::Cache->new;
-      my $cached;
+      my $c   = shift;
+      my $url = $c->param('url');
 
       $c->delay(
         sub {
           my ($delay) = @_;
-          return $delay->pass($cached) if $url and $cached = $cache->get($url);
-          return $c->embed_link($url, $delay->begin);
+          $c->embed_link($url, $delay->begin);
         },
         sub {
           my ($delay, $link) = @_;
           $link = $link->TO_JSON if UNIVERSAL::can($link, 'TO_JSON');
-          $cache->set($url => $link) if $url;
           $c->respond_to(json => {json => $link}, any => {text => $link->{html}});
         }
       );
