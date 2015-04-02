@@ -37,8 +37,15 @@ sub learn {
     $self->url,
     sub {
       my ($ua, $tx) = @_;
+      my $tag = $tx->res->dom->at('[data-analytics="embed"]');
 
-      if ($tx->res->body =~ m!blip\.tv/play/([^\?]+)!) {
+      if ($tag and $tag->{'data-cliptext'}) {
+
+# <iframe src="http://blip.tv/play/hJFxg5qyeAI.x?p=1" width="720" height="433" frameborder="0" allowfullscreen></iframe>
+# <embed type="application/x-shockwave-flash" src="http://a.blip.tv/api.swf#hJFxg5qyeAI" style="display:none"></embed>
+        $self->media_id($1) if $tag->{'data-cliptext'} =~ m!play/([^\?]+)!;
+      }
+      elsif ($tx->res->body =~ m!blip\.tv/play/([^\?]+)!) {
 
         # http://blip.tv/play/ab.c?p=1
         $self->media_id($1);
