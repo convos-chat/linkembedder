@@ -305,16 +305,18 @@ sub register {
   );
 
   if (my $route = $config->{route}) {
-    $self->_add_action($app, $route);
+    $self->_add_action($app, $route, $config);
   }
 }
 
 sub _add_action {
-  my ($self, $app, $route) = @_;
+  my ($self, $app, $route, $config) = @_;
 
   unless (ref $route) {
     $route = $app->routes->route($route);
   }
+
+  $config->{max_age} //= 60;
 
   $route->to(
     cb => sub {
@@ -340,6 +342,7 @@ sub _add_action {
             $c->respond_to(json => {json => $err}, any => {text => $err->{message}});
           }
           else {
+            $c->res->headers->cache_control("max-age=$config->{max_age}") if $config->{max_age};
             $c->respond_to(json => {json => $link}, any => {text => $link->{html}});
           }
         }
