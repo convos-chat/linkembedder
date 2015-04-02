@@ -1,6 +1,6 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
-0.22
+0.22     Thu Apr  2 19:27:29 2015
        * Fix warnings with invalid input url
        * Fix blip include parsing
        * Experiment with etag header
