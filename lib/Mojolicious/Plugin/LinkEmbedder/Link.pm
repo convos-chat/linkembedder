@@ -25,6 +25,8 @@ use constant DEFAULT_VIDEO_WIDTH  => 640;
 
 Get or set error. Default to C<undef> on no error.
 
+=head2 etag
+
 =head2 media_id
 
 Returns the part of the URL identifying the media. Default is empty string.
@@ -45,7 +47,10 @@ Holds a L<Mojo::URL> object.
 
 =cut
 
-has error    => undef;
+has error => undef;
+has etag  => sub {
+  eval { shift->_tx->res->headers->etag } // '';
+};
 has media_id => '';
 sub provider_name { ucfirst(shift->url->host || '') }
 has ua  => sub { die "Required in constructor" };

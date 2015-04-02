@@ -3,6 +3,7 @@ Revision history for Mojolicious-Plugin-LinkEmbedder
 0.22
        * Fix warnings with invalid input url
        * Fix blip include parsing
+       * Experiment with etag header
        * Experiment with max-age cache header
        * Add support for http://pastie.org
        * Add "error" attribute

@@ -198,9 +198,13 @@ sub embed_link {
 
 sub _learn {
   my ($self, $c, $tx, $cb) = @_;
-  my $ct = $tx->res->headers->content_type || '';
-  my $url = $tx->req->url;
+  my $ct   = $tx->res->headers->content_type || '';
+  my $etag = $tx->res->headers->etag;
+  my $url  = $tx->req->url;
 
+  if ($etag and $etag eq ($c->req->headers->etag // '')) {
+    return $c->$cb(Mojolicious::Plugin::LinkEmbedder::Link->new(_tx => $tx, etag => $etag));
+  }
   if (my $err = $tx->error) {
     return $c->$cb(Mojolicious::Plugin::LinkEmbedder::Link->new(_tx => $tx, error => $err));
   }
@@ -312,16 +316,14 @@ sub register {
 sub _add_action {
   my ($self, $app, $route, $config) = @_;
 
-  unless (ref $route) {
-    $route = $app->routes->route($route);
-  }
-
   $config->{max_age} //= 60;
+  $route = $app->routes->route($route) unless ref $route;
 
   $route->to(
     cb => sub {
-      my $c   = shift;
-      my $url = $c->param('url');
+      my $c             = shift;
+      my $url           = $c->param('url');
+      my $if_none_match = $c->req->headers->if_none_match;
 
       $c->delay(
         sub {
@@ -330,20 +332,20 @@ sub _add_action {
         },
         sub {
           my ($delay, $link) = @_;
-          my $err;
-
-          if (UNIVERSAL::can($link, 'TO_JSON')) {
-            $err  = $link->error;
-            $link = $link->TO_JSON;
-          }
+          my $err = $link->error;
 
           if ($err) {
             $c->res->code($err->{code} || 500);
-            $c->respond_to(json => {json => $err}, any => {text => $err->{message}});
+            $c->respond_to(json => {json => $err}, any => {text => $err->{message} || 'Unknown error.'});
+          }
+          elsif ($if_none_match and $if_none_match eq $link->etag) {
+            $c->res->code(304);
+            $c->rendered;
           }
           else {
-            $c->res->headers->cache_control("max-age=$config->{max_age}") if $config->{max_age};
-            $c->respond_to(json => {json => $link}, any => {text => $link->{html}});
+            $c->res->headers->etag($link->etag) if $link->etag;
+            $c->res->headers->cache_control("max-age=$config->{max_age}") if !$link->etag and $config->{max_age};
+            $c->respond_to(json => {json => $link}, any => {text => $link->to_embed});
           }
         }
       );
