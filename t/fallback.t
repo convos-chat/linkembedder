@@ -5,7 +5,9 @@ for my $url ('x', 'foo:bar', 'spotify:') {
   $t->get_ok("/embed.json?url=$url")->status_is(400)->json_is('/code', 400)->json_is('/message', 'Invalid input');
 }
 
-if ($ENV{TEST_ONLINE}) {
+SKIP: {
+  skip 'Skipping google.com tests. (TEST_ONLINE=1)', 3 unless $ENV{TEST_ONLINE};
+
   my $url_re = qr{^https?.*google\.};
 
   $t->get_ok('/embed?url=http://google.com')->text_like('a[href*="google"]', $url_re);
@@ -13,9 +15,6 @@ if ($ENV{TEST_ONLINE}) {
 
   local $TODO = 'Not sure what media_id should hold';
   $t->json_is('/media_id', '');
-}
-else {
-  plan skip => 'TEST_ONLINE=1 need to be set', 1;
 }
 
 done_testing;
