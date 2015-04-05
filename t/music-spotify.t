@@ -1,6 +1,8 @@
 use t::App;
 use Test::More;
 
+plan skip_all => 'TEST_ONLINE=1 need to be set' unless $ENV{TEST_ONLINE};
+
 $t->get_ok('/embed?url=spotify:track:5tv77MoS0TzE0sJ7RwTj34')
   ->element_exists('iframe[class="link-embedder music-spotify"]')
   ->element_exists(

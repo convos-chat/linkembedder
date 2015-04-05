@@ -1,5 +1,8 @@
 Revision history for Mojolicious-Plugin-LinkEmbedder
 
+0.2301   Sun Apr  5 09:23:47 2015
+       * Need to skip t/music-spotify.t
+
 0.23     Fri Apr  3 15:08:36 2015
        * Fix skipping tests in t/fallback.t #20
 
