@@ -104,8 +104,6 @@ content.
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv>
 
-=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Blip>
-
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Collegehumor>
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video::Dagbladet>
@@ -278,7 +276,6 @@ sub register {
     '2play'          => 'Mojolicious::Plugin::LinkEmbedder::Link::Game::_2play',
     'beta.dbtv'      => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv',
     'dbtv'           => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Dbtv',
-    'blip'           => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Blip',
     'collegehumor'   => 'Mojolicious::Plugin::LinkEmbedder::Link::Video::Collegehumor',
     'gist.github'    => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub',
     'github'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Github',
