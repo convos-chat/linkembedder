@@ -38,7 +38,7 @@ sub _learn_from_dom {
   if ($self->url->path =~ m!/commit!) {
     $self->image($e->{src}) if $e = $dom->at('img.avatar') and $e->{src};
     $self->title($e->all_text)       if $e = $dom->at('.commit-title');
-    $self->description($e->all_text) if $e = $dom->at('.commit-meta .authorship');
+    $self->description($e->all_text) if $e = $dom->at('.commit-author-section');
   }
   elsif ($self->url->path =~ m!/(?:issue|pull)!) {
     $self->image($e->{src}) if $e = $dom->at('img.timeline-comment-avatar') and $e->{src};
