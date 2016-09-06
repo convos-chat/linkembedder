@@ -1,22 +1,5 @@
 package Mojolicious::Plugin::LinkEmbedder::Link::Text::Metacpan;
-
-=head1 NAME
-
-Mojolicious::Plugin::LinkEmbedder::Link::Text::Metacpan - metacpan.org link
-
-=head1 DESCRIPTION
-
-This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link::HTML>.
-
-=cut
-
 use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML';
-
-=head1 ATTRIBUTES
-
-=head2 provider_name
-
-=cut
 
 sub provider_name {'Metacpan'}
 
@@ -31,6 +14,22 @@ sub _learn_from_dom {
   $self->SUPER::_learn_from_dom($dom);
 }
 
+1;
+
+=encoding utf8
+
+=head1 NAME
+
+Mojolicious::Plugin::LinkEmbedder::Link::Text::Metacpan - metacpan.org link
+
+=head1 DESCRIPTION
+
+This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link::HTML>.
+
+=head1 ATTRIBUTES
+
+=head2 provider_name
+
 =head1 COPYRIGHT AND LICENSE
 
 Copyright (C) 2014, Jan Henning Thorsen
@@ -43,5 +42,3 @@ the terms of the Artistic License version 2.0.
 Jan Henning Thorsen - C<jhthorsen@cpan.org>
 
 =cut
-
-1;
