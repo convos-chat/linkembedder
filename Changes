@@ -1,6 +1,6 @@
 Revision history for perl distribution Mojolicious-Plugin-LinkEmbedder
 
-0.24 Not Released
+0.24 2016-09-06T22:52:44+0200
  - Fix failing tests
  - Fix http://appear.in without room name #23
  - Add support for instagram #24
