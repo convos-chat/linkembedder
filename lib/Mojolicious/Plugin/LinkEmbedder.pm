@@ -94,6 +94,8 @@ content.
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Image::Imgur>
 
+=item * L<Mojolicious::Plugin::LinkEmbedder::Link::Image::Instagram>
+
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Image::Xkcd>
 
 =item * L<Mojolicious::Plugin::LinkEmbedder::Link::Video>
@@ -280,6 +282,7 @@ sub register {
     'gist.github'    => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::GistGithub',
     'github'         => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Github',
     'html'           => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML',
+    'instagram'    => 'Mojolicious::Plugin::LinkEmbedder::Link::Image::Instagram',
     'image'          => 'Mojolicious::Plugin::LinkEmbedder::Link::Image',
     'imgur'          => 'Mojolicious::Plugin::LinkEmbedder::Link::Image::Imgur',
     'ix'             => 'Mojolicious::Plugin::LinkEmbedder::Link::Text::Ix',
