@@ -10,7 +10,7 @@ This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link::Video>.
 
 =cut
 
-use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link::Video';
+use Mojo::Base 'Mojolicious::Plugin::LinkEmbedder::Link';
 
 =head1 ATTRIBUTES
 

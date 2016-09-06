@@ -2,6 +2,7 @@ Revision history for perl distribution Mojolicious-Plugin-LinkEmbedder
 
 0.24 Not Released
  - Fix failing tests
+ - Fix http://appear.in without room name #23
  - Add support for instagram #24
  - blip.tv is no more
 
