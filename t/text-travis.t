@@ -1,3 +1,4 @@
+use lib '.';
 use t::App;
 use Test::More;
 
