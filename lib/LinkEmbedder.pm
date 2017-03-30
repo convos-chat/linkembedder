@@ -21,6 +21,7 @@ has url_to_link => sub {
     'google'        => 'LinkEmbedder::Link::Google',
     'imgur.com'     => 'LinkEmbedder::Link::Imgur',
     'instagram.com' => 'LinkEmbedder::Link::oEmbed',
+    'spotify'       => 'LinkEmbedder::Link::Spotify',
     'xkcd.com'      => 'LinkEmbedder::Link::Xkcd'
   };
 };
