@@ -1,5 +1,4 @@
 package LinkEmbedder;
-
 use Mojo::Base -base;
 
 use LinkEmbedder::Link;
@@ -119,3 +118,64 @@ sub _url_to_link {
 }
 
 1;
+
+=encoding utf8
+
+=head1 NAME
+
+LinkEmbedder - Embed / expand oEmbed resources and other URL / links
+
+=head1 SYNOPSIS
+
+  use LinkEmbedder;
+
+  my $embedder = LinkEmbedder->new;
+  my $link     = $embedder->get("http://xkcd.com/927");
+  print $link->html;
+
+=head1 DESCRIPTION
+
+L<LinkEmbedder> is module which can be used to expand an URL into a rich HTML
+snippet or simply to extract information about the URL.
+
+=head1 ATTRIBUTES
+
+=head2 ua
+
+  $ua = $self->ua;
+
+Holds a L<Mojo::UserAgent> object.
+
+=head2 url_to_link
+
+  $hash_ref = $self->url_to_link;
+
+Holds a mapping between host names and L<link class|LinkEmbedder::Link> to use.
+
+=head1 METHODS
+
+=head2 get
+
+  $self = $self->get($url, sub { my ($self, $link) = @_; });
+  $link = $self->get($url);
+
+Used to construct a new L<LinkEmbedder::Link> object and retrieve information
+about the URL.
+
+=head2 serve
+
+  $self = $self->serve(Mojolicious::Controller->new, $url);
+
+Used as a helper for L<Mojolicious> web applications to reply to an oEmbed
+request.
+
+=head1 AUTHOR
+
+Jan Henning Thorsen
+
+=head1 COPYRIGHT AND LICENSE
+
+This program is free software, you can redistribute it and/or modify it under
+the terms of the Artistic License version 2.0.
+
+=cut

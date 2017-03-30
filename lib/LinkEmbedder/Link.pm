@@ -127,6 +127,77 @@ sub _provider_name {
 }
 
 1;
+
+=encoding utf8
+
+=head1 NAME
+
+LinkEmbedder::Link - TODO
+
+=head1 SYNOPSIS
+
+TODO
+
+=head1 DESCRIPTION
+
+TODO
+
+=head1 ATTRIBUTES
+
+=head2 author_name
+
+=head2 author_url
+
+=head2 cache_age
+
+=head2 description
+
+=head2 error
+
+=head2 height
+
+=head2 provider_name
+
+=head2 provider_url
+
+=head2 thumbnail_height
+
+=head2 thumbnail_url
+
+=head2 thumbnail_width
+
+=head2 title
+
+=head2 type
+
+=head2 ua
+
+=head2 url
+
+=head2 version
+
+=head2 width
+
+=head1 METHODS
+
+=head2 html
+
+=head2 learn
+
+=head1 AUTHOR
+
+Jan Henning Thorsen
+
+=head1 COPYRIGHT AND LICENSE
+
+TODO
+
+=head1 SEE ALSO
+
+TODO
+
+=cut
+
 __DATA__
 @@ link.html.ep
 <a href="<%= $l->url %>"><%= Mojo::Util::url_unescape($l->url) %></a>
