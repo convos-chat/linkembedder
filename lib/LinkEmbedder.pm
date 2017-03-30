@@ -17,6 +17,8 @@ has ua => sub { Mojo::UserAgent->new->max_redirects(3); };
 
 has url_to_link => sub {
   return {
+    'default'       => 'LinkEmbedder::Link::Basic',
+    'google'        => 'LinkEmbedder::Link::Google',
     'imgur.com'     => 'LinkEmbedder::Link::Imgur',
     'instagram.com' => 'LinkEmbedder::Link::oEmbed',
     'xkcd.com'      => 'LinkEmbedder::Link::Xkcd'
@@ -103,10 +105,16 @@ sub _load {
 
 sub _url_to_link {
   my ($self, $url) = @_;
+  my $map = $self->url_to_link;
+
   my $host = $url->host;
+  return $map->{$host} if $map->{$host};
 
   $host = $1 if $host =~ m!([^\.]+\.\w+)$!;
-  return $self->url_to_link->{$host} || 'LinkEmbedder::Link::Basic';
+  return $map->{$host} if $map->{$host};
+
+  $host = $1 if $host =~ m!([^\.]+)\.\w+$!;
+  return $map->{$host} || $map->{default};
 }
 
 1;

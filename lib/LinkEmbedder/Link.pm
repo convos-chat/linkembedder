@@ -35,9 +35,11 @@ has url              => undef;                                                # 
 has version          => '1.0';
 has width            => sub { $_[0]->type =~ /^photo|video$/ ? 0 : undef };
 
+sub _template { __PACKAGE__, sprintf '%s.html.ep', shift->type }
+
 sub html {
   my $self = shift;
-  my $template = Mojo::Loader::data_section(__PACKAGE__, sprintf '%s.html.ep', $self->type) or return '';
+  my $template = Mojo::Loader::data_section($self->_template) or return '';
   Mojo::Template->new({auto_escape => 1, prepend => 'my $l=shift'})->render($template, $self);
 }
 
