@@ -4,6 +4,8 @@ use Mojo::Base -base;
 use Mojo::Template;
 use Mojo::Util 'trim';
 
+use constant DEBUG => $ENV{LINK_EMBEDDER_DEBUG} || 0;
+
 my %DOM_SEL = (
   ':desc'      => ['meta[property="og:description"]', 'meta[name="twitter:description"]', 'meta[name="description"]'],
   ':image'     => ['meta[property="og:image"]',       'meta[property="og:image:url"]',    'meta[name="twitter:image"]'],
@@ -117,13 +119,20 @@ sub _learn_from_dom {
   $self->url(Mojo::URL->new($v)) if $v = $self->_el($dom, 'meta[property="og:url"]', 'meta[name="twitter:url"]');
 }
 
+sub _learn_from_json {
+  my ($self, $tx) = @_;
+  my $json = $tx->res->json;
+
+  warn "[LinkEmbedder] " . $tx->res->text . "\n" if DEBUG;
+  $self->{$_} ||= $json->{$_} for keys %$json;
+}
+
 sub _learn_from_url {
   my $self = shift;
   my $path = $self->url->path;
 
   $self->title(@$path ? $path->[-1] : 'Image');
-
-  return $self;
+  $self;
 }
 
 sub _provider_name {
