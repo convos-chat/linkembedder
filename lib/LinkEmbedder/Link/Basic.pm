@@ -25,6 +25,7 @@ sub learn {
     }
   }
   else {
+    $self->_learn_from_url;
     $self->$cb if $cb;
   }
 
@@ -35,9 +36,9 @@ sub _learn {
   my ($self, $tx) = @_;
   my $ct = $tx->res->headers->content_type || '';
 
-  $self->type('photo')                                if $ct =~ m!^image/!;
-  $self->type('video')                                if $ct =~ m!^video/!;
-  $self->type('rich')                                 if $ct =~ m!^text/plain!;
+  $self->type('photo')->_learn_from_url               if $ct =~ m!^image/!;
+  $self->type('video')->_learn_from_url               if $ct =~ m!^video/!;
+  $self->type('rich')->_learn_from_url                if $ct =~ m!^text/plain!;
   $self->type('rich')->_learn_from_dom($tx->res->dom) if $ct =~ m!^text/html!;
 
   return $self;
@@ -68,6 +69,15 @@ sub _learn_from_dom {
   $self->_val(url => $dom, 'meta[property="og:url"]', 'meta[name="twitter:url"]');
 }
 
+sub _learn_from_url {
+  my $self = shift;
+  my $path = $self->url->path;
+
+  $self->title(@$path ? $path->[-1] : 'Image');
+
+  return $self;
+}
+
 sub _val {
   my ($self, $attr, $dom, @sel) = @_;
 
@@ -80,10 +90,3 @@ sub _val {
 }
 
 1;
-
-__DATA__
-@@ rich.html.ep
-<div class="card le-card le-<%= $l->type %>">
-  <h3><%= $l->title %></h3>
-  <p><%= $l->description %></p>
-</div>

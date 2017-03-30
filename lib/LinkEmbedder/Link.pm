@@ -29,7 +29,7 @@ has width            => sub { $_[0]->type =~ /^photo|video$/ ? 0 : undef };
 
 sub html {
   my $self = shift;
-  my $template = Mojo::Loader::data_section(ref($self), sprintf '%s.html.ep', $self->type) or return '';
+  my $template = Mojo::Loader::data_section(__PACKAGE__, sprintf '%s.html.ep', $self->type) or return '';
   Mojo::Template->new({auto_escape => 1, prepend => 'my $l=shift'})->render($template, $self);
 }
 
@@ -58,5 +58,14 @@ sub _provider_name {
 __DATA__
 @@ link.html.ep
 <a href="<%= $l->url %>"><%= Mojo::Util::url_unescape($l->url) %></a>
+@@ photo.html.ep
+<img src="<%= $l->url %>" alt="<%= $l->title %>">
 @@ rich.html.ep
+% if ($l->title) {
+<div class="card le-card le-<%= $l->type %>">
+  <h3><%= $l->title %></h3>
+  <p><%= $l->description %></p>
+</div>
+% } else {
 <a href="<%= $l->url %>"><%= Mojo::Util::url_unescape($l->url) %></a>
+% }

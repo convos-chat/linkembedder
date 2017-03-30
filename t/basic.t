@@ -7,9 +7,25 @@ plan skip_all => 'TEST_ONLINE=1' unless $ENV{TEST_ONLINE};
 my $link;
 my $embedder = LinkEmbedder->new;
 
+$link = $embedder->get('http://catoverflow.com/cats/r4cIt4z.gif');
+is ref($link), 'LinkEmbedder::Link::Basic', 'LinkEmbedder::Link::Basic';
+is_deeply $link->TO_JSON,
+  {
+  cache_age     => 0,
+  height        => 0,
+  html          => photo_html(),
+  provider_name => 'Catoverflow',
+  provider_url  => 'http://catoverflow.com/',
+  title         => 'r4cIt4z.gif',
+  type          => 'photo',
+  url           => 'http://catoverflow.com/cats/r4cIt4z.gif',
+  version       => '1.0',
+  width         => 0,
+  },
+  'json for catoverflow.com';
+
 $link = $embedder->get('http://thorsen.pm/blog/');
 is ref($link), 'LinkEmbedder::Link::Basic', 'LinkEmbedder::Link::Basic';
-
 is_deeply $link->TO_JSON,
   {
   cache_age     => 0,
@@ -25,7 +41,7 @@ is_deeply $link->TO_JSON,
 
 $link = $embedder->get(
   'http://www.aftenposten.no/kultur/Kunstig-intelligens-ma-ikke-lenger-trenes-av-mennesker-617794b.html');
-
+is ref($link), 'LinkEmbedder::Link::Basic', 'LinkEmbedder::Link::Basic';
 is_deeply $link->TO_JSON,
   {
   author_name      => 'Per Kristian Bjørkeng',
@@ -45,6 +61,12 @@ is_deeply $link->TO_JSON,
   'json for twitter';
 
 done_testing;
+
+sub photo_html {
+  return <<'HERE';
+<img src="http://catoverflow.com/cats/r4cIt4z.gif" alt="r4cIt4z.gif">
+HERE
+}
 
 sub thorsen_html {
   return <<'HERE';
