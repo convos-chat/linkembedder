@@ -13,6 +13,10 @@ my $PROTOCOL_RE = qr!^(\w+):\w+!i;    # Examples: mail:, spotify:, ...
 
 has ua => sub { Mojo::UserAgent->new->max_redirects(3); };
 
+has url_to_link => sub {
+  return {'imgur.com' => 'LinkEmbedder::Link::Imgur', 'xkcd.com' => 'LinkEmbedder::Link::Xkcd'};
+};
+
 sub get {
   my ($self, $args, $cb) = @_;
   my ($e, $link);
@@ -91,7 +95,10 @@ sub _load {
 
 sub _url_to_link {
   my ($self, $url) = @_;
-  return 'Basic';
+  my $host = $url->host;
+
+  $host = $1 if $host =~ m!([^\.]+\.\w+)$!;
+  return $self->url_to_link->{$host} || 'LinkEmbedder::Link::Basic';
 }
 
 1;
