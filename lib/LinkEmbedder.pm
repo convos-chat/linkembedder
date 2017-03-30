@@ -138,6 +138,35 @@ LinkEmbedder - Embed / expand oEmbed resources and other URL / links
 L<LinkEmbedder> is module which can be used to expand an URL into a rich HTML
 snippet or simply to extract information about the URL.
 
+These web pages are currently supported:
+
+=over 2
+
+=item * L<http://imgur.com/>
+
+=item * L<https://instagram.com/>
+
+=item * L<https://maps.google.com>
+
+=item * L<https://www.spotify.com/>
+
+=item * L<https://www.xkcd.com/>
+
+=item * HTML
+
+Any web page will be parsed, and "og:", "twitter:", meta tags and other
+significant elements will be used to generate a oEmbed response.
+
+=item * Images
+
+URLs that looks like an image is automatically converted into an img tag.
+
+=item * Video
+
+URLs that looks like a video resource is automatically converted into a video tag.
+
+=back
+
 =head1 ATTRIBUTES
 
 =head2 ua

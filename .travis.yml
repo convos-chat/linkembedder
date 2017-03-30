@@ -6,6 +6,7 @@ perl:
   - "5.10"
 env:
   - "HARNESS_OPTIONS=j9"
+  - "TEST_ONLINE=1"
 install:
   - "cpanm -n IO::Socket::SSL"
   - "cpanm -n --installdeps ."

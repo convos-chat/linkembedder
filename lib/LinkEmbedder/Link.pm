@@ -132,15 +132,15 @@ sub _provider_name {
 
 =head1 NAME
 
-LinkEmbedder::Link - TODO
+LinkEmbedder::Link - Meta information for an URL
 
 =head1 SYNOPSIS
 
-TODO
+See L<LinkEmbedder>.
 
 =head1 DESCRIPTION
 
-TODO
+L<LinkEmbedder::Link> is a class representing an expanded URL.
 
 =head1 ATTRIBUTES
 
@@ -188,13 +188,9 @@ TODO
 
 Jan Henning Thorsen
 
-=head1 COPYRIGHT AND LICENSE
-
-TODO
-
 =head1 SEE ALSO
 
-TODO
+L<LinkEmbedder>
 
 =cut
 
