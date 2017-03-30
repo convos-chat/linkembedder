@@ -7,6 +7,8 @@ use Mojo::JSON;
 use Mojo::Loader 'load_class';
 use Mojo::UserAgent;
 
+use constant DEBUG => $ENV{LINK_EMBEDDER_DEBUG} || 0;
+
 our $VERSION = '0.01';
 
 my $PROTOCOL_RE = qr!^(\w+):\w+!i;    # Examples: mail:, spotify:, ...
@@ -14,7 +16,11 @@ my $PROTOCOL_RE = qr!^(\w+):\w+!i;    # Examples: mail:, spotify:, ...
 has ua => sub { Mojo::UserAgent->new->max_redirects(3); };
 
 has url_to_link => sub {
-  return {'imgur.com' => 'LinkEmbedder::Link::Imgur', 'xkcd.com' => 'LinkEmbedder::Link::Xkcd'};
+  return {
+    'imgur.com'     => 'LinkEmbedder::Link::Imgur',
+    'instagram.com' => 'LinkEmbedder::Link::oEmbed',
+    'xkcd.com'      => 'LinkEmbedder::Link::Xkcd'
+  };
 };
 
 sub get {
@@ -32,6 +38,7 @@ sub get {
   $link ||= $self->_url_to_link($args->{url});
   $link = $link =~ /::/ ? $link : "LinkEmbedder::Link::$link";
   return $self->_invalid_input($args, "Could not find $link", $cb) unless _load($link);
+  warn "[LinkEmbedder] $link->new($args->{url})\n" if DEBUG;
   $link = $link->new($args);
 
   # blocking
@@ -89,6 +96,7 @@ sub _invalid_input {
 
 sub _load {
   $@ = load_class $_[0];
+  warn "[LinkEmbedder] load $_[0]: @{[$@ || 'Success']}\n" if DEBUG;
   die $@ if ref $@;
   return $@ ? 0 : 1;
 }
