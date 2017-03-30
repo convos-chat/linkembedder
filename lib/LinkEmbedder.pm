@@ -3,6 +3,7 @@ package LinkEmbedder;
 use Mojo::Base -base;
 
 use LinkEmbedder::Link;
+use Mojo::JSON;
 use Mojo::Loader 'load_class';
 use Mojo::UserAgent;
 
@@ -34,6 +35,37 @@ sub get {
 
   # non-blocking
   Mojo::IOLoop->delay(sub { $link->learn(shift->begin) }, sub { $self->$cb($link) });
+  return $self;
+}
+
+sub serve {
+  my ($self, $c, $args) = @_;
+  my $format = $c->stash('format') || $c->param('format') || 'json';
+  my $log_level;
+
+  $args ||= {url => $c->param('url')};
+  $log_level = delete $args->{log_level} || 'debug';
+
+  $c->delay(
+    sub { $self->get($args, shift->begin) },
+    sub {
+      my ($delay, $link) = @_;
+      my $err = $link->error;
+
+      $c->stash(status => $err->{code} || 500) if $err;
+      return $c->render(data => $link->html) if $format eq 'html';
+
+      my $json = $err ? {err => $err->{code} || 500} : $link->TO_JSON;
+      if ($format eq 'jsonp') {
+        my $cb = $c->param('callback') || 'oembed';
+        $c->render(data => sprintf '%s(%s)', $cb, Mojo::JSON::to_json($json));
+      }
+      else {
+        $c->render(json => $json);
+      }
+    },
+  );
+
   return $self;
 }
 
