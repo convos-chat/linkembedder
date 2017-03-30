@@ -20,6 +20,7 @@ has url_to_link => sub {
     'google'        => 'LinkEmbedder::Link::Google',
     'imgur.com'     => 'LinkEmbedder::Link::Imgur',
     'instagram.com' => 'LinkEmbedder::Link::oEmbed',
+    'metacpan.org'  => 'LinkEmbedder::Link::Metacpan',
     'spotify'       => 'LinkEmbedder::Link::Spotify',
     'xkcd.com'      => 'LinkEmbedder::Link::Xkcd'
   };
@@ -147,6 +148,8 @@ These web pages are currently supported:
 =item * L<https://instagram.com/>
 
 =item * L<https://maps.google.com>
+
+=item * L<https://metacpan.org>
 
 =item * L<https://www.spotify.com/>
 

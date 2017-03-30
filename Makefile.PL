@@ -14,7 +14,7 @@ WriteMakefile(
       repository => 'https://github.com/jhthorsen/linkembedder.git',
     },
   },
-  BUILD_REQUIRES => {'Test::More'  => '1.00'},
+  BUILD_REQUIRES => {'Test::Deep'  => '1.00', 'Test::More' => '1.00'},
   PREREQ_PM      => {'Mojolicious' => '7.00'},
-  test           => {TESTS         => (-e 'META.yml' ? 't/*.t' : 't/*.t xt/*.t')},
+  test => {TESTS => (-e 'META.yml' ? 't/*.t' : 't/*.t xt/*.t')},
 );

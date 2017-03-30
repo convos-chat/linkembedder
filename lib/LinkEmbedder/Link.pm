@@ -61,16 +61,21 @@ sub TO_JSON {
   my $self = shift;
   my %json;
 
-  $json{$_} = $self->$_ for grep { defined $self->$_ } @JSON_ATTRS;
+  for my $attr (grep { defined $self->$_ } @JSON_ATTRS) {
+    $json{$attr} = $self->$attr;
+    $json{$attr} = "$json{$attr}" if $attr =~ /url$/;
+  }
+
   $json{html} = $self->html unless $self->type eq 'link';
 
   return \%json;
 }
 
 sub _dump {
-  local $_[0]->{ua}           = undef;
-  local $_[0]->{provider_url} = sprintf '%s', $_[0]->provider_url || '';
-  local $_[0]->{url}          = sprintf '%s', $_[0]->url || '';
+  local $_[0]->{ua}            = undef;
+  local $_[0]->{provider_url}  = sprintf '%s', $_[0]->provider_url || '';
+  local $_[0]->{thumbnail_url} = sprintf '%s', $_[0]->thumbnail_url || '';
+  local $_[0]->{url}           = sprintf '%s', $_[0]->url || '';
   Mojo::Util::dumper($_[0]);
 }
 
