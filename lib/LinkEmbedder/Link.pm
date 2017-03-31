@@ -134,6 +134,11 @@ sub _provider_name {
   return $name =~ /([^\.]+)\.(\w+)$/ ? ucfirst $1 : $name;
 }
 
+sub _wash {
+  $_[1] or return $_[0];
+  $_[1]->find($_)->map('remove') for qw(embed script);
+}
+
 1;
 
 =encoding utf8

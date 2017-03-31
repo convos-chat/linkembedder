@@ -23,6 +23,7 @@ has url_to_link => sub {
     'metacpan.org'  => 'LinkEmbedder::Link::Metacpan',
     'spotify'       => 'LinkEmbedder::Link::Spotify',
     'travis-ci.org' => 'LinkEmbedder::Link::Travis',
+    'twitter.com'   => 'LinkEmbedder::Link::Twitter',
     'xkcd.com'      => 'LinkEmbedder::Link::Xkcd'
   };
 };
@@ -152,6 +153,8 @@ These web pages are currently supported:
 =item * L<https://www.spotify.com/>
 
 =item * L<https://travis-ci.org>
+
+=item * L<https://twitter.com>
 
 =item * L<https://www.xkcd.com/>
 
