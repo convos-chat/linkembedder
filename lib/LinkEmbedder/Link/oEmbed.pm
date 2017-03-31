@@ -8,6 +8,7 @@ require LinkEmbedder;
 # please report back if you add more urls to this hash
 our %API = (
   'instagram.com' => 'https://api.instagram.com/oembed',
+  'ted.com'       => 'https://www.ted.com/services/v1/oembed.json',
   'vimeo.com'     => 'https://vimeo.com/api/oembed.json',
   'youtube.com'   => 'https://www.youtube.com/oembed',
 );
