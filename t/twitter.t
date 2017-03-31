@@ -69,10 +69,10 @@ cmp_deeply(
     %expected,
     author_name   => 'Brenden Mulligan',
     author_url    => 'https://twitter.com/mulligan',
-    html          => re(qr{blockquote.*href="https://twitter.com/mulligan/status/555050159189413888"}s),
+    html          => re(qr{blockquote.*href="https://twitter.com/mulligan/status/555050159189413888/photo/1"}s),
     thumbnail_url => 'https://pbs.twimg.com/media/B7PvLOSCMAEmBKU.jpg:large',
     title         => 'Brenden Mulligan on Twitter',
-    url           => 'https://twitter.com/mulligan/status/555050159189413888',
+    url           => 'https://twitter.com/mulligan/status/555050159189413888/photo/1',
   },
   'https://twitter.com/mulligan/status/555050159189413888/photo/1',
 ) or diag $link->_dump;

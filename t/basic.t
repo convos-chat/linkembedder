@@ -55,8 +55,8 @@ is_deeply $link->TO_JSON,
   thumbnail_width  => 1440,
   title            => 'Google har skapt kunstig intelligens som trener seg selv',
   type             => 'rich',
-  url              => 'http://www.aftenposten.no/article/ap-617794b.html',
-  version          => '1.0'
+  url     => 'http://www.aftenposten.no/kultur/Kunstig-intelligens-ma-ikke-lenger-trenes-av-mennesker-617794b.html',
+  version => '1.0'
   },
   'json for twitter';
 

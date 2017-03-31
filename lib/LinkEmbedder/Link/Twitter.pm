@@ -17,6 +17,7 @@ sub _learn_from_dom {
 
   my $name = $self->title || '';
   if ($name =~ s! on twitter$!!i) {
+    $self->url->path->trailing_slash(0);
     my $url = $self->url->clone;
     @{$url->path} = ($url->path->[0]);
     $self->author_name($name);

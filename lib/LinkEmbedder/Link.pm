@@ -25,7 +25,12 @@ has cache_age   => 0;
 has description => '';
 has error       => undef;                                                # {message => "", code => ""}
 has height      => sub { $_[0]->type =~ /^photo|video$/ ? 0 : undef };
-has provider_name => sub { shift->_provider_name };
+
+has provider_name => sub {
+  return undef unless my $name = shift->url->host;
+  return $name =~ /([^\.]+)\.(\w+)$/ ? ucfirst $1 : $name;
+};
+
 has provider_url => sub { $_[0]->url->host ? $_[0]->url->clone->path('/') : undef };
 has thumbnail_height => undef;
 has thumbnail_url    => undef;
@@ -110,7 +115,6 @@ sub _learn_from_dom {
   $self->thumbnail_url($v)    if $v = $self->_el($dom, ':image');
   $self->thumbnail_width($v)  if $v = $self->_el($dom, 'meta[property="og:image:width"]');
   $self->title($v)            if $v = $self->_el($dom, ':title');
-  $self->url(Mojo::URL->new($v)) if $v = $self->_el($dom, 'meta[property="og:url"]', 'meta[name="twitter:url"]');
 }
 
 sub _learn_from_json {
@@ -127,11 +131,6 @@ sub _learn_from_url {
 
   $self->title(@$path ? $path->[-1] : 'Image');
   $self;
-}
-
-sub _provider_name {
-  return undef unless my $name = shift->url->host;
-  return $name =~ /([^\.]+)\.(\w+)$/ ? ucfirst $1 : $name;
 }
 
 sub _wash {
