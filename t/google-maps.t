@@ -28,7 +28,7 @@ done_testing;
 sub html {
   return <<'HERE';
 <iframe width="600" height="400" style="border:0;width:100%" frameborder="0" allowfullscreen
-  src="https://www.google.com/maps?q=Oslo%2C%2BNorway%20%4059.8937806%2C10.6450355&output=embed">
+  src="https://www.google.com/maps?q=Oslo%2C%2BNorway+%4059.8937806%2C10.6450355&output=embed">
 </iframe>
 HERE
 }

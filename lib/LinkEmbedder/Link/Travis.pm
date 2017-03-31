@@ -1,8 +1,6 @@
 package LinkEmbedder::Link::Travis;
 use Mojo::Base 'LinkEmbedder::Link';
 
-use constant DEBUG => $ENV{LINK_EMBEDDER_DEBUG} || 0;
-
 has provider_name    => 'Travis';
 has provider_url     => sub { Mojo::URL->new('https://travis-ci.org') };
 has thumbnail_height => 501;

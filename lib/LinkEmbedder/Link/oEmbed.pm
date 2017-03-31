@@ -1,26 +1,26 @@
 package LinkEmbedder::Link::oEmbed;
 use Mojo::Base 'LinkEmbedder::Link';
 
+use constant DEBUG => $ENV{LINK_EMBEDDER_DEBUG} || 0;
+
+require LinkEmbedder;
+
 # please report back if you add more urls to this hash
-our %API = ('instagram.com' => 'https://api.instagram.com/oembed?url=%s');
+our %API = ('instagram.com' => 'https://api.instagram.com/oembed');
 
 has html => sub { shift->html };
 
 sub learn {
   my ($self, $cb) = @_;
-  my $url  = $self->url;
-  my $host = $url->host;
-
-  $host = $1 if $host =~ m!([^\.]+\.\w+)$!;
-  my $api_url = $self->{api_url} || $API{$host};
+  my $api_url = $self->_api_url;
 
   if (!$api_url) {
-    $self->error({message => "Unknown oEmbed provider for $host", code => 400});
+    $self->error({message => "Unknown oEmbed provider for @{[$self->url]}", code => 400});
     $self->$cb if $cb;
     return $self;
   }
 
-  $api_url = sprintf $api_url, Mojo::Util::url_escape($url);
+  warn "[LinkEmbedder] oembed URL $api_url\n" if DEBUG;
 
   if ($cb) {
     $self->ua->get($api_url => sub { $self->tap(_learn_from_json => $_[1])->$cb });
@@ -30,6 +30,18 @@ sub learn {
   }
 
   return $self;
+}
+
+sub _api_url {
+  my $self    = shift;
+  my $url     = $self->url->clone;
+  my $api_url = LinkEmbedder::_host_in_hash($url->host, \%API) or return undef;
+
+  $url->path->trailing_slash(0);
+  $api_url = Mojo::URL->new($api_url);
+  $api_url->query->param(url => $url->to_string);
+
+  return $api_url;
 }
 
 1;

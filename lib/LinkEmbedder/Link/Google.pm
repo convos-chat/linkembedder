@@ -4,7 +4,7 @@ use Mojo::Base 'LinkEmbedder::Link';
 has provider_name => 'Google';
 has provider_url => sub { Mojo::URL->new('https://google.com') };
 
-has _query => '';
+has _embed_url => sub { Mojo::URL->new('https://www.google.com/maps') };
 
 sub learn {
   my ($self, $cb) = @_;
@@ -29,7 +29,7 @@ sub learn {
   }
 
   return $self->SUPER::learn($cb) unless @query;
-  $self->_query(join ' ', @query);
+  $self->_embed_url->query->param(q => join ' ', @query);
   $self->type('rich');
   $self->$cb if $cb;
   $self;
@@ -37,7 +37,7 @@ sub learn {
 
 sub _template {
   my $self = shift;
-  return $self->SUPER::_template unless $self->_query;
+  return $self->SUPER::_template unless $self->_embed_url->query->param('q');
   return __PACKAGE__, sprintf 'rich.html.ep';
 }
 
@@ -46,5 +46,5 @@ sub _template {
 __DATA__
 @@ rich.html.ep
 <iframe width="600" height="400" style="border:0;width:100%" frameborder="0" allowfullscreen
-  src="https://www.google.com/maps?q=<%= Mojo::Util::url_escape($l->_query) %>&output=embed">
+  src="<%= $l->_embed_url %>&output=embed">
 </iframe>
