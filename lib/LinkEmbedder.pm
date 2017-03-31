@@ -16,21 +16,22 @@ has ua => sub { Mojo::UserAgent->new->max_redirects(3); };
 
 has url_to_link => sub {
   return {
-    'default'       => 'LinkEmbedder::Link::Basic',
-    'appear.in'     => 'LinkEmbedder::Link::AppearIn',
-    'git.io'        => 'LinkEmbedder::Link::Github',
-    'github.com'    => 'LinkEmbedder::Link::Github',
-    'google'        => 'LinkEmbedder::Link::Google',
-    'imgur.com'     => 'LinkEmbedder::Link::Imgur',
-    'instagram.com' => 'LinkEmbedder::Link::oEmbed',
-    'metacpan.org'  => 'LinkEmbedder::Link::Metacpan',
-    'spotify'       => 'LinkEmbedder::Link::Spotify',
-    'ted.com'       => 'LinkEmbedder::Link::oEmbed',
-    'travis-ci.org' => 'LinkEmbedder::Link::Travis',
-    'twitter.com'   => 'LinkEmbedder::Link::Twitter',
-    'vimeo.com'     => 'LinkEmbedder::Link::oEmbed',
-    'youtube.com'   => 'LinkEmbedder::Link::oEmbed',
-    'xkcd.com'      => 'LinkEmbedder::Link::Xkcd',
+    'default'            => 'LinkEmbedder::Link::Basic',
+    'appear.in'          => 'LinkEmbedder::Link::AppearIn',
+    'git.io'             => 'LinkEmbedder::Link::Github',
+    'github.com'         => 'LinkEmbedder::Link::Github',
+    'google'             => 'LinkEmbedder::Link::Google',
+    'imgur.com'          => 'LinkEmbedder::Link::Imgur',
+    'instagram.com'      => 'LinkEmbedder::Link::oEmbed',
+    'metacpan.org'       => 'LinkEmbedder::Link::Metacpan',
+    'paste.opensuse.org' => 'LinkEmbedder::Link::OpenSUSE',
+    'spotify'            => 'LinkEmbedder::Link::Spotify',
+    'ted.com'            => 'LinkEmbedder::Link::oEmbed',
+    'travis-ci.org'      => 'LinkEmbedder::Link::Travis',
+    'twitter.com'        => 'LinkEmbedder::Link::Twitter',
+    'vimeo.com'          => 'LinkEmbedder::Link::oEmbed',
+    'youtube.com'        => 'LinkEmbedder::Link::oEmbed',
+    'xkcd.com'           => 'LinkEmbedder::Link::Xkcd',
   };
 };
 
@@ -159,6 +160,8 @@ These web pages are currently supported:
 =item * L<https://maps.google.com>
 
 =item * L<https://metacpan.org>
+
+=item * L<http://paste.opensuse.org>
 
 =item * L<https://www.spotify.com/>
 
