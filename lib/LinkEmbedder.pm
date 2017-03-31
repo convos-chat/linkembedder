@@ -22,6 +22,7 @@ has url_to_link => sub {
     'github.com'         => 'LinkEmbedder::Link::Github',
     'google'             => 'LinkEmbedder::Link::Google',
     'imgur.com'          => 'LinkEmbedder::Link::Imgur',
+    'ix.io'              => 'LinkEmbedder::Link::Ix',
     'instagram.com'      => 'LinkEmbedder::Link::oEmbed',
     'metacpan.org'       => 'LinkEmbedder::Link::Metacpan',
     'paste.opensuse.org' => 'LinkEmbedder::Link::OpenSUSE',
@@ -158,6 +159,8 @@ These web pages are currently supported:
 =item * L<https://appear.in/>
 
 =item * L<https://github.com>
+
+=item * L<https://ix.io>
 
 =item * L<https://maps.google.com>
 

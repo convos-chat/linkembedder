@@ -1,8 +1,6 @@
 package LinkEmbedder::Link::Pastebin;
 use Mojo::Base 'LinkEmbedder::Link';
 
-use constant DEBUG => $ENV{LINK_EMBEDDER_DEBUG} || 0;
-
 has provider_name => 'Pastebin';
 has provider_url  => sub { Mojo::URL->new('https://pastebin.com') };
 has _paste        => undef;
