@@ -8,7 +8,7 @@ use Mojo::UserAgent;
 
 use constant DEBUG => $ENV{LINK_EMBEDDER_DEBUG} || 0;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 my $PROTOCOL_RE = qr!^(\w+):\w+!i;    # Examples: mail:, spotify:, ...
 
@@ -145,11 +145,11 @@ LinkEmbedder - Embed / expand oEmbed resources and other URL / links
 
 =head1 DESCRIPTION
 
-L<LinkEmbedder> is module which can be used to expand an URL into a rich HTML
-snippet or simply to extract information about the URL.
+L<LinkEmbedder> is a module that can expand an URL into a rich HTML snippet or
+simply to extract information about the URL.
 
 Note that this module is currently EXPERIMENTAL. It will replace
-L<Mojolicious::Plugin::LinkEmbedder> once it gets stable.
+L<Mojolicious::Plugin::LinkEmbedder> when it gets stable.
 
 These web pages are currently supported:
 

@@ -157,45 +157,130 @@ L<LinkEmbedder::Link> is a class representing an expanded URL.
 
 =head2 author_name
 
+  $str = $self->author_name;
+
+Might hold the name of the author of L</url>.
+
 =head2 author_url
+
+  $str = $self->author_name;
+
+Might hold an URL to the author.
 
 =head2 cache_age
 
+  $int = $self->cache_age;
+
+The suggested cache lifetime for this resource, in seconds.
+
 =head2 description
+
+  $str = $self->description;
+
+Description of the L</url>. Might be C<undef()>.
 
 =head2 error
 
+  $hash_ref = $self->author_name;
+
+C<undef()> on success, hash-ref on error. Example:
+
+  {message => "Oops!", code => 500};
+
 =head2 height
+
+  $int = $self->height;
+
+The height of L</html> in pixels. Might be C<undef>.
 
 =head2 provider_name
 
+  $str = $self->provider_name;
+
+Name of the provider of L</url>.
+
 =head2 provider_url
+
+  $str = $self->provider_name;
+
+Main URL to the provider's home page.
 
 =head2 template
 
+  $array_ref = $self->provider_name;
+
+Used to figure out which template to use to render L</html>. Example:
+
+  ["LinkEmbedder::Link", "rich.html.ep];
+
 =head2 thumbnail_height
+
+  $int = $self->thumbnail_height;
+
+The height of the L</thumbnail_url> in pixels. Might be C<undef>.
 
 =head2 thumbnail_url
 
+  $str = $self->thumbnail_url;
+
+URL to the thumbnail which can be used in L</html>.
+
 =head2 thumbnail_width
+
+  $int = $self->thumbnail_width;
+
+The width of the L</thumbnail_url> in pixels. Might be C<undef>.
 
 =head2 title
 
+  $str = $self->title;
+
+Title/heading of the L</url>. Might be C<undef()>.
+
 =head2 type
+
+  $str = $self->title;
+
+oEmbed type of URL: link, photo, rich or video.
 
 =head2 ua
 
+  $ua = $self->ua;
+
+Holds a L<Mojo::UserAgent> object.
+
 =head2 url
+
+  $str = $self->url;
+
+The resource to fetch.
 
 =head2 version
 
+  $str = $self->version;
+
+oEmbed version. Example: "1.0".
+
 =head2 width
+
+  $int = $self->width;
+
+The width in pixels. Might be C<undef>.
 
 =head1 METHODS
 
 =head2 html
 
+  $str = $self->html;
+
+Returns the L</url> as rich markup, if possible.
+
 =head2 learn
+
+  $self = $self->learn;
+  $self = $self->learn(sub { my $self = shift; });
+
+Used to learn about the L</url>.
 
 =head1 AUTHOR
 

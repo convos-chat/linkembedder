@@ -1,5 +1,10 @@
 Revision history for perl distribution LinkEmbedder
 
+0.02 2017-04-01T01:18:42+0200
+ - Add support for App::mojopaste and other pastebins with simple markup
+ - Add LinkEmbedder::Link::template() attribute
+ - Improved documentation
+
 0.01 2017-04-01T00:16:41+0200
  - Started replacing Mojolicious::Plugin::LinkEmbedder
  - Add support for appear.in
