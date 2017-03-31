@@ -25,14 +25,15 @@ has url_to_link => sub {
     'instagram.com'      => 'LinkEmbedder::Link::oEmbed',
     'metacpan.org'       => 'LinkEmbedder::Link::Metacpan',
     'paste.opensuse.org' => 'LinkEmbedder::Link::OpenSUSE',
+    'paste.scsys.co.uk'  => 'LinkEmbedder::Link::Shadowcat',
     'pastebin.com'       => 'LinkEmbedder::Link::Pastebin',
     'spotify'            => 'LinkEmbedder::Link::Spotify',
     'ted.com'            => 'LinkEmbedder::Link::oEmbed',
     'travis-ci.org'      => 'LinkEmbedder::Link::Travis',
     'twitter.com'        => 'LinkEmbedder::Link::Twitter',
     'vimeo.com'          => 'LinkEmbedder::Link::oEmbed',
-    'youtube.com'        => 'LinkEmbedder::Link::oEmbed',
     'xkcd.com'           => 'LinkEmbedder::Link::Xkcd',
+    'youtube.com'        => 'LinkEmbedder::Link::oEmbed',
   };
 };
 
@@ -163,6 +164,8 @@ These web pages are currently supported:
 =item * L<https://metacpan.org>
 
 =item * L<http://paste.opensuse.org>
+
+=item * L<http://paste.scsys.co.uk>
 
 =item * L<http://pastebin.com>
 
