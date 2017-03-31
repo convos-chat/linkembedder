@@ -23,4 +23,17 @@ sub learn {
   return $self;
 }
 
+sub _learn_from_dom {
+  my ($self, $dom) = @_;
+
+  $self->SUPER::_learn_from_dom($dom);
+
+  # Mojopaste hack
+  my $mojopaste = $dom->at('body > pre');
+  unless (@{$mojopaste->children}) {
+    $self->{paste} = $mojopaste->text;
+    $self->_template->[1] = 'paste.html.ep';
+  }
+}
+
 1;

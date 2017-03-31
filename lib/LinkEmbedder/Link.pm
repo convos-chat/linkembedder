@@ -42,11 +42,11 @@ has url              => undef;                                                # 
 has version          => '1.0';
 has width            => sub { $_[0]->type =~ /^photo|video$/ ? 0 : undef };
 
-sub _template { __PACKAGE__, sprintf '%s.html.ep', shift->type }
+has _template => sub { [__PACKAGE__, sprintf '%s.html.ep', $_[0]->type] };
 
 sub html {
   my $self = shift;
-  my $template = Mojo::Loader::data_section($self->_template) or return '';
+  my $template = Mojo::Loader::data_section(@{$self->_template}) or return '';
   Mojo::Template->new({auto_escape => 1, prepend => 'my $l=shift'})->render($template, $self);
 }
 
@@ -209,6 +209,8 @@ L<LinkEmbedder>
 __DATA__
 @@ link.html.ep
 <a href="<%= $l->url %>"><%= Mojo::Util::url_unescape($l->url) %></a>
+@@ paste.html.ep
+<pre><%= $l->{paste} || '' %></pre>
 @@ photo.html.ep
 <img src="<%= $l->url %>" alt="<%= $l->title %>">
 @@ rich.html.ep
