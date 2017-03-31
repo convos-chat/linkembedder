@@ -28,7 +28,6 @@ for my $url (@urls) {
     },
     "$url"
   ) or note $link->_dump;
-  last;
 }
 
 done_testing;

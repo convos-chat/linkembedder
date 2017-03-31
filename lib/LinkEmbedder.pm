@@ -25,6 +25,7 @@ has url_to_link => sub {
     'instagram.com'      => 'LinkEmbedder::Link::oEmbed',
     'metacpan.org'       => 'LinkEmbedder::Link::Metacpan',
     'paste.opensuse.org' => 'LinkEmbedder::Link::OpenSUSE',
+    'pastebin.com'       => 'LinkEmbedder::Link::Pastebin',
     'spotify'            => 'LinkEmbedder::Link::Spotify',
     'ted.com'            => 'LinkEmbedder::Link::oEmbed',
     'travis-ci.org'      => 'LinkEmbedder::Link::Travis',
@@ -162,6 +163,8 @@ These web pages are currently supported:
 =item * L<https://metacpan.org>
 
 =item * L<http://paste.opensuse.org>
+
+=item * L<http://pastebin.com>
 
 =item * L<https://www.spotify.com/>
 
