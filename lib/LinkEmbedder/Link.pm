@@ -220,3 +220,10 @@ __DATA__
 % } else {
 <a href="<%= $l->url %>"><%= Mojo::Util::url_unescape($l->url) %></a>
 % }
+@@ video.html.ep
+<video height="640" width="480" preload="metadata" controls>
+% for my $s (@{$l->{sources} || []}) {
+  <source src="<%= $s->{url} %>" type="<%= $s->{type} || '' %>">
+% }
+  <p>Your browser does not support the video tag.</p>
+</video>
