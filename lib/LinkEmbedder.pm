@@ -27,7 +27,9 @@ has url_to_link => sub {
     'spotify'       => 'LinkEmbedder::Link::Spotify',
     'travis-ci.org' => 'LinkEmbedder::Link::Travis',
     'twitter.com'   => 'LinkEmbedder::Link::Twitter',
-    'xkcd.com'      => 'LinkEmbedder::Link::Xkcd'
+    'vimeo.com'     => 'LinkEmbedder::Link::oEmbed',
+    'youtube.com'   => 'LinkEmbedder::Link::oEmbed',
+    'xkcd.com'      => 'LinkEmbedder::Link::Xkcd',
   };
 };
 
@@ -162,6 +164,10 @@ These web pages are currently supported:
 =item * L<https://travis-ci.org>
 
 =item * L<https://twitter.com>
+
+=item * L<https://vimeo.com>
+
+=item * L<https://youtube.com>
 
 =item * L<https://www.xkcd.com/>
 

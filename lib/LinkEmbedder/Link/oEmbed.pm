@@ -6,7 +6,11 @@ use constant DEBUG => $ENV{LINK_EMBEDDER_DEBUG} || 0;
 require LinkEmbedder;
 
 # please report back if you add more urls to this hash
-our %API = ('instagram.com' => 'https://api.instagram.com/oembed');
+our %API = (
+  'instagram.com' => 'https://api.instagram.com/oembed',
+  'vimeo.com'     => 'https://vimeo.com/api/oembed.json',
+  'youtube.com'   => 'https://www.youtube.com/oembed',
+);
 
 has html => sub { shift->html };
 
