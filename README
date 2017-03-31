@@ -1,0 +1,100 @@
+NAME
+    LinkEmbedder - Embed / expand oEmbed resources and other URL / links
+
+SYNOPSIS
+      use LinkEmbedder;
+
+      my $embedder = LinkEmbedder->new;
+      my $link     = $embedder->get("http://xkcd.com/927");
+      print $link->html;
+
+DESCRIPTION
+    LinkEmbedder is module which can be used to expand an URL into a rich
+    HTML snippet or simply to extract information about the URL.
+
+    Note that this module is currently EXPERIMENTAL. It will replace
+    Mojolicious::Plugin::LinkEmbedder once it gets stable.
+
+    These web pages are currently supported:
+
+    * <http://imgur.com/>
+
+    * <https://instagram.com/>
+
+    * <https://appear.in/>
+
+    * <https://github.com>
+
+    * <https://ix.io>
+
+    * <https://maps.google.com>
+
+    * <https://metacpan.org>
+
+    * <http://paste.opensuse.org>
+
+    * <http://paste.scsys.co.uk>
+
+    * <http://pastebin.com>
+
+    * <https://www.spotify.com/>
+
+    * <https://ted.com>
+
+    * <https://travis-ci.org>
+
+    * <https://twitter.com>
+
+    * <https://vimeo.com>
+
+    * <https://youtube.com>
+
+    * <https://www.xkcd.com/>
+
+    * HTML
+
+      Any web page will be parsed, and "og:", "twitter:", meta tags and
+      other significant elements will be used to generate a oEmbed response.
+
+    * Images
+
+      URLs that looks like an image is automatically converted into an img
+      tag.
+
+    * Video
+
+      URLs that looks like a video resource is automatically converted into
+      a video tag.
+
+ATTRIBUTES
+  ua
+      $ua = $self->ua;
+
+    Holds a Mojo::UserAgent object.
+
+  url_to_link
+      $hash_ref = $self->url_to_link;
+
+    Holds a mapping between host names and link class to use.
+
+METHODS
+  get
+      $self = $self->get($url, sub { my ($self, $link) = @_; });
+      $link = $self->get($url);
+
+    Used to construct a new LinkEmbedder::Link object and retrieve
+    information about the URL.
+
+  serve
+      $self = $self->serve(Mojolicious::Controller->new, $url);
+
+    Used as a helper for Mojolicious web applications to reply to an oEmbed
+    request.
+
+AUTHOR
+    Jan Henning Thorsen
+
+COPYRIGHT AND LICENSE
+    This program is free software, you can redistribute it and/or modify it
+    under the terms of the Artistic License version 2.0.
+

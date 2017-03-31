@@ -148,6 +148,9 @@ LinkEmbedder - Embed / expand oEmbed resources and other URL / links
 L<LinkEmbedder> is module which can be used to expand an URL into a rich HTML
 snippet or simply to extract information about the URL.
 
+Note that this module is currently EXPERIMENTAL. It will replace
+L<Mojolicious::Plugin::LinkEmbedder> once it gets stable.
+
 These web pages are currently supported:
 
 =over 2

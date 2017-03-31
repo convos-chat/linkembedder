@@ -1,4 +1,22 @@
 Revision history for perl distribution LinkEmbedder
 
-0.01 Not Released
- - Started project
+0.01 2017-04-01T00:16:41+0200
+ - Started replacing Mojolicious::Plugin::LinkEmbedder
+ - Add support for appear.in
+ - Add support for git.io
+ - Add support for github.com
+ - Add support for google
+ - Add support for imgur.com
+ - Add support for ix.io
+ - Add support for instagram.com
+ - Add support for metacpan.org
+ - Add support for paste.opensuse.org
+ - Add support for paste.scsys.co.uk
+ - Add support for pastebin.com
+ - Add support for spotify
+ - Add support for ted.com
+ - Add support for travis-ci.org
+ - Add support for twitter.com
+ - Add support for vimeo.com
+ - Add support for xkcd.com
+ - Add support for youtube.com
