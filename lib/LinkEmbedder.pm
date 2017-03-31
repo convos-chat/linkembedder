@@ -17,6 +17,7 @@ has ua => sub { Mojo::UserAgent->new->max_redirects(3); };
 has url_to_link => sub {
   return {
     'default'       => 'LinkEmbedder::Link::Basic',
+    'appear.in'     => 'LinkEmbedder::Link::AppearIn',
     'git.io'        => 'LinkEmbedder::Link::Github',
     'github.com'    => 'LinkEmbedder::Link::Github',
     'google'        => 'LinkEmbedder::Link::Google',
@@ -147,6 +148,8 @@ These web pages are currently supported:
 =item * L<http://imgur.com/>
 
 =item * L<https://instagram.com/>
+
+=item * L<https://appear.in/>
 
 =item * L<https://github.com>
 
