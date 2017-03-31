@@ -30,9 +30,9 @@ sub _learn_from_dom {
 
   # Mojopaste hack
   my $mojopaste = $dom->at('body > pre');
-  unless (@{$mojopaste->children}) {
+  if ($mojopaste and !@{$mojopaste->children}) {
     $self->{paste} = $mojopaste->text;
-    $self->_template->[1] = 'paste.html.ep';
+    $self->template->[1] = 'paste.html.ep';
   }
 }
 

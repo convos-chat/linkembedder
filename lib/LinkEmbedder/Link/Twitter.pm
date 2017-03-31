@@ -3,8 +3,6 @@ use Mojo::Base 'LinkEmbedder::Link';
 
 use Mojo::Util 'trim';
 
-use constant CACHE_AGE => 3153600000;    # from twitter oEmbed response
-
 has lang         => 'en';
 has provider_url => sub { Mojo::URL->new('https://twitter.com') };
 has _tweet       => undef;
@@ -22,22 +20,16 @@ sub _learn_from_dom {
     @{$url->path} = ($url->path->[0]);
     $self->author_name($name);
     $self->author_url($url);
-    $self->cache_age(CACHE_AGE);
+    $self->cache_age(3153600000);
+    $self->template([__PACKAGE__, 'rich.html.ep']);
   }
 
-  if (!$self->thumbnail_url) {
-    if (my $e = $dom->at('.ProfileAvatar-image[src]')) {
-      $self->author_name(trim($e->{alt} || ''));
-      $self->author_url($self->url);
-      $self->thumbnail_url($e->{src});
-    }
+  my $e;
+  if (!$self->thumbnail_url and $e = $dom->at('.ProfileAvatar-image[src]')) {
+    $self->author_name(trim($e->{alt} || ''));
+    $self->author_url($self->url);
+    $self->thumbnail_url($e->{src});
   }
-}
-
-sub _template {
-  my $self = shift;
-  return $self->SUPER::_template(@_) unless $self->cache_age == CACHE_AGE;
-  return __PACKAGE__, 'rich.html.ep';
 }
 
 1;

@@ -8,12 +8,10 @@ has theme         => 'white';
 has view          => 'coverart';
 has width         => '300';
 
-has _uri => sub { Mojo::URL->new('https://embed.spotify.com') };
-
 sub learn {
   my ($self, $cb) = @_;
   my $url = $self->url;
-  my @path;
+  my ($iframe_src, @path);
 
   if ($url =~ s!^spotify:!!) {    # spotify:track:5tv77MoS0TzE0sJ7RwTj34
     @path = split /:/, $url;
@@ -24,22 +22,13 @@ sub learn {
 
   return $self->SUPER::learn($cb) unless @path;
 
-  $self->_uri->query(theme => $self->theme, uri => join(':', spotify => @path), view => $self->view,);
+  $iframe_src = Mojo::URL->new('https://embed.spotify.com');
+  $iframe_src->query(theme => $self->theme, uri => join(':', spotify => @path), view => $self->view);
+  $self->{iframe_src} = $iframe_src;
+  $self->template->[1] = 'iframe.html.ep';
   $self->type('rich');
   $self->$cb if $cb;
   $self;
 }
 
-sub _template {
-  my $self = shift;
-  return $self->SUPER::_template unless $self->_uri;
-  return __PACKAGE__, sprintf 'rich.html.ep';
-}
-
 1;
-
-__DATA__
-@@ rich.html.ep
-<iframe width="<%= $l->width %>" height="<%= $l->height %>" style="border:0"
-  frameborder="0" allowtransparency="true" src="<%= $l->_uri %>">
-</iframe>

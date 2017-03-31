@@ -4,8 +4,7 @@ use Mojo::Base 'LinkEmbedder::Link';
 use constant DEBUG => $ENV{LINK_EMBEDDER_DEBUG} || 0;
 
 has provider_name => 'Shadowcat';
-has provider_url  => sub { Mojo::URL->new('http://shadow.cat/') };
-has _paste        => undef;
+has provider_url => sub { Mojo::URL->new('http://shadow.cat/') };
 
 sub learn {
   my ($self, $cb) = @_;
@@ -32,16 +31,10 @@ sub _fetch_paste {
   return $self->title("Paste $paste_id")->type("rich");
 }
 
-sub _parse_paste { $_[0]->_paste($_[1]->res->body) }
-
-sub _template {
-  my $self = shift;
-  return $self->SUPER::_template(@_) unless $self->_paste;
-  return __PACKAGE__, 'rich.html.ep';
+sub _parse_paste {
+  my ($self, $tx) = @_;
+  $self->{paste} = $tx->res->body;
+  $self->template->[1] = 'paste.html.ep';
 }
 
 1;
-
-__DATA__
-@@ rich.html.ep
-<pre><%= $l->_paste %></pre>

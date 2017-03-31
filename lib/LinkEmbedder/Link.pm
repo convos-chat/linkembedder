@@ -32,6 +32,7 @@ has provider_name => sub {
 };
 
 has provider_url => sub { $_[0]->url->host ? $_[0]->url->clone->path('/') : undef };
+has template => sub { [__PACKAGE__, sprintf '%s.html.ep', $_[0]->type] };
 has thumbnail_height => undef;
 has thumbnail_url    => undef;
 has thumbnail_width  => undef;
@@ -42,11 +43,9 @@ has url              => undef;                                                # 
 has version          => '1.0';
 has width            => sub { $_[0]->type =~ /^photo|video$/ ? 0 : undef };
 
-has _template => sub { [__PACKAGE__, sprintf '%s.html.ep', $_[0]->type] };
-
 sub html {
   my $self = shift;
-  my $template = Mojo::Loader::data_section(@{$self->_template}) or return '';
+  my $template = Mojo::Loader::data_section(@{$self->template}) or return '';
   Mojo::Template->new({auto_escape => 1, prepend => 'my $l=shift'})->render($template, $self);
 }
 
@@ -172,6 +171,8 @@ L<LinkEmbedder::Link> is a class representing an expanded URL.
 
 =head2 provider_url
 
+=head2 template
+
 =head2 thumbnail_height
 
 =head2 thumbnail_url
@@ -207,6 +208,8 @@ L<LinkEmbedder>
 =cut
 
 __DATA__
+@@ iframe.html.ep
+<iframe width="600" height="400" style="border:0;width:100%" frameborder="0" allowfullscreen src="<%= $l->{iframe_src} %>"></iframe>
 @@ link.html.ep
 <a href="<%= $l->url %>"><%= Mojo::Util::url_unescape($l->url) %></a>
 @@ paste.html.ep
