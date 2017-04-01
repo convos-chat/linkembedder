@@ -7,10 +7,14 @@ use Mojo::Util 'trim';
 use constant DEBUG => $ENV{LINK_EMBEDDER_DEBUG} || 0;
 
 my %DOM_SEL = (
-  ':desc'      => ['meta[property="og:description"]', 'meta[name="twitter:description"]', 'meta[name="description"]'],
-  ':image'     => ['meta[property="og:image"]',       'meta[property="og:image:url"]',    'meta[name="twitter:image"]'],
-  ':site_name' => ['meta[property="og:site_name"]',   'meta[property="twitter:site"]'],
-  ':title'     => ['meta[property="og:title"]',       'meta[name="twitter:title"]',       'title'],
+  ':desc'  => ['meta[property="og:description"]', 'meta[name="twitter:description"]', 'meta[name="description"]'],
+  ':image' => [
+    'meta[property="og:image"]',  'meta[property="og:image:url"]',
+    'meta[name="twitter:image"]', '[rel="apple-touch-icon"]',
+    '[rel="icon"]',
+  ],
+  ':site_name' => ['meta[property="og:site_name"]', 'meta[property="twitter:site"]'],
+  ':title'     => ['meta[property="og:title"]',     'meta[name="twitter:title"]', 'title'],
 );
 
 my @JSON_ATTRS = (
@@ -25,6 +29,10 @@ has cache_age   => 0;
 has description => '';
 has error       => undef;                                                # {message => "", code => ""}
 has height      => sub { $_[0]->type =~ /^photo|video$/ ? 0 : undef };
+
+has placeholder_url => sub {
+  return sprintf 'http://placehold.it/200x200?text=%s', shift->provider_name;
+};
 
 has provider_name => sub {
   return undef unless my $name = shift->url->host;
@@ -84,8 +92,8 @@ sub _el {
   @sel = @{$DOM_SEL{$sel[0]}} if $DOM_SEL{$sel[0]};
 
   for (@sel) {
-    my $e = $dom->at($_) or next;
-    my $val = trim($e->{content} || $e->{value} || $e->{href} || $e->text || '') or next;
+    my $e = $dom->find($_)->last or next;
+    my $val = trim($e->{content} || $e->{value} || $e->{href} || $e->{src} || $e->text || '') or next;
     return $val;
   }
 }
@@ -122,6 +130,8 @@ sub _learn_from_json {
 
   warn "[LinkEmbedder] " . $tx->res->text . "\n" if DEBUG;
   $self->{$_} ||= $json->{$_} for keys %$json;
+  $self->{error} = {message => $self->{error}} if defined $self->{error} and !ref $self->{error};
+  $self->{error}{code} = $self->{status} if $self->{status} and $self->{status} =~ /^\d+$/;
 }
 
 sub _learn_from_url {
@@ -294,24 +304,45 @@ L<LinkEmbedder>
 
 __DATA__
 @@ iframe.html.ep
-<iframe width="600" height="400" style="border:0;width:100%" frameborder="0" allowfullscreen src="<%= $l->{iframe_src} %>"></iframe>
+<iframe class="le-<%= $l->type %>" width="600" height="400" style="border:0;width:100%" frameborder="0" allowfullscreen src="<%= $l->{iframe_src} %>"></iframe>
 @@ link.html.ep
-<a href="<%= $l->url %>"><%= Mojo::Util::url_unescape($l->url) %></a>
+<a class="le-<%= $l->type %>" href="<%= $l->url %>" title="<%= $l->title || '' %>"><%= Mojo::Util::url_unescape($l->url) %></a>
 @@ paste.html.ep
-<pre><%= $l->{paste} || '' %></pre>
+<div class="le-paste le-<%= $l->type %>">
+  <div class="le-meta">
+    <span class="le-provider-link"><a href="<%= $l->provider_url %>"><%= $l->provider_name %></a></span>
+    <span class="le-goto-link"><a href="<%= $l->url %>" title="<%= $l->title %>"><%= $l->{paste_name} || $l->author_name || 'View' %></a></span>
+  </div>
+  <pre><%= $l->{paste} || '' %></pre>
+</div>
 @@ photo.html.ep
-<img src="<%= $l->url %>" alt="<%= $l->title %>">
+<div class="le-<%= $l->type %> le-<%= lc $l->provider_name %>">
+  <img src="<%= $l->url %>" alt="<%= $l->title %>">
+</div>
 @@ rich.html.ep
 % if ($l->title) {
-<div class="card le-card le-<%= $l->type %>">
+<div class="le-card le-<%= $l->type %> le-<%= lc $l->provider_name %>">
+  % if (my $thumbnail_url = $l->thumbnail_url || $l->placeholder_url) {
+    <a href="<%= $l->url %>" class="le-thumbnail<%= $l->thumbnail_url ? '' : '-placeholder' %>">
+      <img src="<%= $thumbnail_url %>" alt="<%= $l->author_name || 'Placeholder' %>">
+    </a>
+  % }
   <h3><%= $l->title %></h3>
-  <p><%= $l->description %></p>
+  % if ($l->description) {
+  <p class="le-description"><%= $l->description %></p>
+  % }
+  <div class="le-meta">
+  % if ($l->author_name) {
+    <span class="le-author-link"><a href="<%= $l->author_url || $l->url %>"><%= $l->author_name %></a></span>
+  % }
+    <span class="le-goto-link"><a href="<%= $l->url %>"><span><%= $l->url %></span></a></span>
+  </div>
 </div>
 % } else {
-<a href="<%= $l->url %>"><%= Mojo::Util::url_unescape($l->url) %></a>
+<a class="le-<%= $l->type %>" href="<%= $l->url %>"><%= Mojo::Util::url_unescape($l->url) %></a>
 % }
 @@ video.html.ep
-<video height="640" width="480" preload="metadata" controls>
+<video class="le-<%= $l->type %>" height="640" width="480" preload="metadata" controls>
 % for my $s (@{$l->{sources} || []}) {
   <source src="<%= $s->{url} %>" type="<%= $s->{type} || '' %>">
 % }

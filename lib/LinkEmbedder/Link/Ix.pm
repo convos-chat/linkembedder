@@ -12,6 +12,9 @@ sub _learn {
     $self->type('rich');
     $self->template->[1] = 'paste.html.ep';
   }
+  else {
+    $self->SUPER::_learn($tx);
+  }
 
   return $self;
 }

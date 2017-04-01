@@ -1,5 +1,9 @@
 Revision history for perl distribution LinkEmbedder
 
+0.03 Not Released
+ - Add example script
+ - Updated template structure
+
 0.02 2017-04-01T01:18:42+0200
  - Add support for App::mojopaste and other pastebins with simple markup
  - Add LinkEmbedder::Link::template() attribute

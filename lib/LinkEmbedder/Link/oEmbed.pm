@@ -13,13 +13,15 @@ our %API = (
   'youtube.com'   => 'https://www.youtube.com/oembed',
 );
 
-has html => sub { shift->html };
-
 sub learn {
   my ($self, $cb) = @_;
-  my $api_url = $self->_api_url;
 
-  if (!$api_url) {
+  unless ($self->url->path =~ /\w/) {
+    return $self->SUPER::learn($cb);
+  }
+
+  my $api_url = $self->_api_url;
+  unless ($api_url) {
     $self->error({message => "Unknown oEmbed provider for @{[$self->url]}", code => 400});
     $self->$cb if $cb;
     return $self;

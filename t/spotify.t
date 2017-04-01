@@ -24,19 +24,19 @@ cmp_deeply(
   'spotify:track:5tv77MoS0TzE0sJ7RwTj34'
 ) or note $link->_dump;
 
-$link = $embedder->get('http://open.spotify.com/artist/6VKNnZIuu9YEOvLgxR6uhQ');
+$link = $embedder->get('http://open.spotify.com/artist/4HV7yKF3SRpY6I0gxu7hm9');
 isa_ok($link, 'LinkEmbedder::Link::Spotify');
 cmp_deeply(
   $link->TO_JSON,
   {
     cache_age => 0,
     html      => re(
-      qr{<iframe.*src="https://embed\.spotify\.com\?theme=white&amp;uri=spotify%3Aartist%3A6VKNnZIuu9YEOvLgxR6uhQ&amp;view=coverart"}
+      qr{<iframe.*src="https://embed\.spotify\.com\?theme=white&amp;uri=spotify%3Aartist%3A4HV7yKF3SRpY6I0gxu7hm9&amp;view=coverart"}
     ),
     provider_name => 'Spotify',
     provider_url  => 'https://spotify.com',
     type          => 'rich',
-    url           => 'http://open.spotify.com/artist/6VKNnZIuu9YEOvLgxR6uhQ',
+    url           => 'http://open.spotify.com/artist/4HV7yKF3SRpY6I0gxu7hm9',
     width         => 300,
     height        => 100,
     version       => '1.0',
