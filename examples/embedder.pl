@@ -32,6 +32,7 @@ app->defaults(
     "http://ix.io/fpW",
     "http://catoverflow.com/",
     "http://open.spotify.com/artist/4HV7yKF3SRpY6I0gxu7hm9",
+    "https://gist.github.com/jhthorsen/3738de6f44f180a29bbb",
     "https://appear.in/link-embedder-demo",
     "https://github.com/jhthorsen/linkembedder/blob/master/t/basic.t",
     "https://metacpan.org/pod/Mojolicious",
