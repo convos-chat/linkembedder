@@ -49,7 +49,7 @@ cmp_deeply(
   $link->TO_JSON,
   {
     %expected,
-    html          => re(qr{LinkEmbedder is module}),
+    html          => re(qr{LinkEmbedder is a module}),
     thumbnail_url => re(qr{githubusercontent.com/u/45729\b}),
     title         => "jhthorsen/linkembedder: Embed / expand oEmbed resources and other URL / links",
     url           => "https://github.com/jhthorsen/linkembedder",
