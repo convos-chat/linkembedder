@@ -161,7 +161,12 @@ Example: L<http://home.thorsen.pm/demo/link-embedder?url=http://imgur.com/galler
 
 =item * L<https://instagram.com/>
 
-Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://www.instagram.com/p/BQzeGY0gd63>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://www.instagram.com/p/BSRYg_Sgbqe/>
+
+Instagram need some additional JavaScript. Please look at
+L<https://github.com/jhthorsen/linkembedder/blob/master/examples/embedder.pl> and
+L<https://www.instagram.com/developer/embedding/>
+for more information.
 
 =item * L<https://appear.in/>
 
@@ -209,7 +214,12 @@ Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://travis-ci.org/N
 
 =item * L<https://twitter.com>
 
-Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://twitter.com/jhthorsen/status/434045220116643843>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://twitter.com/jhthorsen/status/786688349536972802>
+
+Twitter need some additional JavaScript. Please look at
+L<https://github.com/jhthorsen/linkembedder/blob/master/examples/embedder.pl> and
+L<https://dev.twitter.com/web/javascript/initialization>
+for more information.
 
 =item * L<https://vimeo.com>
 

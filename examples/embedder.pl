@@ -27,7 +27,7 @@ app->defaults(
     "https://www.ted.com/talks/jill_bolte_taylor_s_powerful_stroke_of_insight",
     "http://imgur.com/gallery/ohL3e",
     "http://www.aftenposten.no",
-    "https://www.instagram.com/p/BQzeGY0gd63",
+    "https://www.instagram.com/p/BSRYg_Sgbqe/",
     "http://ix.io",
     "http://ix.io/fpW",
     "http://catoverflow.com/",
@@ -39,7 +39,7 @@ app->defaults(
     "http://paste.opensuse.org/2931429",
     "http://twitter.com",
     "https://www.youtube.com/watch?v=OspRE1xnLjE",
-    "https://twitter.com/jhthorsen/status/434045220116643843",
+    "https://twitter.com/jhthorsen/status/786688349536972802",
     "https://vimeo.com/154038415",
     "http://paste.scsys.co.uk/557716",
     "https://travis-ci.org/Nordaaker/convos/builds/47421379",
@@ -132,6 +132,8 @@ pre.data { color: #999; margin-top: 3rem; padding-top: 1rem; border-top: 1px sol
 </style>
 </head>
 <body>
+<a href="https://github.com/jhthorsen/linkembedder"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/567c3a48d796e2fc06ea80409cc9dd82bf714434/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"></a>
+
 <div class="container">
   <h1>oEmbed / LinkEmbedder example server</h1>
 
@@ -155,6 +157,7 @@ pre.data { color: #999; margin-top: 3rem; padding-top: 1rem; border-top: 1px sol
   <div class="html">Enter an URL and hit <i>Render!</i> to see the HTML snippet here.</div>
   <pre class="data"></pre>
   <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <script async src="//platform.instagram.com/en_US/embeds.js"></script>
   %= javascript begin
 var form = document.querySelector("form");
 
@@ -172,10 +175,11 @@ function embed(e, url) {
     var oembed = JSON.parse(this.responseText);
     document.querySelector("h2.url").innerHTML = url;
     document.querySelector("div.html").innerHTML = oembed.html;
-
+    console.log(oembed.html);
     delete oembed.html;
     document.querySelector("pre.data").innerHTML = JSON.stringify(oembed, undefined, 2);
     if (oembed.provider_name == 'Twitter') twttr.widgets.load();
+    if (oembed.provider_name == 'Instagram') instgrm.Embeds.process();
   };
   req.send();
 }
