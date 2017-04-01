@@ -189,7 +189,7 @@ if (predefined_index >= 0) {
   embed({}, predefined[predefined_index]);
 }
 else if(url) {
-  embed({}, url[1]);
+  embed({}, decodeURIComponent(url[1]));
 }
   % end
 </div>
