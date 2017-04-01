@@ -28,7 +28,7 @@ done_testing;
 
 sub html {
   return <<'HERE';
-<div class="le-card le-rich le-travis">
+<div class="le-card le-image-card le-rich le-provider-travis">
     <a href="https://travis-ci.org/Nordaaker/convos/builds/47421379" class="le-thumbnail">
       <img src="https://cdn.travis-ci.org/images/logos/TravisCI-Mascot-1-20feeadb48fc2492ba741d89cb5a5c8a.png" alt="Placeholder">
     </a>

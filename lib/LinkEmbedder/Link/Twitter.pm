@@ -3,15 +3,13 @@ use Mojo::Base 'LinkEmbedder::Link';
 
 use Mojo::Util 'trim';
 
-has lang         => 'en';
+has lang => 'en';
 has provider_url => sub { Mojo::URL->new('https://twitter.com') };
-has _tweet       => undef;
 
 sub _learn_from_dom {
   my ($self, $dom) = @_;
 
   $self->SUPER::_learn_from_dom($dom);
-  $self->_tweet($self->_wash($dom->at('.permalink-tweet p')));
 
   my $name = $self->title || '';
   if ($name =~ s! on twitter$!!i) {
@@ -35,16 +33,14 @@ sub _learn_from_dom {
 
 __DATA__
 @@ rich.html.ep
-<div class="card le-card le-<%= $l->type %>">
-  <blockquote class="twitter-tweet">
-  % if ($l->_tweet) {
-    %== $l->_tweet
-  % } else {
-    <p lang="<%= $l->lang %>" dir="ltr"><%= $l->description %></p>
-    &mdash;
-    <%= $l->author_name %> // <a href="<%= $l->url %>">@<%= $l->url->path->[0] %></a>
-  % }
-  </blockquote>
+<blockquote class="twitter-tweet le-card le-provider-twitter" data-cards="hidden">
+  <h3><%= $l->title %></h3>
+  <p lang="<%= $l->lang %>" dir="ltr" class="le-description"><%= $l->description %></p>
+  <div class="le-meta">
+    <span class="le-author-link"><a href="<%= $l->author_url || $l->url %>"><%= $l->author_name %></a></span>
+    <span class="le-goto-link"><a href="<%= $l->url %>">@<%= $l->url->path->[0] %></a></span>
+  </div>
 </div>
+</blockquote>
 @@ helper.html.ep
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>

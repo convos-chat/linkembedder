@@ -30,7 +30,7 @@ done_testing;
 
 sub photo_html {
   return <<'HERE';
-<div class="le-photo le-imgur">
+<div class="le-photo le-provider-imgur">
   <img src="https://i.imgur.com/2lXFJK0.png" alt="Yay Mojo!">
 </div>
 HERE

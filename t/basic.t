@@ -64,7 +64,7 @@ done_testing;
 
 sub aftenposten_html {
   return <<'HERE';
-<div class="le-card le-rich le-aftenposten">
+<div class="le-card le-image-card le-rich le-provider-aftenposten">
     <a href="http://www.aftenposten.no/kultur/Kunstig-intelligens-ma-ikke-lenger-trenes-av-mennesker-617794b.html" class="le-thumbnail">
       <img src="https://ap.mnocdn.no/images/ae53dc79-22e3-41da-b64b-16ec78f42a1a?fit=crop&amp;q=80&amp;w=1440" alt="Per Kristian Bjørkeng">
     </a>
@@ -80,7 +80,7 @@ HERE
 
 sub catoverflow_html {
   return <<'HERE';
-<div class="le-photo le-catoverflow">
+<div class="le-photo le-provider-catoverflow">
   <img src="http://catoverflow.com/cats/r4cIt4z.gif" alt="r4cIt4z.gif">
 </div>
 HERE
@@ -88,7 +88,7 @@ HERE
 
 sub thorsen_html {
   return <<'HERE';
-<div class="le-card le-rich le-thorsen">
+<div class="le-card le-image-card le-rich le-provider-thorsen">
     <a href="http://thorsen.pm/blog/" class="le-thumbnail-placeholder">
       <img src="http://placehold.it/200x200?text=Thorsen" alt="Placeholder">
     </a>

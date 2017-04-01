@@ -138,11 +138,6 @@ sub _learn_from_url {
   $self;
 }
 
-sub _wash {
-  $_[1] or return $_[0];
-  $_[1]->find($_)->map('remove') for qw(embed script);
-}
-
 1;
 
 =encoding utf8
@@ -312,17 +307,19 @@ __DATA__
   <pre><%= $l->{paste} || '' %></pre>
 </div>
 @@ photo.html.ep
-<div class="le-<%= $l->type %> le-<%= lc $l->provider_name %>">
+<div class="le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>">
   <img src="<%= $l->url %>" alt="<%= $l->title %>">
 </div>
 @@ rich.html.ep
 % if ($l->title) {
-<div class="le-card le-<%= $l->type %> le-<%= lc $l->provider_name %>">
-  % if (my $thumbnail_url = $l->thumbnail_url || $l->placeholder_url) {
+% if (my $thumbnail_url = $l->thumbnail_url || $l->placeholder_url) {
+<div class="le-card le-image-card le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>">
     <a href="<%= $l->url %>" class="le-thumbnail<%= $l->thumbnail_url ? '' : '-placeholder' %>">
       <img src="<%= $thumbnail_url %>" alt="<%= $l->author_name || 'Placeholder' %>">
     </a>
-  % }
+% } else {
+<div class="le-card le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>">
+% }
   <h3><%= $l->title %></h3>
   % if ($l->description) {
   <p class="le-description"><%= $l->description %></p>

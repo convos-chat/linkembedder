@@ -70,11 +70,12 @@ pre.data { color: #999; margin-top: 3rem; padding-top: 1rem; border-top: 1px sol
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 1rem;
+  margin: 0;
 }
 
-.le-card h3,
-.le-card p,
-.le-card .le-meta {
+.le-image-card h3,
+.le-image-card p,
+.le-image-card .le-meta {
   margin-left: calc(100px + 1rem);
 }
 
@@ -153,6 +154,7 @@ pre.data { color: #999; margin-top: 3rem; padding-top: 1rem; border-top: 1px sol
   <h2 class="url">&nbsp;</h2>
   <div class="html">Enter an URL and hit <i>Render!</i> to see the HTML snippet here.</div>
   <pre class="data"></pre>
+  <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
   %= javascript begin
 var form = document.querySelector("form");
 
@@ -173,6 +175,7 @@ function embed(e, url) {
 
     delete oembed.html;
     document.querySelector("pre.data").innerHTML = JSON.stringify(oembed, undefined, 2);
+    if (oembed.provider_name == 'Twitter') twttr.widgets.load();
   };
   req.send();
 }
