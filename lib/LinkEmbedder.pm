@@ -172,6 +172,10 @@ for more information.
 
 Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://appear.in/link-embedder-demo>
 
+=item * L<https://gist.github.com>
+
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://gist.github.com/jhthorsen/3738de6f44f180a29bbb>
+
 =item * L<https://github.com>
 
 Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://github.com/jhthorsen/linkembedder/blob/master/t/basic.t>

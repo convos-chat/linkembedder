@@ -103,6 +103,7 @@ pre.data { color: #999; margin-top: 3rem; padding-top: 1rem; border-top: 1px sol
   content: "Read more";
 }
 
+.le-provider-link ~ .le-goto-link:before,
 .le-author-link ~ .le-goto-link:before {
   content: "\2013\00a0";
 }
@@ -113,6 +114,9 @@ pre.data { color: #999; margin-top: 3rem; padding-top: 1rem; border-top: 1px sol
 
 .le-paste {
   background-color: #f8f8f8;
+}
+
+.le-paste pre {
   max-height: 300px;
   overflow: auto;
 }

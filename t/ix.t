@@ -27,7 +27,7 @@ done_testing;
 
 sub paste_html {
   return <<"HERE";
-<div class="le-paste le-rich">
+<div class="le-paste le-provider-ix le-rich">
   <div class="le-meta">
     <span class="le-provider-link"><a href="http://ix.io">Ix</a></span>
     <span class="le-goto-link"><a href="http://ix.io/fpW" title="">View</a></span>

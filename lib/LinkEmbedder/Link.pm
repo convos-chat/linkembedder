@@ -48,9 +48,11 @@ has version          => '1.0';
 has width            => sub { $_[0]->type =~ /^photo|video$/ ? 0 : undef };
 
 sub html {
-  my $self = shift;
+  my $self     = shift;
   my $template = Mojo::Loader::data_section(@{$self->template}) or return '';
-  Mojo::Template->new({auto_escape => 1, prepend => 'my $l=shift'})->render($template, $self);
+  my $output   = Mojo::Template->new({auto_escape => 1, prepend => 'my $l=shift'})->render($template, $self);
+  die $output if ref $output;
+  return $output;
 }
 
 sub learn {
@@ -295,11 +297,11 @@ L<LinkEmbedder>
 
 __DATA__
 @@ iframe.html.ep
-<iframe class="le-<%= $l->type %>" width="<%= $l->width || 600 %>" height="<%= $l->height || 400 %>" style="border:0;width:100%" frameborder="0" allowfullscreen src="<%= $l->{iframe_src} %>"></iframe>
+<iframe class="le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>" width="<%= $l->width || 600 %>" height="<%= $l->height || 400 %>" style="border:0;width:100%" frameborder="0" allowfullscreen src="<%= $l->{iframe_src} %>"></iframe>
 @@ link.html.ep
 <a class="le-<%= $l->type %>" href="<%= $l->url %>" title="<%= $l->title || '' %>"><%= Mojo::Util::url_unescape($l->url) %></a>
 @@ paste.html.ep
-<div class="le-paste le-<%= $l->type %>">
+<div class="le-paste le-provider-<%= lc $l->provider_name %> le-<%= $l->type %>">
   <div class="le-meta">
     <span class="le-provider-link"><a href="<%= $l->provider_url %>"><%= $l->provider_name %></a></span>
     <span class="le-goto-link"><a href="<%= $l->url %>" title="<%= $l->title %>"><%= $l->{paste_name} || $l->author_name || 'View' %></a></span>
@@ -312,30 +314,30 @@ __DATA__
 </div>
 @@ rich.html.ep
 % if ($l->title) {
-% if (my $thumbnail_url = $l->thumbnail_url || $l->placeholder_url) {
+  % if (my $thumbnail_url = $l->thumbnail_url || $l->placeholder_url) {
 <div class="le-card le-image-card le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>">
     <a href="<%= $l->url %>" class="le-thumbnail<%= $l->thumbnail_url ? '' : '-placeholder' %>">
       <img src="<%= $thumbnail_url %>" alt="<%= $l->author_name || 'Placeholder' %>">
     </a>
-% } else {
+  % } else {
 <div class="le-card le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>">
-% }
+  % }
   <h3><%= $l->title %></h3>
-  % if ($l->description) {
+    % if ($l->description) {
   <p class="le-description"><%= $l->description %></p>
-  % }
+    % }
   <div class="le-meta">
-  % if ($l->author_name) {
+    % if ($l->author_name) {
     <span class="le-author-link"><a href="<%= $l->author_url || $l->url %>"><%= $l->author_name %></a></span>
-  % }
+    % }
     <span class="le-goto-link"><a href="<%= $l->url %>"><span><%= $l->url %></span></a></span>
   </div>
 </div>
 % } else {
-<a class="le-<%= $l->type %>" href="<%= $l->url %>"><%= Mojo::Util::url_unescape($l->url) %></a>
+<a class="le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>" href="<%= $l->url %>"><%= Mojo::Util::url_unescape($l->url) %></a>
 % }
 @@ video.html.ep
-<video class="le-<%= $l->type %>" height="640" width="480" preload="metadata" controls>
+<video class="le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>" height="640" width="480" preload="metadata" controls>
 % for my $s (@{$l->{sources} || []}) {
   <source src="<%= $s->{url} %>" type="<%= $s->{type} || '' %>">
 % }
