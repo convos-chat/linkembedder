@@ -13,6 +13,8 @@ our %API = (
   'youtube.com'   => 'https://www.youtube.com/oembed',
 );
 
+has html => sub { shift->SUPER::html };
+
 sub learn {
   my ($self, $cb) = @_;
 

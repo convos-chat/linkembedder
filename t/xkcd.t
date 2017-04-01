@@ -27,6 +27,8 @@ done_testing;
 
 sub photo_html {
   return <<'HERE';
-<img src="//imgs.xkcd.com/comics/standards.png" alt="Standards">
+<div class="le-photo le-xkcd">
+  <img src="//imgs.xkcd.com/comics/standards.png" alt="Standards">
+</div>
 HERE
 }

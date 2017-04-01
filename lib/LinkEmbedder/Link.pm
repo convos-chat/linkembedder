@@ -7,14 +7,10 @@ use Mojo::Util 'trim';
 use constant DEBUG => $ENV{LINK_EMBEDDER_DEBUG} || 0;
 
 my %DOM_SEL = (
-  ':desc'  => ['meta[property="og:description"]', 'meta[name="twitter:description"]', 'meta[name="description"]'],
-  ':image' => [
-    'meta[property="og:image"]',  'meta[property="og:image:url"]',
-    'meta[name="twitter:image"]', '[rel="apple-touch-icon"]',
-    '[rel="icon"]',
-  ],
-  ':site_name' => ['meta[property="og:site_name"]', 'meta[property="twitter:site"]'],
-  ':title'     => ['meta[property="og:title"]',     'meta[name="twitter:title"]', 'title'],
+  ':desc'      => ['meta[property="og:description"]', 'meta[name="twitter:description"]', 'meta[name="description"]'],
+  ':image'     => ['meta[property="og:image"]',       'meta[property="og:image:url"]',    'meta[name="twitter:image"]'],
+  ':site_name' => ['meta[property="og:site_name"]',   'meta[property="twitter:site"]'],
+  ':title'     => ['meta[property="og:title"]',       'meta[name="twitter:title"]',       'title'],
 );
 
 my @JSON_ATTRS = (
@@ -92,8 +88,8 @@ sub _el {
   @sel = @{$DOM_SEL{$sel[0]}} if $DOM_SEL{$sel[0]};
 
   for (@sel) {
-    my $e = $dom->find($_)->last or next;
-    my $val = trim($e->{content} || $e->{value} || $e->{href} || $e->{src} || $e->text || '') or next;
+    my $e = $dom->at($_) or next;
+    my $val = trim($e->{content} || $e->{value} || $e->{href} || $e->text || '') or next;
     return $val;
   }
 }
@@ -304,7 +300,7 @@ L<LinkEmbedder>
 
 __DATA__
 @@ iframe.html.ep
-<iframe class="le-<%= $l->type %>" width="600" height="400" style="border:0;width:100%" frameborder="0" allowfullscreen src="<%= $l->{iframe_src} %>"></iframe>
+<iframe class="le-<%= $l->type %>" width="<%= $l->width || 600 %>" height="<%= $l->height || 400 %>" style="border:0;width:100%" frameborder="0" allowfullscreen src="<%= $l->{iframe_src} %>"></iframe>
 @@ link.html.ep
 <a class="le-<%= $l->type %>" href="<%= $l->url %>" title="<%= $l->title || '' %>"><%= Mojo::Util::url_unescape($l->url) %></a>
 @@ paste.html.ep

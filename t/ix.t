@@ -13,7 +13,7 @@ cmp_deeply(
   $link->TO_JSON,
   {
     cache_age     => 0,
-    html          => "<pre>Hello world.\n</pre>\n",
+    html          => paste_html(),
     provider_name => 'Ix',
     provider_url  => 'http://ix.io',
     type          => 'rich',
@@ -24,3 +24,15 @@ cmp_deeply(
 ) or note $link->_dump;
 
 done_testing;
+
+sub paste_html {
+  return <<"HERE";
+<div class="le-paste le-rich">
+  <div class="le-meta">
+    <span class="le-provider-link"><a href="http://ix.io">Ix</a></span>
+    <span class="le-goto-link"><a href="http://ix.io/fpW" title="">View</a></span>
+  </div>
+  <pre>Hello world.</pre>
+</div>
+HERE
+}

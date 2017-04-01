@@ -9,6 +9,7 @@ sub _learn {
 
   if ($self->url->path =~ m!^/\w+$!) {
     $self->{paste} = $tx->res->text;
+    $self->{paste} =~ s![\r\n]+$!!i;
     $self->type('rich');
     $self->template->[1] = 'paste.html.ep';
   }

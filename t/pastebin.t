@@ -13,7 +13,7 @@ cmp_deeply(
   $link->TO_JSON,
   {
     cache_age     => 0,
-    html          => "<pre>x=\$(too cool);</pre>\n",
+    html          => re(qr{<pre>x=\$\(too cool\);</pre>}),
     provider_name => 'Pastebin',
     provider_url  => 'https://pastebin.com',
     thumbnail_url => 'https://pastebin.com/i/facebook.png',

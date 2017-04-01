@@ -20,7 +20,7 @@ for my $url (@urls) {
     $link->TO_JSON,
     {
       cache_age     => 0,
-      html          => "<pre>\$testing = &quot;some stuff&quot;;</pre>\n",
+      html          => re(qr{<pre>\$testing = &quot;some stuff&quot;;</pre>}),
       provider_name => 'openSUSE',
       provider_url  => 'http://paste.opensuse.org/',
       title         => 'Paste 2931429',

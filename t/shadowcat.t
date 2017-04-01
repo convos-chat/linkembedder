@@ -13,7 +13,7 @@ cmp_deeply(
   $link->TO_JSON,
   {
     cache_age     => 0,
-    html          => "<pre>&lt;too&gt;cool!&lt;/too&gt;</pre>\n",
+    html          => re(qr{<pre>&lt;too&gt;cool!&lt;/too&gt;</pre>}),
     provider_name => 'Shadowcat',
     provider_url  => 'http://shadow.cat/',
     title         => 'Paste 557716',

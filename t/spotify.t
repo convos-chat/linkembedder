@@ -11,14 +11,12 @@ cmp_deeply(
   {
     cache_age => 0,
     html      => re(
-      qr{<iframe.*src="https://embed\.spotify\.com\?theme=white&amp;uri=spotify%3Atrack%3A5tv77MoS0TzE0sJ7RwTj34&amp;view=coverart"}
+      qr{<iframe.*src="https://embed\.spotify\.com\?theme=white&amp;uri=spotify%3Atrack%3A5tv77MoS0TzE0sJ7RwTj34&amp;view="}
     ),
     provider_name => 'Spotify',
     provider_url  => 'https://spotify.com',
     type          => 'rich',
     url           => 'spotify:track:5tv77MoS0TzE0sJ7RwTj34',
-    width         => 300,
-    height        => 100,
     version       => '1.0',
   },
   'spotify:track:5tv77MoS0TzE0sJ7RwTj34'
@@ -31,14 +29,12 @@ cmp_deeply(
   {
     cache_age => 0,
     html      => re(
-      qr{<iframe.*src="https://embed\.spotify\.com\?theme=white&amp;uri=spotify%3Aartist%3A4HV7yKF3SRpY6I0gxu7hm9&amp;view=coverart"}
+      qr{<iframe.*src="https://embed\.spotify\.com\?theme=white&amp;uri=spotify%3Aartist%3A4HV7yKF3SRpY6I0gxu7hm9&amp;view="}
     ),
     provider_name => 'Spotify',
     provider_url  => 'https://spotify.com',
     type          => 'rich',
     url           => 'http://open.spotify.com/artist/4HV7yKF3SRpY6I0gxu7hm9',
-    width         => 300,
-    height        => 100,
     version       => '1.0',
   },
   'spotify:track:5tv77MoS0TzE0sJ7RwTj34'

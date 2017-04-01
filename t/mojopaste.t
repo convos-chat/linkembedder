@@ -13,7 +13,7 @@ cmp_deeply(
   $link->TO_JSON,
   {
     cache_age     => 0,
-    html          => "<pre>&lt;test&gt;paste!&lt;/test&gt;</pre>\n",
+    html          => re(qr{<pre>&lt;test&gt;paste!&lt;/test&gt;</pre>}),
     provider_name => 'Thorsen',
     provider_url  => 'https://ssl.thorsen.pm/',
     title         => 'Mojopaste',

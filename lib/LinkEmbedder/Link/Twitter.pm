@@ -24,8 +24,7 @@ sub _learn_from_dom {
     $self->template([__PACKAGE__, 'rich.html.ep']);
   }
 
-  my $e;
-  if (!$self->thumbnail_url and $e = $dom->at('.ProfileAvatar-image[src]')) {
+  if (!$self->thumbnail_url and my $e = $dom->at('.ProfileAvatar-image[src]')) {
     $self->author_name(trim($e->{alt} || ''));
     $self->author_url($self->url);
     $self->thumbnail_url($e->{src});

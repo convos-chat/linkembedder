@@ -28,9 +28,15 @@ done_testing;
 
 sub html {
   return <<'HERE';
-<div class="card le-card le-rich">
+<div class="le-card le-rich le-travis">
+    <a href="https://travis-ci.org/Nordaaker/convos/builds/47421379" class="le-thumbnail">
+      <img src="https://cdn.travis-ci.org/images/logos/TravisCI-Mascot-1-20feeadb48fc2492ba741d89cb5a5c8a.png" alt="Placeholder">
+    </a>
   <h3>Build succeeded at 2015-01-18T13:30:57Z</h3>
-  <p>Jan Henning Thorsen: cpanm --from https://cpan.metacpan.org/</p>
+  <p class="le-description">Jan Henning Thorsen: cpanm --from https://cpan.metacpan.org/</p>
+  <div class="le-meta">
+    <span class="le-goto-link"><a href="https://travis-ci.org/Nordaaker/convos/builds/47421379"><span>https://travis-ci.org/Nordaaker/convos/builds/47421379</span></a></span>
+  </div>
 </div>
 HERE
 }

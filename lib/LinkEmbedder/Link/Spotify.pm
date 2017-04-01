@@ -1,7 +1,6 @@
 package LinkEmbedder::Link::Spotify;
 use Mojo::Base 'LinkEmbedder::Link';
 
-has height        => '100';
 has provider_name => 'Spotify';
 has provider_url  => sub { Mojo::URL->new('https://spotify.com') };
 has theme         => 'white';
