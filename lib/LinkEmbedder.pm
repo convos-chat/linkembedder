@@ -8,7 +8,7 @@ use Mojo::UserAgent;
 
 use constant DEBUG => $ENV{LINK_EMBEDDER_DEBUG} || 0;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 my $PROTOCOL_RE = qr!^(\w+):\w+!i;    # Examples: mail:, spotify:, ...
 

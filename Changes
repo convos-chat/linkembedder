@@ -1,7 +1,8 @@
 Revision history for perl distribution LinkEmbedder
 
-0.03 Not Released
+0.03 2017-04-01T16:10:27+0200
  - Add example script
+ - Add support for gist.github.com
  - Updated template structure
 
 0.02 2017-04-01T01:18:42+0200
