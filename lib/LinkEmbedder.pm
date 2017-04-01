@@ -157,78 +157,78 @@ These web pages are currently supported:
 
 =item * L<http://imgur.com/>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=http://imgur.com/gallery/ohL3e>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=http://imgur.com/gallery/ohL3e>
 
 =item * L<https://instagram.com/>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=https://www.instagram.com/p/BQzeGY0gd63>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://www.instagram.com/p/BQzeGY0gd63>
 
 =item * L<https://appear.in/>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=https://appear.in/link-embedder-demo>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://appear.in/link-embedder-demo>
 
 =item * L<https://github.com>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=https://github.com/jhthorsen/linkembedder/blob/master/t/basic.t>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://github.com/jhthorsen/linkembedder/blob/master/t/basic.t>
 
 =item * L<https://ix.io>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=http://ix.io/fpW>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=http://ix.io/fpW>
 
 =item * L<https://maps.google.com>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=https%3A%2F%2Fwww.google.no%2Fmaps%2Fplace%2FOslo%2C%2BNorway%2F%4059.8937806%2C10.645035…m4!1s0x46416e61f267f039%3A0x7e92605fd3231e9a!8m2!3d59.9138688!4d10.7522454>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=https%3A%2F%2Fwww.google.no%2Fmaps%2Fplace%2FOslo%2C%2BNorway%2F%4059.8937806%2C10.645035…m4!1s0x46416e61f267f039%3A0x7e92605fd3231e9a!8m2!3d59.9138688!4d10.7522454>
 
 =item * L<https://metacpan.org>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=https://metacpan.org/pod/Mojolicious>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://metacpan.org/pod/Mojolicious>
 
 =item * L<http://paste.opensuse.org>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=http://paste.opensuse.org/2931429>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=http://paste.opensuse.org/2931429>
 
 =item * L<http://paste.scsys.co.uk>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=http://paste.scsys.co.uk/557716>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=http://paste.scsys.co.uk/557716>
 
 =item * L<http://pastebin.com>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=https://pastebin.com/V5gZTzhy>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://pastebin.com/V5gZTzhy>
 
 =item * L<https://www.spotify.com/>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=spotify:track:0aBi2bHHOf3ZmVjt3x00wv>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=spotify:track:0aBi2bHHOf3ZmVjt3x00wv>
 
 =item * L<https://ted.com>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=https://www.ted.com/talks/jill_bolte_taylor_s_powerful_stroke_of_insight>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://www.ted.com/talks/jill_bolte_taylor_s_powerful_stroke_of_insight>
 
 =item * L<https://travis-ci.org>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=https://travis-ci.org/Nordaaker/convos/builds/47421379>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://travis-ci.org/Nordaaker/convos/builds/47421379>
 
 =item * L<https://twitter.com>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=https://twitter.com/jhthorsen/status/434045220116643843>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://twitter.com/jhthorsen/status/434045220116643843>
 
 =item * L<https://vimeo.com>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=https://vimeo.com/154038415>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://vimeo.com/154038415>
 
 =item * L<https://youtube.com>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DOspRE1xnLjE>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DOspRE1xnLjE>
 
 =item * L<https://www.xkcd.com/>
 
-L<https://home.thorsen.pm/link-embedder-demo?url=http://xkcd.com/927>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=http://xkcd.com/927>
 
 =item * HTML
 
 Any web page will be parsed, and "og:", "twitter:", meta tags and other
 significant elements will be used to generate a oEmbed response.
 
-L<https://home.thorsen.pm/link-embedder-demo?url=http://www.aftenposten.no/kultur/Kunstig-intelligens-ma-ikke-lenger-trenes-av-mennesker-617794b.html>
+Example: L<http://home.thorsen.pm/demo/link-embedder?url=http://www.aftenposten.no/kultur/Kunstig-intelligens-ma-ikke-lenger-trenes-av-mennesker-617794b.html>
 
 =item * Images
 
