@@ -8,11 +8,7 @@ has provider_url => sub { Mojo::URL->new('https://github.com') };
 
 sub learn {
   my ($self, $cb) = @_;
-
-  # https://gist.github.com/jhthorsen/3738de6f44f180a29bbb
-  # https://gist.github.com/jhthorsen/3738de6f44f180a29bbb/revisions
-  # https://gist.github.com/jhthorsen/3738de6f44f180a29bbb/17504bd2217a780f9895e4f36f14387966f783db
-  return $self->_learn_from_gist($2, $cb) if $self->url =~ m!gist\.github\.com/([^/]+)/([^/]+)!;
+  return $self->_learn_from_gist($1, $cb) if $self->url =~ m!gist\.github\.com/(.+)!;
   return $self->SUPER::learn($cb);
 }
 
@@ -44,8 +40,10 @@ sub _learn_from_dom {
 
 sub _learn_from_gist {
   my ($self, $gist_id, $cb) = @_;
-  my $raw_url = sprintf 'https://api.github.com/gists/%s', $gist_id;
+  my @gist_id = split '/', $gist_id;
 
+  $gist_id = $gist_id[1] if @gist_id >= 2;
+  my $raw_url = sprintf 'https://api.github.com/gists/%s', $gist_id;
   warn "[LinkEmbedder] Gist URL $raw_url\n" if DEBUG;
 
   if ($cb) {
