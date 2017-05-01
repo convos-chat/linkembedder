@@ -3,7 +3,7 @@ use Test::Deep;
 use Test::More;
 use LinkEmbedder;
 
-plan skip_all => 'TEST_ONLINE=1' unless $ENV{TEST_ONLINE};
+plan skip_all => 'TEST_SHADOWCAT=1' unless $ENV{TEST_SHADOWCAT};
 
 my $embedder = LinkEmbedder->new;
 
