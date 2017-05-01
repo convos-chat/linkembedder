@@ -115,7 +115,6 @@ sub _learn_from_dom {
   $self->author_name($v)      if $v = $self->_el($dom, '[itemprop="author"] [itemprop="name"]');
   $self->author_url($v)       if $v = $self->_el($dom, '[itemprop="author"] [itemprop="email"]');
   $self->description($v)      if $v = $self->_el($dom, ':desc');
-  $self->provider_name($v)    if $v = $self->_el($dom, ':site_name');
   $self->thumbnail_height($v) if $v = $self->_el($dom, 'meta[property="og:image:height"]');
   $self->thumbnail_url($v)    if $v = $self->_el($dom, ':image');
   $self->thumbnail_width($v)  if $v = $self->_el($dom, 'meta[property="og:image:width"]');

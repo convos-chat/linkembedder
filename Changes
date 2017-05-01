@@ -1,5 +1,8 @@
 Revision history for perl distribution LinkEmbedder
 
+0.05 Not Released
+ - Fix terrible class names from provider_name()
+
 0.04 2017-04-03T10:01:10+0200
  - Add support for anonymous gist
 
