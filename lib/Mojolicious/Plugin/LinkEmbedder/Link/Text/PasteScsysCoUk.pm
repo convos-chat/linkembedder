@@ -30,39 +30,3 @@ sub raw_url {
 }
 
 1;
-
-=encoding utf8
-
-=head1 NAME
-
-Mojolicious::Plugin::LinkEmbedder::Link::Text::PasteScsysCoUk - paste.scsys.co.uk link
-
-=head1 DESCRIPTION
-
-This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link::Text>.
-
-=head1 OUTPUT HTML
-
-This is an example output:
-
-  <pre class="link-embedder text-paste">$txt</pre>
-
-=head1 ATTRIBUTES
-
-=head2 media_id
-
-  $str = $self->media_id;
-
-=head2 provider_name
-
-=head1 METHODS
-
-=head2 learn
-
-=head2 raw_url
-
-=head1 AUTHOR
-
-Jan Henning Thorsen
-
-=cut

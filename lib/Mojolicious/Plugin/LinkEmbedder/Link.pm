@@ -11,14 +11,14 @@ use constant DEFAULT_VIDEO_WIDTH  => 640;
 
 has author_name => '';
 has author_url  => '';
-has error => undef;
-has etag  => sub {
+has error       => undef;
+has etag        => sub {
   eval { shift->_tx->res->headers->etag } // '';
 };
 
-has media_id    => '';
+has media_id      => '';
 has provider_name => sub { ucfirst shift->url->host };
-has provider_url => sub {
+has provider_url  => sub {
   my $self = shift;
   return Mojo::URL->new(host => $self->url->host, scheme => $self->url->scheme);
 };
@@ -137,94 +137,3 @@ sub _iframe {
 }
 
 1;
-
-=encoding utf8
-
-=head1 NAME
-
-Mojolicious::Plugin::LinkEmbedder::Link - Base class for links
-
-=head1 ATTRIBUTES
-
-=head2 error
-
-  my $err = $link->error;
-  $link   = $link->error({message => "Some error"});
-
-Get or set error. Default to C<undef> on no error.
-
-=head2 etag
-
-=head2 author_name
-
-Name of the person who created the content.
-
-=head2 author_url
-
-URL to L</author_name>.
-
-=head2 media_id
-
-Returns the part of the URL identifying the media. Default is empty string.
-
-=head2 provider_name
-
-Example: "Twitter".
-
-=head2 provider_url
-
-Example L<https://twitter.com>.
-
-=head2 title
-
-Some title
-
-=head2 ua
-
-Holds a L<Mojo::UserAgent> object.
-
-=head2 url
-
-Holds a L<Mojo::URL> object.
-
-=head1 METHODS
-
-=head2 is
-
-  $bool = $self->is($str);
-  $bool = $self->is('video');
-  $bool = $self->is('video-youtube');
-
-Convertes C<$str> using L<Mojo::Util/camelize> and checks if C<$self>
-is of that type:
-
-  $self->isa('Mojolicious::Plugin::LinkEmbedder::Link::' .Mojo::Util::camelize($_[1]));
-
-=head2 learn
-
-  $self->learn($c, $cb);
-
-This method can be used to learn more information about the link. This class
-has no idea what to learn, so it simply calls the callback (C<$cb>) with
-C<@cb_args>.
-
-=head2 pretty_url
-
-Returns a pretty version of the L</url>. The default is to return a cloned
-version of L</url>.
-
-=head2 tag
-
-  $bytestream = $self->tag(a => href => "http://google.com", sub { "link });
-
-Same as L<https://metacpan.org/pod/Mojolicious::Plugin::TagHelpers#tag>.
-
-=head2 to_embed
-
-Returns a link to the L</url>, with target "_blank".
-
-=head1 AUTHOR
-
-Jan Henning Thorsen - C<jan.henning@thorsen.pm>
-
-=cut

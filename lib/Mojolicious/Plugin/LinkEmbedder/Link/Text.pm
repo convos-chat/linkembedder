@@ -25,33 +25,3 @@ sub to_embed {
 }
 
 1;
-
-=encoding utf8
-
-=head1 NAME
-
-Mojolicious::Plugin::LinkEmbedder::Link::Text - Text URL
-
-=head1 DESCRIPTION
-
-This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link>.
-
-=head2 Example styling
-
-  .link-embedder .text-paste{background: #eee;border: 1px solid #ccc;}
-  .link-embedder .text-paste .paste-meta{border-bottom: 1px solid #ccc;padding: 4px;}
-  .link-embedder .text-paste pre{padding: 4px;margin:0;max-height: 240px;overflow:auto;}
-
-=head1 METHODS
-
-=head2 raw_url
-
-=head2 to_embed
-
-Returns the HTML code for a script tag that writes the gist.
-
-=head1 AUTHOR
-
-Jan Henning Thorsen - C<jhthorsen@cpan.org>
-
-=cut

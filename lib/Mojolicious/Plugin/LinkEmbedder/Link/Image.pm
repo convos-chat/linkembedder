@@ -9,25 +9,3 @@ sub to_embed {
 }
 
 1;
-
-=encoding utf8
-
-=head1 NAME
-
-Mojolicious::Plugin::LinkEmbedder::Link::Image - Base class for image links
-
-=head1 DESCRIPTION
-
-This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link>.
-
-=head1 METHODS
-
-=head2 to_embed
-
-Returns an img tag.
-
-=head1 AUTHOR
-
-Jan Henning Thorsen - C<jhthorsen@cpan.org>
-
-=cut

@@ -13,35 +13,3 @@ sub to_embed {
 }
 
 1;
-
-=encoding utf8
-
-=head1 NAME
-
-Mojolicious::Plugin::LinkEmbedder::Link::Game::_2play - 2play.com link
-
-=head1 DESCRIPTION
-
-This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link::Game>.
-
-=head1 ATTRIBUTES
-
-=head2 media_id
-
-Returns the second path segment from L</url>.
-
-=head2 provider_name
-
-=head1 METHODS
-
-=head2 to_embed
-
-Returns the HTML code for an iframe embedding this movie.
-
-=head1 AUTHOR
-
-Jan Henning Thorsen - C<jhthorsen@cpan.org>
-
-Marcus Ramberg - C<mramberg@cpan.org>
-
-=cut

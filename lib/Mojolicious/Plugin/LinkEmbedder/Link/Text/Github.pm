@@ -31,23 +31,3 @@ sub _learn_from_dom {
 }
 
 1;
-
-=encoding utf8
-
-=head1 NAME
-
-Mojolicious::Plugin::LinkEmbedder::Link::Text::Github - github.com link
-
-=head1 DESCRIPTION
-
-This class inherit from L<Mojolicious::Plugin::LinkEmbedder::Link::Text::HTML>.
-
-=head1 ATTRIBUTES
-
-=head2 provider_name
-
-=head1 AUTHOR
-
-Jan Henning Thorsen
-
-=cut

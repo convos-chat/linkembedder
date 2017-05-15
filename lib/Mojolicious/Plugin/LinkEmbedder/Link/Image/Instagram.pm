@@ -33,29 +33,3 @@ sub learn {
 sub to_embed { shift->{html} || '' }
 
 1;
-
-=encoding utf8
-
-=head1 NAME
-
-Mojolicious::Plugin::LinkEmbedder::Link::Image::Instagram - instagram.com image or video
-
-=head1 DESCRIPTION
-
-This class inherits from L<Mojolicious::Plugin::LinkEmbedder::Link::Image>.
-
-=head1 METHODS
-
-=head2 learn
-
-Gets the file imformation from the page meta information
-
-=head2 to_embed
-
-Returns markup.
-
-=head1 SEE ALSO
-
-L<Mojolicious::Plugin::LinkEmbedder>.
-
-=cut
