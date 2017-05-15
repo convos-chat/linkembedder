@@ -5,7 +5,7 @@ use Mojo::UserAgent;
 use Mojolicious::Plugin::LinkEmbedder::Link;
 use constant DEBUG => $ENV{MOJO_LINKEMBEDDER_DEBUG} || 0;
 
-our $VERSION = '0.24';
+our $VERSION = '0.25';
 
 has _ua => sub { Mojo::UserAgent->new(max_redirects => 3) };
 
@@ -192,7 +192,7 @@ Mojolicious::Plugin::LinkEmbedder - Deprecated
 
 =head1 VERSION
 
-0.24
+0.25
 
 =head1 DESCRIPTION
 
