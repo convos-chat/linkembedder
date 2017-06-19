@@ -1,5 +1,8 @@
 Revision history for perl distribution LinkEmbedder
 
+0.06 Not Released
+ - Bumped required Mojolicious version
+
 0.05 2017-05-01T22:35:47+0200
  - Fix terrible class names from provider_name()
  - Add support for using <link rel="icon" ...> for images
