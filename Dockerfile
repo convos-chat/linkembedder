@@ -17,4 +17,4 @@ ENV MOJO_MODE production
 ENV LINK_EMBEDDER_RESTRICTED 1
 EXPOSE 8080
 
-ENTRYPOINT ["/linkembedder-master/examples/embedder.pl", "prefork", "-l", "http://*:8080"]
+ENTRYPOINT ["perl", "/linkembedder-master/examples/embedder.pl", "prefork", "-l", "http://*:8080"]
