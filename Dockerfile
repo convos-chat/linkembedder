@@ -13,8 +13,10 @@ RUN apk add -U perl perl-io-socket-ssl \
   && apk del builddeps curl \
   && rm -rf /root/.cpanm /var/cache/apk/*
 
-ENV MOJO_MODE production
 ENV LINK_EMBEDDER_RESTRICTED 1
+ENV MOJO_MODE production
+ENV PERL5LIB /linkembedder-master/lib
+
 EXPOSE 8080
 
 ENTRYPOINT ["perl", "/linkembedder-master/examples/embedder.pl", "prefork", "-l", "http://*:8080"]
