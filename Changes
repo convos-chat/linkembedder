@@ -1,6 +1,6 @@
 Revision history for perl distribution LinkEmbedder
 
-1.00 Not Released
+1.00 2018-09-26T01:22:18+0900
  - Compatible with Mojolicious 8.00
  - Converted from delay to promises
 
