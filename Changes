@@ -1,7 +1,8 @@
 Revision history for perl distribution LinkEmbedder
 
-0.06 Not Released
- - Bumped required Mojolicious version
+1.00 Not Released
+ - Compatible with Mojolicious 8.00
+ - Converted from delay to promises
 
 0.05 2017-05-01T22:35:47+0200
  - Fix terrible class names from provider_name()

@@ -2,15 +2,17 @@ use Mojo::Base -strict;
 use Test::More;
 use LinkEmbedder;
 
+use Carp::Always;
+
 my $link;
 my $embedder = LinkEmbedder->new;
 isa_ok($embedder->ua, 'Mojo::UserAgent');
 
-$link = $embedder->get;
+$embedder->get_p->then(sub { $link = shift })->wait;
 is ref($link), 'LinkEmbedder::Link', 'LinkEmbedder::Link';
 is_deeply $link->error, {code => 400, message => 'Invalid URL'}, 'invalid url';
 
-$link = $embedder->get('mailto:jhthorsen@cpan.org');
+$embedder->get_p('mailto:jhthorsen@cpan.org')->then(sub { $link = shift })->wait;
 is ref($link), 'LinkEmbedder::Link', 'LinkEmbedder::Link';
 is_deeply $link->error, {code => 400, message => 'Could not find LinkEmbedder::Link::Mailto'}, 'mailto';
 is $link->html, qq(<a class="le-link" href="mailto:jhthorsen\@cpan.org" title="">mailto:jhthorsen\@cpan.org</a>\n),
