@@ -1,6 +1,6 @@
 Revision history for perl distribution LinkEmbedder
 
-1.01 Not Released
+1.01 2018-09-26T13:44:46+0900
  - Forgot to remove Carp::Always
  - Add support for https://perlbot.pl #1
  - Add support for https://paste.fedoraproject.org #2
