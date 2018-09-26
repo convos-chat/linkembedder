@@ -29,6 +29,13 @@ sub _learn_from_dom {
     $self->template->[1] = 'paste.html.ep';
   }
 
+  # Bitbucket hack
+  $tmp = $dom->at('div.codehilite');
+  if ($tmp) {
+    $self->{paste} = $tmp->all_text;
+    $self->template->[1] = 'paste.html.ep';
+  }
+
   $tmp = $dom->at('.author-pic > a > img') || $dom->at('link[rel="apple-touch-icon"]') || $dom->at('[rel="icon"]');
   if (!$self->thumbnail_url and $tmp and $tmp->{src} ||= $tmp->{href}) {
     $self->thumbnail_url(Mojo::URL->new($tmp->{src})->to_abs(Mojo::URL->new($self->url))->to_string);
