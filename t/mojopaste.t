@@ -16,13 +16,13 @@ cmp_deeply(
     cache_age     => 0,
     html          => re(qr{<pre>&lt;test&gt;paste!&lt;/test&gt;</pre>}),
     provider_name => 'Thorsen',
-    provider_url  => 'https://ssl.thorsen.pm/',
+    provider_url  => 'https://p.thorsen.pm/',
     title         => re(qr{ - Mojopaste}),
     type          => 'rich',
-    url           => 'https://ssl.thorsen.pm/paste/643f88eb788d',
+    url           => 'https://p.thorsen.pm/643f88eb788d',
     version       => '1.0',
   },
-  'https://ssl.thorsen.pm/paste/643f88eb788d'
+  'mojopaste'
 ) or note $link->_dump;
 
 done_testing;

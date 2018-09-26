@@ -12,7 +12,7 @@ isa_ok($link, 'LinkEmbedder::Link::oEmbed');
 cmp_deeply(
   $link->TO_JSON,
   superhashof({
-    author_name   => 'Mojoconf2014',
+    author_name   => re(qr{Mojoconf}),
     author_url    => 'https://www.youtube.com/channel/UCgk2wCZr5Rk-cewLTtQA_Fg',
     cache_age     => 0,
     html          => re(qr{iframe.*src="}),
