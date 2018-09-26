@@ -29,8 +29,8 @@ sub _learn_from_dom {
     $self->template->[1] = 'paste.html.ep';
   }
 
-  # Mojopaste hack
-  $tmp = $dom->at('body > pre');
+  # Mojopaste and Perlbot hack
+  $tmp = $dom->at('body > pre') || $dom->at('pre#paste') || $dom->at('pre.paste');
   if ($tmp and !@{$tmp->children}) {
     $self->{paste} = $tmp->text;
     $self->template->[1] = 'paste.html.ep';

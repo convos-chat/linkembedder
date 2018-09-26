@@ -9,7 +9,7 @@ my $embedder = LinkEmbedder->new;
 
 my $link;
 $embedder->get_p('https://paste.fedoraproject.org/paste/9qkGGjN-D3fL2M-bimrwNQ')->then(sub { $link = shift })->wait;
-isa_ok($link, 'LinkEmbedder::Link::Basic');
+isa_ok($link, 'LinkEmbedder::Link::Fpaste');
 cmp_deeply(
   $link->TO_JSON,
   {

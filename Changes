@@ -2,8 +2,9 @@ Revision history for perl distribution LinkEmbedder
 
 1.01 Not Released
  - Forgot to remove Carp::Always
+ - Add support for https://perlbot.pl #1
+ - Add support for https://paste.fedoraproject.org #2
  - Add support for https://bitbucket.org #3
- - Add support for https://paste.fedoraproject.org #22
 
 1.00 2018-09-26T01:22:18+0900
  - Compatible with Mojolicious 8.00
