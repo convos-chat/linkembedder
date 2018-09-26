@@ -2,8 +2,6 @@ use Mojo::Base -strict;
 use Test::More;
 use LinkEmbedder;
 
-use Carp::Always;
-
 my $link;
 my $embedder = LinkEmbedder->new;
 isa_ok($embedder->ua, 'Mojo::UserAgent');
