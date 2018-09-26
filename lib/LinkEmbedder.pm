@@ -17,25 +17,26 @@ has ua => sub { Mojo::UserAgent->new->max_redirects(3); };
 
 has url_to_link => sub {
   return {
-    'default'            => 'LinkEmbedder::Link::Basic',
-    'appear.in'          => 'LinkEmbedder::Link::AppearIn',
-    'git.io'             => 'LinkEmbedder::Link::Github',
-    'github.com'         => 'LinkEmbedder::Link::Github',
-    'google'             => 'LinkEmbedder::Link::Google',
-    'imgur.com'          => 'LinkEmbedder::Link::Imgur',
-    'ix.io'              => 'LinkEmbedder::Link::Ix',
-    'instagram.com'      => 'LinkEmbedder::Link::oEmbed',
-    'metacpan.org'       => 'LinkEmbedder::Link::Metacpan',
-    'paste.opensuse.org' => 'LinkEmbedder::Link::OpenSUSE',
-    'paste.scsys.co.uk'  => 'LinkEmbedder::Link::Shadowcat',
-    'pastebin.com'       => 'LinkEmbedder::Link::Pastebin',
-    'spotify'            => 'LinkEmbedder::Link::Spotify',
-    'ted.com'            => 'LinkEmbedder::Link::oEmbed',
-    'travis-ci.org'      => 'LinkEmbedder::Link::Travis',
-    'twitter.com'        => 'LinkEmbedder::Link::Twitter',
-    'vimeo.com'          => 'LinkEmbedder::Link::oEmbed',
-    'xkcd.com'           => 'LinkEmbedder::Link::Xkcd',
-    'youtube.com'        => 'LinkEmbedder::Link::oEmbed',
+    'default'                 => 'LinkEmbedder::Link::Basic',
+    'appear.in'               => 'LinkEmbedder::Link::AppearIn',
+    'git.io'                  => 'LinkEmbedder::Link::Github',
+    'github.com'              => 'LinkEmbedder::Link::Github',
+    'google'                  => 'LinkEmbedder::Link::Google',
+    'imgur.com'               => 'LinkEmbedder::Link::Imgur',
+    'ix.io'                   => 'LinkEmbedder::Link::Ix',
+    'instagram.com'           => 'LinkEmbedder::Link::oEmbed',
+    'metacpan.org'            => 'LinkEmbedder::Link::Metacpan',
+    'paste.fedoraproject.org' => 'LinkEmbedder::Link::Fpaste',
+    'paste.opensuse.org'      => 'LinkEmbedder::Link::OpenSUSE',
+    'paste.scsys.co.uk'       => 'LinkEmbedder::Link::Shadowcat',
+    'pastebin.com'            => 'LinkEmbedder::Link::Pastebin',
+    'spotify'                 => 'LinkEmbedder::Link::Spotify',
+    'ted.com'                 => 'LinkEmbedder::Link::oEmbed',
+    'travis-ci.org'           => 'LinkEmbedder::Link::Travis',
+    'twitter.com'             => 'LinkEmbedder::Link::Twitter',
+    'vimeo.com'               => 'LinkEmbedder::Link::oEmbed',
+    'xkcd.com'                => 'LinkEmbedder::Link::Xkcd',
+    'youtube.com'             => 'LinkEmbedder::Link::oEmbed',
   };
 };
 
@@ -176,6 +177,10 @@ Example: L<http://home.thorsen.pm/demo/link-embedder?url=https%3A%2F%2Fwww.googl
 =item * L<https://metacpan.org>
 
 Example: L<http://home.thorsen.pm/demo/link-embedder?url=https://metacpan.org/pod/Mojolicious>
+
+=item * L<https://paste.fedoraproject.org/>
+
+Example: L<http://home.thorsen.pm/demo/link-embedder?https://paste.fedoraproject.org/paste/9qkGGjN-D3fL2M-bimrwNQ>
 
 =item * L<http://paste.opensuse.org>
 

@@ -22,17 +22,17 @@ sub _learn_from_dom {
 
   $self->SUPER::_learn_from_dom($dom);
 
-  # Mojopaste hack
-  $tmp = $dom->at('body > pre');
-  if ($tmp and !@{$tmp->children}) {
-    $self->{paste} = $tmp->text;
-    $self->template->[1] = 'paste.html.ep';
-  }
-
   # Bitbucket hack
   $tmp = $dom->at('div.codehilite');
   if ($tmp) {
     $self->{paste} = $tmp->all_text;
+    $self->template->[1] = 'paste.html.ep';
+  }
+
+  # Mojopaste hack
+  $tmp = $dom->at('body > pre');
+  if ($tmp and !@{$tmp->children}) {
+    $self->{paste} = $tmp->text;
     $self->template->[1] = 'paste.html.ep';
   }
 
