@@ -1,5 +1,8 @@
 Revision history for perl distribution LinkEmbedder
 
+1.03 Not Released
+ - Add support for X-Request-Base to example app
+
 1.02 2018-12-14T12:32:49+0900
  - Add get() again
 

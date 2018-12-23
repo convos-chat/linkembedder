@@ -50,6 +50,12 @@ app->defaults(
   ]
 );
 
+$ENV{X_REQUEST_BASE} and hook before_dispatch => sub {
+  my $c = shift;
+  return unless my $base = $c->req->headers->header('X-Request-Base');
+  $c->req->url->base(Mojo::URL->new($base));
+};
+
 app->start;
 
 __DATA__
