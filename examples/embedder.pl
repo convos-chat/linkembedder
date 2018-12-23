@@ -8,7 +8,7 @@ helper embedder => sub { state $e = LinkEmbedder->new };
 
 get '/'       => 'index';
 get '/oembed' => sub {
-  my $c   = shift;
+  my $c   = shift->render_later;
   my $url = $c->param('url');
 
   if ($c->stash('restricted') and !grep { $_ eq $url } @{$c->stash('predefined')}) {
