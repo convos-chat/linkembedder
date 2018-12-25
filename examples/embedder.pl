@@ -8,15 +8,14 @@ helper embedder => sub { state $e = LinkEmbedder->new };
 
 get '/'       => 'index';
 get '/oembed' => sub {
-  my $c   = shift->render_later;
+  my $c   = shift;
   my $url = $c->param('url');
 
   if ($c->stash('restricted') and !grep { $_ eq $url } @{$c->stash('predefined')}) {
-    $c->render(json => {error => "LINK_EMBEDDER_RESTRICTED is set."});
+    return $c->render(json => {error => "LINK_EMBEDDER_RESTRICTED is set."});
   }
-  else {
-    $c->embedder->serve($c);
-  }
+
+  $c->embedder->serve($c);
 };
 
 app->defaults(
