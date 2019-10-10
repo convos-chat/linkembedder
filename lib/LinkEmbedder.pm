@@ -26,6 +26,7 @@ has url_to_link => sub {
     'ix.io'                   => 'LinkEmbedder::Link::Ix',
     'instagram.com'           => 'LinkEmbedder::Link::oEmbed',
     'metacpan.org'            => 'LinkEmbedder::Link::Metacpan',
+    'nhl.com'                 => 'LinkEmbedder::Link::NHL',
     'paste.fedoraproject.org' => 'LinkEmbedder::Link::Fpaste',
     'paste.opensuse.org'      => 'LinkEmbedder::Link::OpenSUSE',
     'paste.scsys.co.uk'       => 'LinkEmbedder::Link::Shadowcat',
