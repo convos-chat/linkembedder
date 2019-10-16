@@ -1,5 +1,8 @@
 Revision history for perl distribution LinkEmbedder
 
+1.06 Not Released
+ - Make sure error() is always a hash-ref
+
 1.05 2019-04-17T18:33:02+0700
  - No longer EXPERIMENTAL
  - Replaced a bunch of outdated example links
