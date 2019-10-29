@@ -20,7 +20,6 @@ has ua => sub { Mojo::UserAgent->new->max_redirects(3); };
 has url_to_link => sub {
   return {
     'default'                 => 'LinkEmbedder::Link::Basic',
-    'appear.in'               => 'LinkEmbedder::Link::AppearIn',
     'git.io'                  => 'LinkEmbedder::Link::Github',
     'github.com'              => 'LinkEmbedder::Link::Github',
     'google'                  => 'LinkEmbedder::Link::Google',
@@ -39,6 +38,7 @@ has url_to_link => sub {
     'twitter.com'             => 'LinkEmbedder::Link::Twitter',
     'vimeo.com'               => 'LinkEmbedder::Link::oEmbed',
     'xkcd.com'                => 'LinkEmbedder::Link::Xkcd',
+    'whereby.com'             => 'LinkEmbedder::Link::AppearIn',
     'youtube.com'             => 'LinkEmbedder::Link::oEmbed',
   };
 };
