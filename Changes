@@ -1,5 +1,8 @@
 Revision history for perl distribution LinkEmbedder
 
+1.07 Not Released
+ - Replaced most of the insecure "http:" links
+
 1.06 2019-10-16T18:55:09+0900
  - Add support for NHL videos #12
  - Fixed a bunch of failing tests #12

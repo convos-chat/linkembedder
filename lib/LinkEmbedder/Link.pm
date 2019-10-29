@@ -27,7 +27,7 @@ has error       => undef;                                                # {mess
 has height      => sub { $_[0]->type =~ /^photo|video$/ ? 0 : undef };
 
 has placeholder_url => sub {
-  return sprintf 'http://placehold.it/200x200?text=%s', shift->provider_name;
+  return sprintf 'https://placehold.it/200x200?text=%s', shift->provider_name;
 };
 
 has provider_name => sub {
@@ -36,14 +36,14 @@ has provider_name => sub {
 };
 
 has provider_url => sub { $_[0]->url->host ? $_[0]->url->clone->path('/') : undef };
-has template         => sub { [__PACKAGE__, sprintf '%s.html.ep', $_[0]->type] };
+has template     => sub { [__PACKAGE__, sprintf '%s.html.ep', $_[0]->type] };
 has thumbnail_height => undef;
 has thumbnail_url    => undef;
 has thumbnail_width  => undef;
 has title            => undef;
 has type             => 'link';
-has ua               => undef;                                                      # Mojo::UserAgent object
-has url              => undef;                                                      # Mojo::URL
+has ua               => undef;                                                # Mojo::UserAgent object
+has url              => undef;                                                # Mojo::URL
 has version          => '1.0';
 has width            => sub { $_[0]->type =~ /^photo|video$/ ? 0 : undef };
 

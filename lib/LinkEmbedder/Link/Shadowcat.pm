@@ -4,7 +4,7 @@ use Mojo::Base 'LinkEmbedder::Link';
 use constant DEBUG => $ENV{LINK_EMBEDDER_DEBUG} || 0;
 
 has provider_name => 'Shadowcat';
-has provider_url => sub { Mojo::URL->new('http://shadow.cat/') };
+has provider_url  => sub { Mojo::URL->new('https://shadow.cat/') };
 
 sub learn_p {
   my $self = shift;

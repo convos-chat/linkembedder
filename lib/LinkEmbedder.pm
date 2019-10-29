@@ -7,6 +7,8 @@ use Mojo::Loader 'load_class';
 use Mojo::Promise;
 use Mojo::UserAgent;
 
+use constant TLS => eval { require IO::Socket::SSL; IO::Socket::SSL->VERSION('2.009'); 1 };
+
 use constant DEBUG => $ENV{LINK_EMBEDDER_DEBUG} || 0;
 
 our $VERSION = '1.06';
@@ -139,7 +141,7 @@ LinkEmbedder - Embed / expand oEmbed resources and other URL / links
   use LinkEmbedder;
 
   my $embedder = LinkEmbedder->new;
-  $embedder->get_p("http://xkcd.com/927")->then(sub {
+  $embedder->get_p("https://xkcd.com/927")->then(sub {
     my $link = shift;
     print $link->html;
   })->wait;
@@ -157,7 +159,7 @@ These web pages are currently supported:
 
 =over 2
 
-=item * L<http://imgur.com/>
+=item * L<https://imgur.com/>
 
 =item * L<https://instagram.com/>
 
@@ -172,7 +174,7 @@ for more information.
 
 =item * L<https://github.com>
 
-=item * L<https://ix.io>
+=item * L<http://ix.io>
 
 =item * L<https://maps.google.com>
 
@@ -180,11 +182,11 @@ for more information.
 
 =item * L<https://paste.fedoraproject.org/>
 
-=item * L<http://paste.opensuse.org>
+=item * L<https://paste.opensuse.org>
 
 =item * L<http://paste.scsys.co.uk>
 
-=item * L<http://pastebin.com>
+=item * L<https://pastebin.com>
 
 =item * L<https://www.spotify.com/>
 

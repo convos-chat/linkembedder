@@ -2,11 +2,12 @@ use Mojo::Base -strict;
 use Test::More;
 use LinkEmbedder;
 
-plan skip_all => 'TEST_ONLINE=1' unless $ENV{TEST_ONLINE};
+plan skip_all => 'TEST_ONLINE=1'         unless $ENV{TEST_ONLINE};
+plan skip_all => 'cpanm IO::Socket::SSL' unless LinkEmbedder::TLS;
 
 my $embedder = LinkEmbedder->new;
 my $link;
-$embedder->get_p('https://imgur.com/w3cmS')->then(sub { $link = shift })->wait; # exists since Jan 2, 2011
+$embedder->get_p('https://imgur.com/w3cmS')->then(sub { $link = shift })->wait;    # exists since Jan 2, 2011
 isa_ok($link, 'LinkEmbedder::Link::Imgur');
 is_deeply $link->TO_JSON,
   {
