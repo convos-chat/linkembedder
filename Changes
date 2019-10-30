@@ -1,6 +1,6 @@
 Revision history for perl distribution LinkEmbedder
 
-1.07 Not Released
+1.07 2019-10-30T09:12:36+0900
  - Add support for force_secure
  - Replaced most of the insecure "http:" links #11
  - Changed appear.in to whereby.com #11
