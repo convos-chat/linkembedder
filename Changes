@@ -1,6 +1,6 @@
 Revision history for perl distribution LinkEmbedder
 
-1.10 Not Released
+1.10 2019-12-23T13:23:49+0900
  - Fix Can't locate object method "clone" via package ...
 
 1.09 2019-12-23T11:20:51+0900
