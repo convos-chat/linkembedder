@@ -42,7 +42,7 @@ sub _learn {
   my ($self, $tx) = @_;
   my $js_redirect = $tx->res->dom->at('div[data-destination^="http"]');
 
-  return $self->_get_p($js_redirect->{'data-destination'})->then(sub { $self->_learn(shift) })
+  return $self->_get_p(Mojo::URL->new($js_redirect->{'data-destination'}))->then(sub { $self->_learn(shift) })
     if $js_redirect and !$self->{js_redirect}++;
 
   return $self->SUPER::_learn($tx);
