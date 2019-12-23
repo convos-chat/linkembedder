@@ -1,6 +1,6 @@
 Revision history for perl distribution LinkEmbedder
 
-1.09 Not Released
+1.09 2019-12-23T11:20:51+0900
  - Fix loading google images by setting "User-Agent" header #13
  - Removed default placeholder_url
 
