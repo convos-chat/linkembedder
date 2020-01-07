@@ -1,5 +1,8 @@
 Revision history for perl distribution LinkEmbedder
 
+1.11 Not Released
+ - Add support for fortunecowsay.com
+
 1.10 2019-12-23T13:23:49+0900
  - Fix Can't locate object method "clone" via package ...
 
