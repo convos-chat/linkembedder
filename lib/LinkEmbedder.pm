@@ -11,7 +11,7 @@ use constant TLS => eval { require IO::Socket::SSL; IO::Socket::SSL->VERSION('2.
 
 use constant DEBUG => $ENV{LINK_EMBEDDER_DEBUG} || 0;
 
-our $VERSION = '1.11';
+our $VERSION = '1.12';
 
 my $PROTOCOL_RE = qr!^(\w+):\w+!i;    # Examples: mail:, spotify:, ...
 
@@ -132,7 +132,7 @@ sub _invalid_input {
 sub _load {
   $@ = load_class $_[0];
   warn "[LinkEmbedder] load $_[0]: @{[$@ || 'Success']}\n" if DEBUG;
-  die $@ if ref $@;
+  die $@                                                   if ref $@;
   return $@ ? 0 : 1;
 }
 
