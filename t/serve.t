@@ -12,6 +12,11 @@ isa_ok($embedder->ua, 'Mojo::UserAgent');
 use Mojolicious::Lite;
 get '/example' => 'example';
 get '/oembed'  => sub { $embedder->serve(shift) };
+get '/header'  => sub {
+  my $c = shift;
+  $c->res->headers->header('X-Provider-Name', 'Convos');
+  $c->render(text => 'X-Provider-Name example');
+};
 
 my $t = Test::Mojo->new;
 $t->get_ok('/example')->status_is(200);
@@ -26,6 +31,9 @@ $t->get_ok("/oembed.html?url=$url")->status_is(200)->text_is('h3', 'example page
 $t->get_ok("/oembed.jsonp?url=$url")->status_is(200)->content_like(qr{^oembed\(\{.*"title":"example page".*\}\)$});
 $t->get_ok("/oembed.jsonp?callback=cb&url=$url")->status_is(200)
   ->content_like(qr{^cb\(\{.*"title":"example page".*\}\)$});
+
+$url = $t->ua->server->url->clone->path('/header');
+$t->get_ok("/oembed?url=$url")->status_is(200)->content_like(qr{class=\\"le-rich le-provider-convos\\"});
 
 done_testing;
 
