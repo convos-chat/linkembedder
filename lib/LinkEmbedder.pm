@@ -22,6 +22,7 @@ has ua => sub { Mojo::UserAgent->new->max_redirects(3); };
 has url_to_link => sub {
   return {
     'default'                 => 'LinkEmbedder::Link::Basic',
+    'dropbox.com'             => 'LinkEmbedder::Link::Dropbox',
     'git.io'                  => 'LinkEmbedder::Link::Github',
     'github.com'              => 'LinkEmbedder::Link::Github',
     'google'                  => 'LinkEmbedder::Link::Google',
@@ -171,6 +172,8 @@ Go to L<https://thorsen.pm/linkembedder> to see a demo of how it works.
 These web pages are currently supported:
 
 =over 2
+
+=item * L<https://dropbox.com/>
 
 =item * L<https://imgur.com/>
 
