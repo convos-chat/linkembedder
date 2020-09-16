@@ -32,7 +32,6 @@ has url_to_link => sub {
     'instagram.com'           => 'LinkEmbedder::Link::oEmbed',
     'metacpan.org'            => 'LinkEmbedder::Link::Metacpan',
     'nhl.com'                 => 'LinkEmbedder::Link::NHL',
-    'paste.fedoraproject.org' => 'LinkEmbedder::Link::Fpaste',
     'paste.opensuse.org'      => 'LinkEmbedder::Link::OpenSUSE',
     'paste.scsys.co.uk'       => 'LinkEmbedder::Link::Shadowcat',
     'pastebin.com'            => 'LinkEmbedder::Link::Pastebin',
@@ -111,6 +110,37 @@ sub serve {
   })->catch(sub { $c->reply->exception(shift) });
 
   return $self;
+}
+
+# This should probably be in a different test-module, but keeping it here for now
+sub test_ok {
+  my ($self, $url, $expect) = @_;
+
+  my $subtest = sub {
+    my $link = shift;
+    my $json = $link->TO_JSON;
+    Test::More::isa_ok($link, $expect->{isa}) if $expect->{isa};
+
+    for my $key (sort keys %$expect) {
+      next if $key eq 'isa';
+      for my $exp (ref $expect->{$key} eq 'ARRAY' ? @{$expect->{$key}} : ($expect->{$key})) {
+        my $test_name = ref $exp eq 'Regexp' ? 'like' : 'is';
+        Test::More->can($test_name)->($json->{$key}, $exp, $key);
+      }
+    }
+  };
+
+  my $ok;
+  $self->get_p($url)->then(
+    sub {
+      my $link = shift;
+      $ok = Test::More::subtest($link->url, sub { $subtest->($link) });
+      Test::More::diag(Test::More::explain($link->TO_JSON)) unless $ok;
+    },
+    sub { Test::More::diag(shift) }
+  )->wait;
+
+  return $ok;
 }
 
 sub _host_in_hash {
