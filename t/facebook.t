@@ -21,7 +21,7 @@ for my $url (@urls) {
       version       => '1.0',
       cache_age     => 0,
       html =>
-        qr{<iframe class="le-rich le-provider-facebook" .* src="https://www\.facebook\.com/plugins/video\.php\?$encoded_url},
+        qr{<iframe class="le-rich le-provider-facebook" .* src="https://www\.facebook\.com/plugins/video\.php\?href=$encoded_url},
     }
   );
 }

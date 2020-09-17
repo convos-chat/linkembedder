@@ -25,4 +25,4 @@ sub _learn_from_video_p {
 
 __DATA__
 @@ iframe.html.ep
-<iframe class="le-rich le-provider-facebook" width="476" height="476" style="border:0;width:100%" frameborder="0" allowfullscreen src="https://www.facebook.com/plugins/video.php?<%== Mojo::Util::url_escape($l->url) %>&show_text=0&width=476"></iframe>
+<iframe class="le-rich le-provider-facebook" width="476" height="476" style="border:0;width:100%" frameborder="0" allowfullscreen src="https://www.facebook.com/plugins/video.php?href=<%== Mojo::Util::url_escape($l->url) %>&show_text=0&width=476"></iframe>
