@@ -5,6 +5,7 @@ Revision history for perl distribution LinkEmbedder
  - Fix parsing metacpan.org links
  - Fix parsing pastebini.com links
  - Fix parsing xkcd.com links
+ - Add support for Facebook video #9
  - Add support for extracting "application/ld+json" information
  - Add support for paste.centos.org (replaced fedoraproject paste)
  - Changed to use twitframe.com to embed twitter posts
