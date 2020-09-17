@@ -1,6 +1,6 @@
 Revision history for perl distribution LinkEmbedder
 
-1.13 Not Released
+1.13 2020-09-17T13:08:51+0900
  - Fix parsing imgur links #17
  - Fix parsing metacpan.org links
  - Fix parsing pastebini.com links
