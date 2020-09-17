@@ -14,6 +14,17 @@ my %expected = (
 );
 
 LinkEmbedder->new->test_ok(
+  'https://github.com/jhthorsen/linkembedder/blob/master/examples/embedder.pl' => {
+    %expected,
+    isa           => 'LinkEmbedder::Link::Github',
+    html          => qr{use LinkEmbedder;.*decodeURIComponent}s,
+    thumbnail_url => qr{githubusercontent\.com/},
+    title         => qr{linkembedder/embedder.pl},
+    url           => 'https://github.com/jhthorsen/linkembedder/blob/master/examples/embedder.pl',
+  }
+);
+
+LinkEmbedder->new->test_ok(
   'https://git.io/aKhMuA' => {
     isa => 'LinkEmbedder::Link::Github',
     %expected,
@@ -26,8 +37,8 @@ LinkEmbedder->new->test_ok(
 
 LinkEmbedder->new->test_ok(
   'https://github.com/jhthorsen' => {
-    isa => 'LinkEmbedder::Link::Github',
     %expected,
+    isa           => 'LinkEmbedder::Link::Github',
     html          => qr{Follow their code on GitHub},
     thumbnail_url => qr{githubusercontent.com/u/45729\b},
     title         => "jhthorsen (Jan Henning Thorsen)",
