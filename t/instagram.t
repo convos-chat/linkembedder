@@ -25,4 +25,24 @@ LinkEmbedder->new->test_ok(
   }
 );
 
+LinkEmbedder->new->test_ok(
+  'https://www.instagram.com/p/CFOCg0shCqz/' => {
+    isa              => 'LinkEmbedder::Link::oEmbed',
+    html             => qr{instagram-media},
+    thumbnail_url    => qr{/11142282_807944772625369_492138085_n\.jpg},
+    author_name      => 'kevin',
+    author_url       => 'https://www.instagram.com/kevin',
+    cache_age        => 0,
+    provider_name    => 'Instagram',
+    provider_url     => 'https://www.instagram.com',
+    thumbnail_height => '480',
+    thumbnail_width  => '480',
+    title            => "test",
+    type             => 'rich',
+    url              => 'https://www.instagram.com/p/C/',
+    version          => '1.0',
+    width            => '658',
+  }
+);
+
 done_testing;
