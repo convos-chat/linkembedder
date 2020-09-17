@@ -23,7 +23,6 @@ has url_to_link => sub {
   return {
     'default'            => 'LinkEmbedder::Link::Basic',
     'dropbox.com'        => 'LinkEmbedder::Link::Dropbox',
-    'facebook.com'       => 'LinkEmbedder::Link::Facebook',
     'git.io'             => 'LinkEmbedder::Link::Github',
     'github.com'         => 'LinkEmbedder::Link::Github',
     'google'             => 'LinkEmbedder::Link::Google',
