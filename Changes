@@ -1,6 +1,6 @@
 Revision history for perl distribution LinkEmbedder
 
-1.14 Not Released
+1.14 2020-09-21T08:47:37+0900
  - Select github line ranges when specified
    Contributor: Joel Berger
 
