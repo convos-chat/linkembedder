@@ -30,6 +30,7 @@ has url_to_link => sub {
     'imgur.com'          => 'LinkEmbedder::Link::Imgur',
     'instagram.com'      => 'LinkEmbedder::Link::Instagram',
     'ix.io'              => 'LinkEmbedder::Link::Ix',
+    'meet.jit.si'        => 'LinkEmbedder::Link::Jitsi',
     'metacpan.org'       => 'LinkEmbedder::Link::Metacpan',
     'nhl.com'            => 'LinkEmbedder::Link::NHL',
     'paste.opensuse.org' => 'LinkEmbedder::Link::OpenSUSE',
