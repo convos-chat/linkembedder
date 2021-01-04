@@ -11,7 +11,7 @@ use constant TLS => eval { require IO::Socket::SSL; IO::Socket::SSL->VERSION('2.
 
 use constant DEBUG => $ENV{LINK_EMBEDDER_DEBUG} || 0;
 
-our $VERSION = '1.15';
+our $VERSION = '1.16';
 
 my $PROTOCOL_RE = qr!^(\w+):\w+!i;    # Examples: mail:, spotify:, ...
 
@@ -148,7 +148,7 @@ sub _host_in_hash {
   my ($host, $hash) = @_;
   return $hash->{$host} if $hash->{$host};
 
-  $host = $1 if $host =~ m!([^\.]+\.\w+)$!;
+  $host = $1            if $host =~ m!([^\.]+\.\w+)$!;
   return $hash->{$host} if $hash->{$host};
 
   $host = $1 if $host =~ m!([^\.]+)\.\w+$!;
