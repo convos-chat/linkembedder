@@ -2,6 +2,7 @@ Revision history for perl distribution LinkEmbedder
 
 1.17 Not Released
  - Add support for https://www.webex.com/
+ - Add support for https://meet.google.com/
  - Add "le-video-chat" class to video chat resources
  - Renamed "AppearIn" to "Whereby"
 
