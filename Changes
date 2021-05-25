@@ -1,5 +1,8 @@
 Revision history for perl distribution LinkEmbedder
 
+1.19 Not Released
+ - Fix Mojolicious version after v1.18 #23
+
 1.18 2021-03-24T09:29:43+0900
  - Fix compatibility with Mojolicious 9.11
 
