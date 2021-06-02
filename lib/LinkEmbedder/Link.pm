@@ -44,6 +44,7 @@ has ua               => undef;                                                  
 has url              => sub { Mojo::URL->new };                                            # Mojo::URL
 has version          => '1.0';
 has width            => sub { $_[0]->type =~ /^photo|video$/ ? 0 : undef };
+has mimetype         => '';
 
 sub html {
   my $self     = shift;
@@ -382,9 +383,13 @@ __DATA__
 <a class="le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>" href="<%= $l->url %>"><%= Mojo::Util::url_unescape($l->url) %></a>
 % }
 @@ video.html.ep
-<video class="le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>" height="640" width="480" preload="metadata" controls>
-% for my $s (@{$l->{sources} || []}) {
-  <source src="<%= $s->{url} %>" type="<%= $s->{type} || '' %>">
-% }
-  <p>Your browser does not support the video tag.</p>
-</video>
+@@ video.html.ep
+<div class="le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>" height="640" width="480" preload="metadata" controls>
+  <video class="le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>" height="640" width="480" preload="metadata" controls>
+    <source src="<%= $l->{url} %>" type="<%= $l->{mimetype} || '' %>">
+    % for my $s (@{$l->{sources} || []}) {
+      <source src="<%= $s->{url} %>" type="<%= $s->{type} || '' %>">
+    % }
+    <p>Your browser does not support the video tag.</p>
+  </video>
+</div>

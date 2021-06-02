@@ -4,8 +4,8 @@ use Mojo::Base 'LinkEmbedder::Link';
 use Mojo::JSON;
 use Mojo::Util 'trim';
 
-my $PHOTO_RE = qr!\.(?:jpg|png|gif)\b!i;
-my $VIDEO_RE = qr!\.(?:mpg|mpeg|mov|mp4|ogv)\b!i;
+my $PHOTO_RE = qr!\.(?:jpg|png|gif|webp)\b!i;
+my $VIDEO_RE = qr!\.(?:mpg|mpeg|mov|mp4|ogv|webm)\b!i;
 
 sub learn_p {
   my $self = shift;
@@ -13,6 +13,10 @@ sub learn_p {
   my $type = $url =~ $PHOTO_RE ? 'photo' : $url =~ $VIDEO_RE ? 'video' : 'link';
 
   $self->type($type);
+
+  if ($type eq 'video' and $url =~ m/\.([^.]+)$/) {
+    $self->mimetype("video/$1");
+  }
 
   return $type eq 'link' ? $self->SUPER::learn_p : Mojo::Promise->new->resolve($self->_learn_from_url);
 }
