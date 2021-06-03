@@ -387,7 +387,6 @@ __DATA__
 <a class="le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>" href="<%= $l->url %>"><%= Mojo::Util::url_unescape($l->url) %></a>
 % }
 @@ video.html.ep
-@@ video.html.ep
 <div class="le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>">
   <video preload="metadata" controls>
     <source src="<%= $l->url %>" type="<%= $l->mimetype || '' %>">
