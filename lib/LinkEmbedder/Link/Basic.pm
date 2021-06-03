@@ -15,7 +15,7 @@ sub learn_p {
   $self->type($type);
 
   if ($type eq 'video' and $url =~ m/\.([^.]+)$/) {
-    $self->mimetype("video/$1");
+    $self->mimetype(lc "video/$1");
   }
 
   return $type eq 'link' ? $self->SUPER::learn_p : Mojo::Promise->new->resolve($self->_learn_from_url);
