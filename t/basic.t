@@ -59,6 +59,24 @@ LinkEmbedder->new->test_ok(
     version => '1.0'
   }
 );
+LinkEmbedder->new->test_ok(
+    'https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4' => {
+        isa              => 'LinkEmbedder::Link::Basic',
+        class            => 'le-rich le-card le-video-card le-provider-learningcontainer',
+        cache_age        => 0,
+        html             => qr{Google har}s,
+        provider_name    => 'learningcontainer',
+        provider_url     => 'https://www.learningcontainer.com/',
+        thumbnail_height => 1047,
+        thumbnail_url    => qr{https:},
+        thumbnail_width  => 2000,
+        title            => 'Google har skapt kunstig intelligens som trener seg selv',
+        type             => 'rich',
+        url     => 'https://www.learningcontainer.com',
+        version => '1.0'
+    }
+);
+
 
 done_testing;
 

@@ -389,7 +389,7 @@ __DATA__
 @@ video.html.ep
 @@ video.html.ep
 <div class="le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>">
-  <video height="640" width="480" preload="metadata" controls>
+  <video preload="metadata" controls>
     <source src="<%= $l->url %>" type="<%= $l->mimetype || '' %>">
     <p>Your browser does not support the video tag.</p>
   </video>
