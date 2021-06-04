@@ -108,7 +108,7 @@ sub learningcontainer_html {
 <div class="le-video le-provider-learningcontainer">
   <video preload="metadata" controls>
     <source src="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4" type="video/mp4">
-    <p>Your browser does not support the video tag.</p>
+    <p>Your browser is unable to play video/mp4 content.</p>
   </video>
 </div>
 HERE

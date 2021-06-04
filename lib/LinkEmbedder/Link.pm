@@ -390,6 +390,6 @@ __DATA__
 <div class="le-<%= $l->type %> le-provider-<%= lc $l->provider_name %>">
   <video preload="metadata" controls>
     <source src="<%= $l->url %>" type="<%= $l->mimetype || '' %>">
-    <p>Your browser does not support the video tag.</p>
+    <p>Your browser is unable to play <%= $l->mimetype || 'video' %> content.</p>
   </video>
 </div>
