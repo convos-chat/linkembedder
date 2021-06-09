@@ -45,6 +45,7 @@ has url_to_link => sub {
     'webex.com'          => 'LinkEmbedder::Link::Webex',
     'whereby.com'        => 'LinkEmbedder::Link::Whereby',
     'youtube.com'        => 'LinkEmbedder::Link::oEmbed',
+    'youtu.be'           => 'LinkEmbedder::Link::oEmbed',
   };
 };
 
