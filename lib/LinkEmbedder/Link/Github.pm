@@ -53,7 +53,7 @@ sub _learn_from_code {
   $selector .= '.blob-code';
   return unless my @code = $e->find($selector)->map('all_text')->each;
 
-  $self->{paste}       = join '', map {"$_\n"} @code;
+  $self->{paste}       = join '', map { $_ .= "\n" unless /\n$/; $_ } @code;
   $self->template->[1] = 'paste.html.ep';
 
   if ($e = $dom->at('#blob-path')) {

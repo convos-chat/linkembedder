@@ -17,7 +17,7 @@ LinkEmbedder->new->test_ok(
   'https://github.com/convos-chat/linkembedder/blob/master/examples/embedder.pl' => {
     %expected,
     isa           => 'LinkEmbedder::Link::Github',
-    html          => qr{use LinkEmbedder;.*decodeURIComponent}s,
+    html          => qr{use Mojolicious::Lite;\n\nuse lib.*decodeURIComponent}s,
     thumbnail_url => qr{opengraph\.githubassets\.com/},
     title         => qr{embedder\.pl},
     url           => 'https://github.com/convos-chat/linkembedder/blob/master/examples/embedder.pl',
